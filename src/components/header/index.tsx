@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import { themeBreakPoints, themeColors, themeDimensions } from '../util/constants';
+import { NavLink } from 'react-router-dom';
 
 import Logo from '../common/img/Logo';
+import Menu from './Menu';
+
+import { themeBreakPoints, themeColors, themeDimensions } from '../util/constants';
 
 interface OwnProps {}
 
 type Props = OwnProps;
+
+const LogoWrapper = styled(NavLink)``;
 
 const HeaderContainer = styled.div`
   background-color: ${themeColors.headerBackgroundColor};
@@ -28,14 +32,14 @@ const HeaderContent = styled.div`
   width: 100%;
 `;
 
-const Header = (props: Props) => {
+const Header: React.FC = (props: Props) => {
   const { ...restProps } = props;
 
   return (
     <HeaderContainer {...restProps}>
       <HeaderContent>
-        <Logo />
-        <div>Buttons</div>
+        <LogoWrapper to="/"><Logo /></LogoWrapper>
+        <Menu />
       </HeaderContent>
     </HeaderContainer>
   );
