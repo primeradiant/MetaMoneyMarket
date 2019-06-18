@@ -15,7 +15,7 @@ const ContentWrapperComponent = styled.div`
   margin: 0 auto;
   max-width: ${themeBreakPoints.xxl};
   overflow: auto;
-  padding: 0 ${themeDimensions.horizontalPadding};
+  padding: 45px ${themeDimensions.horizontalPadding};
   width: 100%;
 `;
 

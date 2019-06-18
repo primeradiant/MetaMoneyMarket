@@ -8,7 +8,8 @@ export const themeColors = {
     headerTextColor: '#000',
     linkColor: '#00ce9f',
     primaryColor: '#00ebb5',
-    secondaryTextColor: '#666'
+    secondaryTextColor: '#666',
+    primaryButtonColor: '#fff'
 };
 
 export const themeDimensions = {
