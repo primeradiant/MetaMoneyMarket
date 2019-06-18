@@ -11,8 +11,10 @@ type Props = OwnProps;
 
 const ContentWrapperComponent = styled.div`
   color: ${themeColors.baseTextColor};
+  flex-grow: 1;
   margin: 0 auto;
   max-width: ${themeBreakPoints.xxl};
+  overflow: auto;
   padding: 0 ${themeDimensions.horizontalPadding};
   width: 100%;
 `;

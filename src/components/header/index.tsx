@@ -16,7 +16,11 @@ const LogoWrapper = styled(NavLink)``;
 const HeaderContainer = styled.div`
   background-color: ${themeColors.headerBackgroundColor};
   box-shadow: 0 1px 10px 0 rgba(115, 105, 200, 0.16);
+  flex-grow: 0;
+  flex-shrink: 0;
   height: ${themeDimensions.headerHeight};
+  position: sticky;
+  top: 0;
 `;
 
 const HeaderContent = styled.div`
