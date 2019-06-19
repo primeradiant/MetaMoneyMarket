@@ -30,3 +30,29 @@ export const themeBreakPoints = {
   xxl: '1280px',
   xxxl: '1366px',
 };
+
+export const modalStyle = {
+  content: {
+    backgroundColor: '#fff',
+    borderColor: 'transparent',
+    bottom: 'auto',
+    boxShadow: '0 0 15px 0 rgba(0, 0, 0, 0.15)',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: '0',
+    left: 'auto',
+    overflow: 'hidden',
+    padding: '17px',
+    position: 'relative',
+    right: 'auto',
+    top: 'auto',
+    width: '350px',
+  },
+  overlay: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: '12345',
+  },
+};

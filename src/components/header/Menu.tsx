@@ -2,9 +2,15 @@ import React, { HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
+import LoginModal from '../login';
+
 import { themeColors, themeDimensions } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
+
+interface State {
+  modalIsOpen: boolean;
+}
 
 const MenuContainer = styled.div`
   display: flex;
@@ -46,15 +52,37 @@ const MenuItemLink = styled(NavLink)`
   ${MenuItemCSS}
 `;
 
-const Menu: React.FC<Props> = (props: Props) => {
-  const { ...restProps } = props;
+class Menu extends React.Component<Props, State> {
+  public state = {
+    modalIsOpen: false,
+  };
 
-  return (
-    <MenuContainer {...restProps}>
-      <MenuItemLink activeClassName='active' to="/help">Help</MenuItemLink>
-      <MenuItem>Login</MenuItem>
-    </MenuContainer>
-  );
-};
+  public render = () => {
+    const { ...restProps } = this.props;
+    return (
+      <>
+        <MenuContainer {...restProps}>
+          <MenuItemLink activeClassName="active" to="/help">
+            Help
+          </MenuItemLink>
+          <MenuItem onClick={this._openModal}>Login</MenuItem>
+        </MenuContainer>
+        <LoginModal isOpen={this.state.modalIsOpen} onRequestClose={this._closeModal} />
+      </>
+    );
+  };
+
+  private _openModal = (e: any) => {
+    this.setState({
+      modalIsOpen: true,
+    });
+  };
+
+  private _closeModal = () => {
+    this.setState({
+      modalIsOpen: false,
+    });
+  };
+}
 
 export default Menu;

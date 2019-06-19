@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import App from './components/app';
+import ReactModal from 'react-modal';
 
 import 'sanitize.css';
 import './assets/styles/index.css';
 
+ReactModal.setAppElement('#root');
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
