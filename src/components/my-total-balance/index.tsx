@@ -1,94 +1,26 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import Card from '../common/card';
 import CardBase from '../common/card/CardBase';
 import ChevronDown from '../common/img/ChevronDown';
 import { Dropdown, DropdownPositions } from '../dropdown';
+import { tokensList } from '../common/img/token-icons';
 
 import { themeColors, themeDimensions } from '../../util/constants';
-
-import BAT from './icons/bat.png';
-import DAI from './icons/dai.png';
-import ETH from './icons/eth.png';
-import KNC from './icons/knc.png';
-import LINK from './icons/link.png';
-import MKR from './icons/mkr.png';
-import REP from './icons/rep.png';
-import TUSD from './icons/tusd.png';
-import USDC from './icons/usdc.png';
-import WBTC from './icons/wbtc.png';
-import ZRX from './icons/zrx.png';
 
 interface State {
   selectedToken: number;
 }
 
-const tokensList = [
-  {
-    image: BAT,
-    title: 'BAT',
-    text: 'Basic Attention',
-  },
-  {
-    image: DAI,
-    title: 'DAI',
-    text: 'DAI',
-  },
-  {
-    image: ETH,
-    title: 'ETH',
-    text: 'Ethereum',
-  },
-  {
-    image: KNC,
-    title: 'KNC',
-    text: 'Kyber',
-  },
-  {
-    image: LINK,
-    title: 'LINK',
-    text: 'Chainlink',
-  },
-  {
-    image: MKR,
-    title: 'MKR',
-    text: 'Maker',
-  },
-  {
-    image: REP,
-    title: 'REP',
-    text: 'Augur',
-  },
-  {
-    image: TUSD,
-    title: 'TUSD',
-    text: 'True USD',
-  },
-  {
-    image: USDC,
-    title: 'USDC',
-    text: 'USD Coin',
-  },
-  {
-    image: WBTC,
-    title: 'WBTC',
-    text: 'Wrapper BTC',
-  },
-  {
-    image: ZRX,
-    title: 'ZRX',
-    text: '0x',
-  },
-];
-
 interface Props extends HTMLAttributes<HTMLDivElement> {}
+
+const MyTotalBalanceWrapper = styled.div`
+  max-width: 350px;
+`;
 
 const TokenRow = styled.div`
   align-items: center;
   display: flex;
-  padding-bottom: 20px;
-  padding-top: 25px;
 `;
 
 const TokenImage = styled.div<{ image: any }>`
@@ -151,7 +83,15 @@ const DropdownBodyItem = styled.div`
   }
 `;
 
-class CurrentAmount extends React.Component<Props, State> {
+const Title = styled.h1`
+  color: ${themeColors.baseTextColor};
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 25px;
+`;
+
+class MyTotalBalance extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -164,7 +104,8 @@ class CurrentAmount extends React.Component<Props, State> {
     const { ...restProps } = this.props;
 
     return (
-      <Card title="Account Balance" {...restProps}>
+      <MyTotalBalanceWrapper title="" {...restProps}>
+        <Title>My Total Balance</Title>
         <TokenRow>
           <TokenImage image={this._getTokenImage()} />
           <CurrentValue>${11111.11 * (this.state.selectedToken + 1)}</CurrentValue>
@@ -174,7 +115,7 @@ class CurrentAmount extends React.Component<Props, State> {
             horizontalPosition={DropdownPositions.Right}
           />
         </TokenRow>
-      </Card>
+      </MyTotalBalanceWrapper>
     );
   };
 
@@ -207,4 +148,4 @@ class CurrentAmount extends React.Component<Props, State> {
   };
 }
 
-export default CurrentAmount;
+export default MyTotalBalance;

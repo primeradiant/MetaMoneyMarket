@@ -30,6 +30,11 @@ const ButtonContainer = styled.button`
   &:hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
   }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const Button: React.FC<Props> = (props: Props) => {
