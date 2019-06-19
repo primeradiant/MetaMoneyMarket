@@ -1,10 +1,11 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import MyAccount from '../my-account';
 import Button from '../common/Button';
+import Card from '../common/card';
+import MyAccount from '../my-account';
 
-import { themeColors } from '../../util/constants';
+import { themeColors, themeBreakPoints } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -42,7 +43,7 @@ const InfoText = styled.p<{ textAlign?: string }>`
   font-size: 20px;
   font-weight: 600;
   line-height: 1.35;
-  margin: 0 auto 50px;
+  margin: 0 auto 40px;
   text-align: ${props => props.textAlign};
 `;
 
@@ -51,7 +52,7 @@ const InfoTextMaxWidth = styled(InfoText)`
 `;
 
 InfoText.defaultProps = {
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 const MyAccountStyled = styled(MyAccount)`
@@ -64,6 +65,34 @@ const HomeTitle = styled.h2`
   font-weight: 400;
   line-height: 1.2;
   margin: 0 0 10px;
+`;
+
+const InfoBlocks = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 15px;
+
+  @media (min-width: ${themeBreakPoints.xxl}) {
+    column-gap: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+`;
+
+const InfoBlockText = styled.div`
+  color: ${themeColors.secondaryTextColor};
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.38;
+  padding-top: 10px;
+
+  a {
+    color: ${themeColors.linkColor};
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;
 
 const Landing: React.FC<Props> = (props: Props) => {
@@ -79,8 +108,33 @@ const Landing: React.FC<Props> = (props: Props) => {
         mollitia animi similique sunt in culpa qui officia…
       </InfoTextMaxWidth>
       <MyAccountStyled />
-      <HomeTitle>Why <strong>Sovereign?</strong></HomeTitle>
+      <HomeTitle>
+        Why <strong>Sovereign?</strong>
+      </HomeTitle>
       <InfoText textAlign="left">Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
+      <InfoBlocks>
+        <Card title="Title 1">
+          <InfoBlockText>
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,{' '}
+            <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+          </InfoBlockText>
+        </Card>
+        <Card title="Title 2">
+          <InfoBlockText>
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
+            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+          </InfoBlockText>
+        </Card>
+        <Card title="Title 3">
+          <InfoBlockText>
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
+            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+          </InfoBlockText>
+        </Card>
+      </InfoBlocks>
     </>
   );
 };

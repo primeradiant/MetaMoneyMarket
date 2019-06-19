@@ -16,7 +16,13 @@ const Table = styled.table`
   width: 100%;
 `;
 
-const TR = styled.tr``;
+const TR = styled.tr`
+  &:last-child {
+    > td {
+      border-bottom: none;
+    }
+  }
+`;
 const THead = styled.thead``;
 const TBody = styled.tbody``;
 
