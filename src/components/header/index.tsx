@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 import Logo from '../common/img/Logo';
 import Menu from './Menu';
 
-import { themeBreakPoints, themeColors, themeDimensions } from '../util/constants';
+import { themeBreakPoints, themeColors, themeDimensions } from '../../util/constants';
 
-interface OwnProps {}
-
-type Props = OwnProps;
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const LogoWrapper = styled(NavLink)``;
 
@@ -36,7 +34,7 @@ const HeaderContent = styled.div`
   width: 100%;
 `;
 
-const Header: React.FC = (props: Props) => {
+const Header: React.FC<Props> = (props: Props) => {
   const { ...restProps } = props;
 
   return (

@@ -1,16 +1,11 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import { themeColors, themeDimensions } from '../util/constants';
+import { themeColors, themeDimensions } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   disabled?: boolean;
-}
-
-interface OwnProps {
-  onClick?: any;
-  text: string;
 }
 
 const ButtonContainer = styled.button`

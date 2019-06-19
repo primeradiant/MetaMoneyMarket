@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import { themeBreakPoints, themeColors, themeDimensions } from '../util/constants';
+import { themeBreakPoints, themeColors, themeDimensions } from '../../util/constants';
 
-interface OwnProps {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
-
-type Props = OwnProps;
 
 const ContentWrapperComponent = styled.div`
   color: ${themeColors.baseTextColor};
@@ -19,12 +17,10 @@ const ContentWrapperComponent = styled.div`
   width: 100%;
 `;
 
-const ContentWrapper = (props: Props) => {
+const ContentWrapper: React.FC<Props> = (props: Props) => {
   const { children, ...restProps } = props;
 
-  return <ContentWrapperComponent {...restProps}>
-    {children}
-  </ContentWrapperComponent>;
+  return <ContentWrapperComponent {...restProps}>{children}</ContentWrapperComponent>;
 };
 
 export default ContentWrapper;

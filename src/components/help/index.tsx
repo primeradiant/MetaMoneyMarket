@@ -1,22 +1,14 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-interface OwnProps {
-  children: React.ReactNode;
-}
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
-type Props = OwnProps;
+const HelpContainer = styled.div``;
 
-const HelpContainer = styled.div`
+const Help: React.FC<Props> = (props: Props) => {
+  const { ...restProps } = props;
 
-`;
-
-const Help = (props: Props) => {
-  const { children, ...restProps } = props;
-
-  return <HelpContainer {...restProps}>
-    Help!
-  </HelpContainer>;
+  return <HelpContainer {...restProps}>Help.</HelpContainer>;
 };
 
 export default Help;

@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import Header from '../header';
 import ContentWrapper from './ContentWrapper';
 
-import { themeColors } from '../util/constants';
+import { themeColors } from '../../util/constants';
 
-interface OwnProps {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
-
-type Props = OwnProps;
 
 const MainWrapperComponent = styled.div`
   background: ${themeColors.bodyBackground};
@@ -18,13 +16,15 @@ const MainWrapperComponent = styled.div`
   height: 100%;
 `;
 
-const MainWrapper = (props: Props) => {
+const MainWrapper: React.FC<Props> = (props: Props) => {
   const { children, ...restProps } = props;
 
-  return <MainWrapperComponent {...restProps}>
-    <Header />
-    <ContentWrapper>{children}</ContentWrapper>
-  </MainWrapperComponent>;
+  return (
+    <MainWrapperComponent {...restProps}>
+      <Header />
+      <ContentWrapper>{children}</ContentWrapper>
+    </MainWrapperComponent>
+  );
 };
 
 export default MainWrapper;

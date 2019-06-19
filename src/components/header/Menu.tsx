@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import { themeColors, themeDimensions } from '../util/constants';
+import { themeColors, themeDimensions } from '../../util/constants';
 
-interface OwnProps {}
-
-type Props = OwnProps;
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const MenuContainer = styled.div`
   display: flex;
@@ -48,7 +46,7 @@ const MenuItemLink = styled(NavLink)`
   ${MenuItemCSS}
 `;
 
-const Menu: React.FC = (props: Props) => {
+const Menu: React.FC<Props> = (props: Props) => {
   const { ...restProps } = props;
 
   return (
