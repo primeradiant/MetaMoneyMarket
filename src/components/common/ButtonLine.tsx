@@ -10,29 +10,29 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
 
 const ButtonContainer = styled.button`
   align-items: center;
-  background-color: ${themeColors.primaryColor};
+  background-color: #fff;
   border-radius: ${themeDimensions.commonBorderRadius};
-  border: none;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.12);
-  color: ${themeColors.primaryButtonColor};
+  border: 1px solid ${themeColors.primaryColor};
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.05);
+  color: ${themeColors.primaryColor};
   cursor: pointer;
   display: flex;
-  font-size: 17px;
+  font-size: 11px;
   font-weight: 600;
-  height: 40px;
+  height: 23px;
   justify-content: center;
   outline: none;
-  padding: 0 25px;
+  padding: 0 20px;
   text-align: center;
   transition: box-shadow 0.15s ease-out;
   white-space: nowrap;
 
   &:hover {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
   }
 `;
 
-const Button: React.FC<Props> = (props: Props) => {
+const ButtonLine: React.FC<Props> = (props: Props) => {
   const { children, ...restProps } = props;
 
   return (
@@ -42,4 +42,4 @@ const Button: React.FC<Props> = (props: Props) => {
   );
 };
 
-export default Button;
+export default ButtonLine;

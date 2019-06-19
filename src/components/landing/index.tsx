@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
+import AccountBalance from '../account-balance';
 import Button from '../common/Button';
 import CurrentAmount from '../current-amount';
 
@@ -53,6 +54,10 @@ const CurrentAmountStyled = styled(CurrentAmount)`
   width: 370px;
 `;
 
+const AccountBalanceStyled = styled(AccountBalance)`
+  margin: 0 0 55px;
+`;
+
 const Landing: React.FC<Props> = (props: Props) => {
   return (
     <>
@@ -66,6 +71,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         mollitia animi similique sunt in culpa qui officia…
       </InfoText>
       <CurrentAmountStyled />
+      <AccountBalanceStyled />
     </>
   );
 };

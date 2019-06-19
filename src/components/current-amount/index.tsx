@@ -191,7 +191,7 @@ class CurrentAmount extends React.Component<Props, State> {
     const itemsList = tokensList.map((item, index) => {
       return (
         <DropdownBodyItem key={index} onClick={() => this._setToken(index)}>
-          {item.title} - {item.text}
+          <strong>{item.title}</strong> - {item.text}
         </DropdownBodyItem>
       );
     });

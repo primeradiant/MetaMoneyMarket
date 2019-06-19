@@ -1,5 +1,5 @@
 export const themeColors = {
-  baseTextColor: '#333',
+  baseTextColor: '#000',
   bodyBackground: '#fafcff',
   borderColor: '#d5d5d5',
   cardBackgroundColor: '#fff',

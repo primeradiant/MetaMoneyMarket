@@ -1,7 +1,9 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import { themeBreakPoints, themeColors, themeDimensions } from '../../util/constants';
+import ContentCenter from './ContentCenter';
+
+import { themeColors, themeDimensions } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -10,17 +12,21 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const ContentWrapperComponent = styled.div`
   color: ${themeColors.baseTextColor};
   flex-grow: 1;
-  margin: 0 auto;
-  max-width: ${themeBreakPoints.xxl};
   overflow: auto;
+`;
+
+const ContentCenterStyled = styled(ContentCenter)`
   padding: 45px ${themeDimensions.horizontalPadding};
-  width: 100%;
 `;
 
 const ContentWrapper: React.FC<Props> = (props: Props) => {
   const { children, ...restProps } = props;
 
-  return <ContentWrapperComponent {...restProps}>{children}</ContentWrapperComponent>;
+  return (
+    <ContentWrapperComponent {...restProps}>
+      <ContentCenterStyled>{children}</ContentCenterStyled>
+    </ContentWrapperComponent>
+  );
 };
 
 export default ContentWrapper;
