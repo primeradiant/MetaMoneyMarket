@@ -112,7 +112,7 @@ class LoginModal extends React.Component<Props, State> {
           </ModalClose>
         </ModalTitle>
         <LoginItems>
-          <LoginItem>
+          <LoginItem onClick={() => this._setLoginMethod('phone')}>
             <LoginItemIcon>
               <SMS />
             </LoginItemIcon>
@@ -126,7 +126,7 @@ class LoginModal extends React.Component<Props, State> {
               <RadioInput checked={this.state.loginMethod === 'phone'} />
             </RadioInputWrapper>
           </LoginItem>
-          <LoginItem>
+          <LoginItem onClick={() => this._setLoginMethod('metamask')}>
             <LoginItemIcon>
               <Metamask />
             </LoginItemIcon>
@@ -142,6 +142,10 @@ class LoginModal extends React.Component<Props, State> {
         <ButtonStyled>Login</ButtonStyled>
       </Modal>
     );
+  };
+
+  private _setLoginMethod = (method: string) => {
+    this.setState({loginMethod: method});
   };
 }
 
