@@ -7,8 +7,10 @@ import { themeColors } from '../../util/constants';
 
 const ConnectionStatusWrapper = styled.div`
   align-items: center;
+  border-left: 1px solid ${themeColors.borderColor};
   display: flex;
   margin-left: 15px;
+  padding-left: 15px;
 `;
 
 const ConnectionStatusDotStyled = styled(ConnectionStatusDot)`
