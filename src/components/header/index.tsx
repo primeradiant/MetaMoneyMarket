@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Logo from '../common/img/Logo';
+import ConnectionStatus from './ConnectionStatus';
 import Menu from './Menu';
 
 import { themeBreakPoints, themeColors, themeDimensions } from '../../util/constants';
@@ -34,6 +35,11 @@ const HeaderContent = styled.div`
   width: 100%;
 `;
 
+const HeaderEndContent = styled.div`
+  align-items: center;
+  display: flex;
+`;
+
 const Header: React.FC<Props> = (props: Props) => {
   const { ...restProps } = props;
 
@@ -43,7 +49,10 @@ const Header: React.FC<Props> = (props: Props) => {
         <LogoWrapper to="/">
           <Logo />
         </LogoWrapper>
-        <Menu />
+        <HeaderEndContent>
+          <Menu />
+          <ConnectionStatus />
+        </HeaderEndContent>
       </HeaderContent>
     </HeaderContainer>
   );
