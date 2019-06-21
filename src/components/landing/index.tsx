@@ -5,9 +5,15 @@ import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
 
+import LoginModal from '../login';
+
 import { themeBreakPoints, themeColors } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
+
+interface State {
+  modalIsOpen: boolean;
+}
 
 const WelcomeText = styled.h2`
   color: ${themeColors.baseTextColor};
@@ -92,49 +98,68 @@ const InfoBlockText = styled.div`
   }
 `;
 
-const Landing: React.FC<Props> = (props: Props) => {
-  return (
-    <>
-      <WelcomeText>Welcome to Sovereign!</WelcomeText>
-      <MainText>Your Personal Bank</MainText>
-      <ButtonContainer>
-        <BigButton onClick={() => alert(123)}>Start Now!</BigButton>
-      </ButtonContainer>
-      <InfoTextMaxWidth>
-        Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
-        mollitia animi similique sunt in culpa qui officia…
-      </InfoTextMaxWidth>
-      <MyAccountStyled />
-      <HomeTitle>
-        Why <strong>Sovereign?</strong>
-      </HomeTitle>
-      <InfoText>Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
-      <InfoBlocks>
-        <Card title="Title 1">
-          <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,{' '}
-            <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est laborum
-            et dolorum fuga.
-          </InfoBlockText>
-        </Card>
-        <Card title="Title 2">
-          <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
-            officia deserunt mollitia animi, id est laborum et dolorum fuga.
-          </InfoBlockText>
-        </Card>
-        <Card title="Title 3">
-          <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
-            officia deserunt mollitia animi, id est laborum et dolorum fuga.
-          </InfoBlockText>
-        </Card>
-      </InfoBlocks>
-    </>
-  );
-};
+class Landing extends React.Component<Props, State> {
+  public state = {
+    modalIsOpen: false
+  };
+
+  public render = () => {
+    return (
+      <>
+        <WelcomeText>Welcome to Sovereign!</WelcomeText>
+        <MainText>Your Personal Bank</MainText>
+        <ButtonContainer>
+          <BigButton onClick={this.openModal}>Start Now!</BigButton>
+        </ButtonContainer>
+        <InfoTextMaxWidth>
+          Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
+          mollitia animi similique sunt in culpa qui officia…
+        </InfoTextMaxWidth>
+        <MyAccountStyled />
+        <HomeTitle>
+          Why <strong>Sovereign?</strong>
+        </HomeTitle>
+        <InfoText>Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
+        <InfoBlocks>
+          <Card title="Title 1">
+            <InfoBlockText>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+              atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,{' '}
+              <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est
+              laborum et dolorum fuga.
+            </InfoBlockText>
+          </Card>
+          <Card title="Title 2">
+            <InfoBlockText>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+              atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
+              officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            </InfoBlockText>
+          </Card>
+          <Card title="Title 3">
+            <InfoBlockText>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+              atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
+              officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            </InfoBlockText>
+          </Card>
+        </InfoBlocks>
+        <LoginModal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} />
+      </>
+    );
+  };
+
+  private openModal = (e: any) => {
+    this.setState({
+      modalIsOpen: true,
+    });
+  };
+
+  private closeModal = () => {
+    this.setState({
+      modalIsOpen: false,
+    });
+  };
+}
 
 export default Landing;

@@ -54,7 +54,7 @@ const MenuItemLink = styled(NavLink)`
 
 class Menu extends React.Component<Props, State> {
   public state = {
-    modalIsOpen: false,
+    modalIsOpen: false
   };
 
   public render = () => {
