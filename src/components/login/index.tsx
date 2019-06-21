@@ -3,10 +3,10 @@ import Modal from 'react-modal';
 import styled from 'styled-components';
 
 import Button from '../common/Button';
-import RadioInput from '../common/RadioInput';
 import CloseModal from '../common/img/CloseModal';
 import Metamask from '../common/img/Metamask';
 import SMS from '../common/img/SMS';
+import RadioInput from '../common/RadioInput';
 
 import { modalStyle, themeColors } from '../../util/constants';
 
@@ -112,7 +112,7 @@ class LoginModal extends React.Component<Props, State> {
           </ModalClose>
         </ModalTitle>
         <LoginItems>
-          <LoginItem onClick={() => this._setLoginMethod('phone')}>
+          <LoginItem onClick={() => this.setLoginMethod('phone')}>
             <LoginItemIcon>
               <SMS />
             </LoginItemIcon>
@@ -126,7 +126,7 @@ class LoginModal extends React.Component<Props, State> {
               <RadioInput checked={this.state.loginMethod === 'phone'} />
             </RadioInputWrapper>
           </LoginItem>
-          <LoginItem onClick={() => this._setLoginMethod('metamask')}>
+          <LoginItem onClick={() => this.setLoginMethod('metamask')}>
             <LoginItemIcon>
               <Metamask />
             </LoginItemIcon>
@@ -144,8 +144,8 @@ class LoginModal extends React.Component<Props, State> {
     );
   };
 
-  private _setLoginMethod = (method: string) => {
-    this.setState({loginMethod: method});
+  private setLoginMethod = (method: string) => {
+    this.setState({ loginMethod: method });
   };
 }
 

@@ -15,10 +15,10 @@ export const themeColors = {
 
 export const themeDimensions = {
   commonBorderRadius: '5px',
+  commonTextSize: '16px',
   headerHeight: '60px',
   horizontalPadding: '15px',
   verticalPadding: '15px',
-  commonTextSize: '16px',
 };
 
 export const themeBreakPoints = {

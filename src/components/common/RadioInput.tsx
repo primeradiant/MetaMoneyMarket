@@ -7,13 +7,9 @@ interface OwnProps {
 
 interface Props extends HTMLAttributes<HTMLDivElement>, OwnProps {}
 
-const RadioWrapper = styled.div`
+const RadioWrapper = styled.div``;
 
-`;
-
-const RadioContainer = styled.div`
-
-`;
+const RadioContainer = styled.div``;
 
 const RadioInput: React.FC<Props> = (props: Props) => {
   const { checked, ...restProps } = props;

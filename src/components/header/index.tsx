@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react';
-import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Logo from '../common/img/Logo';
 import Menu from './Menu';
@@ -40,7 +40,9 @@ const Header: React.FC<Props> = (props: Props) => {
   return (
     <HeaderContainer {...restProps}>
       <HeaderContent>
-        <LogoWrapper to="/"><Logo /></LogoWrapper>
+        <LogoWrapper to="/">
+          <Logo />
+        </LogoWrapper>
         <Menu />
       </HeaderContent>
     </HeaderContainer>

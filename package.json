@@ -24,6 +24,7 @@
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
+    "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.2"
   },
@@ -31,7 +32,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "tslint 'src/**/*.{ts,tsx}'",
+    "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}'",
+    "prettier": "prettier --write 'src/**/*.{ts,tsx,json,md}' --ignore-path .gitignore",
+    "prettier-check": "prettier --check 'src/**/*.{ts,tsx,json,md}' --ignore-path .gitignore"
   },
   "eslintConfig": {
     "extends": "react-app"

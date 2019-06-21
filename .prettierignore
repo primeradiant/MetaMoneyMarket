@@ -1,0 +1,7 @@
+config
+public
+node_modules
+src/assets
+src/contracts
+src/services
+src/serviceWorker.ts

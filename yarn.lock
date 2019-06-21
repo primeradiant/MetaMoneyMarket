@@ -9530,7 +9530,7 @@ tslint-config-standard@^8.0.1:
   dependencies:
     tslint-eslint-rules "^5.3.1"
 
-tslint-eslint-rules@^5.3.1:
+tslint-eslint-rules@^5.3.1, tslint-eslint-rules@^5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/tslint-eslint-rules/-/tslint-eslint-rules-5.4.0.tgz#e488cc9181bf193fe5cd7bfca213a7695f1737b5"
   integrity sha512-WlSXE+J2vY/VPgIcqQuijMQiel+UtmXS+4nvK4ZzlDiqBfXse8FAvkNnTcYhnQyOTW5KFM+uRRGXxYhFpuBc6w==

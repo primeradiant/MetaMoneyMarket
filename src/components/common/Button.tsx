@@ -40,11 +40,7 @@ const ButtonContainer = styled.button`
 const Button: React.FC<Props> = (props: Props) => {
   const { children, ...restProps } = props;
 
-  return (
-    <ButtonContainer {...restProps}>
-      {children}
-    </ButtonContainer>
-  );
+  return <ButtonContainer {...restProps}>{children}</ButtonContainer>;
 };
 
 export default Button;

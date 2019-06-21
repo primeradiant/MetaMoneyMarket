@@ -13,57 +13,57 @@ import ZRX from './zrx.png';
 export const tokensList = [
   {
     image: BAT,
-    title: 'BAT',
     text: 'Basic Attention',
+    title: 'BAT',
   },
   {
     image: DAI,
-    title: 'DAI',
     text: 'DAI',
+    title: 'DAI',
   },
   {
     image: ETH,
-    title: 'ETH',
     text: 'Ethereum',
+    title: 'ETH',
   },
   {
     image: KNC,
-    title: 'KNC',
     text: 'Kyber',
+    title: 'KNC',
   },
   {
     image: LINK,
-    title: 'LINK',
     text: 'Chainlink',
+    title: 'LINK',
   },
   {
     image: MKR,
-    title: 'MKR',
     text: 'Maker',
+    title: 'MKR',
   },
   {
     image: REP,
-    title: 'REP',
     text: 'Augur',
+    title: 'REP',
   },
   {
     image: TUSD,
-    title: 'TUSD',
     text: 'True USD',
+    title: 'TUSD',
   },
   {
     image: USDC,
-    title: 'USDC',
     text: 'USD Coin',
+    title: 'USDC',
   },
   {
     image: WBTC,
-    title: 'WBTC',
     text: 'Wrapper BTC',
+    title: 'WBTC',
   },
   {
     image: ZRX,
-    title: 'ZRX',
     text: '0x',
+    title: 'ZRX',
   },
 ];

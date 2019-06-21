@@ -3,8 +3,8 @@ import styled, { css } from 'styled-components';
 
 import ButtonLine from '../common/ButtonLine';
 import Card from '../common/card';
-import MyTotalBalance from '../my-total-balance';
 import { tokensList } from '../common/img/token-icons';
+import MyTotalBalance from '../my-total-balance';
 
 import { themeColors } from '../../util/constants';
 

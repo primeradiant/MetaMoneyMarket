@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import MainWrapper from './layout/MainWrapper';
-import Landing from './landing';
 import Help from './help';
+import Landing from './landing';
+import MainWrapper from './layout/MainWrapper';
 
 const App: React.FC = () => {
   return (

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import App from './components/app';
 import ReactModal from 'react-modal';
+import App from './components/app';
+import * as serviceWorker from './serviceWorker';
 
 import 'sanitize.css';
 import './assets/styles/index.css';

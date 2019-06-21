@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import CardBase from '../common/card/CardBase';
 import ChevronDown from '../common/img/ChevronDown';
-import { Dropdown, DropdownPositions } from '../dropdown';
 import { tokensList } from '../common/img/token-icons';
+import { Dropdown, DropdownPositions } from '../dropdown';
 
 import { themeColors, themeDimensions } from '../../util/constants';
 
@@ -107,11 +107,11 @@ class MyTotalBalance extends React.Component<Props, State> {
       <MyTotalBalanceWrapper title="" {...restProps}>
         <Title>My Total Balance</Title>
         <TokenRow>
-          <TokenImage image={this._getTokenImage()} />
+          <TokenImage image={this.getTokenImage()} />
           <CurrentValue>${11111.11 * (this.state.selectedToken + 1)}</CurrentValue>
           <Dropdown
-            body={this._getDropdownList()}
-            header={this._getDropdownButton()}
+            body={this.getDropdownList()}
+            header={this.getDropdownButton()}
             horizontalPosition={DropdownPositions.Right}
           />
         </TokenRow>
@@ -119,7 +119,7 @@ class MyTotalBalance extends React.Component<Props, State> {
     );
   };
 
-  private _getDropdownButton = (): React.ReactNode => {
+  private getDropdownButton = (): React.ReactNode => {
     return (
       <DropdownButton>
         <DropdownButtonText>{tokensList[this.state.selectedToken].title}</DropdownButtonText>
@@ -128,10 +128,10 @@ class MyTotalBalance extends React.Component<Props, State> {
     );
   };
 
-  private _getDropdownList = (): React.ReactNode => {
+  private getDropdownList = (): React.ReactNode => {
     const itemsList = tokensList.map((item, index) => {
       return (
-        <DropdownBodyItem key={index} onClick={() => this._setToken(index)}>
+        <DropdownBodyItem key={index} onClick={() => this.setToken(index)}>
           <strong>{item.title}</strong> - {item.text}
         </DropdownBodyItem>
       );
@@ -139,11 +139,11 @@ class MyTotalBalance extends React.Component<Props, State> {
     return <DropdownBody>{itemsList}</DropdownBody>;
   };
 
-  private _setToken = (index: number)  => {
-    this.setState({ selectedToken: index});
+  private setToken = (index: number) => {
+    this.setState({ selectedToken: index });
   };
 
-  private _getTokenImage = (): string => {
+  private getTokenImage = (): string => {
     return tokensList[this.state.selectedToken].image;
   };
 }

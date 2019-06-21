@@ -5,7 +5,7 @@ import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
 
-import { themeColors, themeBreakPoints } from '../../util/constants';
+import { themeBreakPoints, themeColors } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -38,22 +38,19 @@ const BigButton = styled(Button)`
   font-size: 21px;
 `;
 
-const InfoText = styled.p<{ textAlign?: string }>`
+const InfoText = styled.p`
   color: ${themeColors.secondaryTextColor};
   font-size: 20px;
   font-weight: 600;
   line-height: 1.35;
-  margin: 0 auto 40px;
-  text-align: ${props => props.textAlign};
+  margin: 0 auto 45px;
 `;
 
 const InfoTextMaxWidth = styled(InfoText)`
+  margin-bottom: 60px;
   max-width: 780px;
+  text-align: center;
 `;
-
-InfoText.defaultProps = {
-  textAlign: 'center',
-};
 
 const MyAccountStyled = styled(MyAccount)`
   margin: 0 0 55px;
@@ -111,13 +108,14 @@ const Landing: React.FC<Props> = (props: Props) => {
       <HomeTitle>
         Why <strong>Sovereign?</strong>
       </HomeTitle>
-      <InfoText textAlign="left">Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
+      <InfoText>Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
       <InfoBlocks>
         <Card title="Title 1">
           <InfoBlockText>
             At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
             atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,{' '}
-            <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est laborum
+            et dolorum fuga.
           </InfoBlockText>
         </Card>
         <Card title="Title 2">

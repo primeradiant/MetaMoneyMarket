@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react';
-import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 
 import LoginModal from '../login';
 
@@ -65,20 +65,20 @@ class Menu extends React.Component<Props, State> {
           <MenuItemLink activeClassName="active" to="/help">
             Help
           </MenuItemLink>
-          <MenuItem onClick={this._openModal}>Login</MenuItem>
+          <MenuItem onClick={this.openModal}>Login</MenuItem>
         </MenuContainer>
-        <LoginModal isOpen={this.state.modalIsOpen} onRequestClose={this._closeModal} />
+        <LoginModal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} />
       </>
     );
   };
 
-  private _openModal = (e: any) => {
+  private openModal = (e: any) => {
     this.setState({
       modalIsOpen: true,
     });
   };
 
-  private _closeModal = () => {
+  private closeModal = () => {
     this.setState({
       modalIsOpen: false,
     });
