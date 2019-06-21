@@ -1,8 +1,8 @@
 import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-import RadioOff from './img/RadioOff';
-import RadioOn from './img/RadioOn';
+import CheckboxOff from './img/CheckboxOff';
+import CheckboxOn from './img/CheckboxOn';
 
 interface OwnProps {
   checked?: boolean;
@@ -10,7 +10,7 @@ interface OwnProps {
 
 interface Props extends HTMLAttributes<HTMLDivElement>, OwnProps {}
 
-const RadioWrapper = styled.div`
+const CheckboxWrapper = styled.div`
   cursor: pointer;
   position: relative;
 
@@ -29,20 +29,19 @@ const RadioWrapper = styled.div`
     display: block;
     left: 0;
     position: relative;
-    top: 0;
     z-index: 1;
   }
 `;
 
-const RadioInput: React.FC<Props> = (props: Props) => {
+const CheckboxInput: React.FC<Props> = (props: Props) => {
   const { checked, ...restProps } = props;
 
   return (
-    <RadioWrapper {...restProps}>
-      {checked ? <RadioOn /> : <RadioOff />}
+    <CheckboxWrapper {...restProps}>
+      {checked ? <CheckboxOn /> : <CheckboxOff />}
       <input type="radio" checked={checked} />
-    </RadioWrapper>
+    </CheckboxWrapper>
   );
 };
 
-export default RadioInput;
+export default CheckboxInput;

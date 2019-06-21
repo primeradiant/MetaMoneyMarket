@@ -1,8 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Button from '../common/Button';
+import CheckboxInput from '../common/CheckboxInput';
 import CloseModal from '../common/img/CloseModal';
 import Metamask from '../common/img/Metamask';
 import SMS from '../common/img/SMS';
@@ -13,6 +15,7 @@ import { modalStyle, themeColors } from '../../util/constants';
 interface Props extends React.ComponentProps<typeof Modal> {}
 
 interface State {
+  termsAccepted: boolean;
   loginMethod: string;
 }
 
@@ -95,9 +98,31 @@ const ButtonStyled = styled(Button)`
   width: 100%;
 `;
 
+const TermsAndConditions = styled.div`
+  align-content: center;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+`;
+
+const TermsAndConditionsText = styled.span`
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 18px;
+  margin-left: 10px;
+  text-align: left;
+
+  a {
+    color: ${themeColors.primaryColor};
+  }
+`;
+
 class LoginModal extends React.Component<Props, State> {
   public state = {
     loginMethod: 'phone',
+    termsAccepted: false,
   };
 
   public render = () => {
@@ -139,13 +164,26 @@ class LoginModal extends React.Component<Props, State> {
             </RadioInputWrapper>
           </LoginItem>
         </LoginItems>
-        <ButtonStyled>Login</ButtonStyled>
+        <TermsAndConditions>
+          <CheckboxInput onClick={this.toggleTerms} checked={this.state.termsAccepted} />
+          <TermsAndConditionsText>
+            I accept the{' '}
+            <NavLink onClick={onRequestClose} to="/terms">
+              Terms &amp; Conditions
+            </NavLink>
+          </TermsAndConditionsText>
+        </TermsAndConditions>
+        <ButtonStyled disabled={!this.state.termsAccepted}>Login</ButtonStyled>
       </Modal>
     );
   };
 
   private setLoginMethod = (method: string) => {
     this.setState({ loginMethod: method });
+  };
+
+  private toggleTerms = () => {
+    this.setState({ termsAccepted: !this.state.termsAccepted });
   };
 }
 
