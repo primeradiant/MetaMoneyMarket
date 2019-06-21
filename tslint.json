@@ -1,13 +1,25 @@
 {
-    "extends": ["@0x/tslint-config"],
-    "rules": {
-        "custom-no-magic-numbers": false,
-        "semicolon": [true, "always", "ignore-bound-class-methods"],
-        "max-classes-per-file": false,
-        "switch-default": false,
-        "no-unnecessary-type-assertion": false,
-        "completed-docs": false,
-        "promise-function-async": false,
-        "interface-name": [true, "never-prefix"]
-    }
+  "extends": ["tslint:latest", "tslint-react", "tslint-eslint-rules", "tslint-config-prettier"],
+  "rules": {
+    "custom-no-magic-numbers": false,
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "max-classes-per-file": false,
+    "switch-default": false,
+    "no-unnecessary-type-assertion": false,
+    "completed-docs": false,
+    "promise-function-async": false,
+    "interface-name": [true, "never-prefix"]
+  },
+  "linterOptions": {
+    "exclude": [
+      "config",
+      "public",
+      "node_modules",
+      "src/assets",
+      "src/contracts",
+      "src/services",
+      "src/serviceWorker.ts",
+      "*.json"
+    ]
+  }
 }

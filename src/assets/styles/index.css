@@ -3,10 +3,16 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: #fff;
   color: #000;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 15px;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+body,
+html,
+#root {
+  height: 100vh;
 }
