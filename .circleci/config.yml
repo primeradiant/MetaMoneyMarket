@@ -22,4 +22,4 @@ jobs:
           command: yarn run lint
       - run:
           name: Tests
-          command: yarn run test --maxWorkers 2
+          command: yarn run test --maxWorkers 2 --passWithNoTests
