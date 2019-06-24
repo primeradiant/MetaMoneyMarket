@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - restore_cache: # Restore dependencies from cache
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Setup Yarn Dependencies # Install dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache: # Saves dependencies on cache
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Lint checks
+          command: yarn run lint
+      - run:
+          name: Tests
+          command: yarn run test-once --maxWorkers 2
