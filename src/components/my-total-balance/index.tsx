@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import CardBase from '../common/card/CardBase';
 import ChevronDown from '../common/img/ChevronDown';
-import { tokensList } from '../common/img/token-icons';
 import { Dropdown, DropdownPositions } from '../dropdown';
 
 import { themeColors, themeDimensions } from '../../util/constants';
@@ -23,25 +22,13 @@ const TokenRow = styled.div`
   display: flex;
 `;
 
-const TokenImage = styled.div<{ image: any }>`
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url('${props => props.image}');
-  flex-grow: 0;
-  flex-shrink: 0;
-  height: 50px;
-  width: 50px;
-`;
-
 const CurrentValue = styled.div`
   color: ${themeColors.tertiaryTextColor};
-  flex-grow: 1;
   font-size: 24px;
   font-weight: normal;
   line-height: 1.2;
-  margin-left: 35px;
   margin-right: 15px;
+  text-align: right;
 `;
 
 const DropdownButton = styled.div`
@@ -91,6 +78,21 @@ const Title = styled.h1`
   margin: 0 0 25px;
 `;
 
+const tokensList = [
+  {
+    text: 'US Dollar',
+    title: 'USD',
+  },
+  {
+    text: 'Ethereum',
+    title: 'ETH',
+  },
+  {
+    text: 'DAI',
+    title: 'DAI',
+  }
+];
+
 class MyTotalBalance extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -105,14 +107,13 @@ class MyTotalBalance extends React.Component<Props, State> {
 
     return (
       <MyTotalBalanceWrapper title="" {...restProps}>
-        <Title>My Total Balance</Title>
+        <Title>Deposit Balance</Title>
         <TokenRow>
-          <TokenImage image={this.getTokenImage()} />
           <CurrentValue>${11111.11 * (this.state.selectedToken + 1)}</CurrentValue>
           <Dropdown
             body={this.getDropdownList()}
             header={this.getDropdownButton()}
-            horizontalPosition={DropdownPositions.Right}
+            horizontalPosition={DropdownPositions.Center}
           />
         </TokenRow>
       </MyTotalBalanceWrapper>
@@ -143,9 +144,6 @@ class MyTotalBalance extends React.Component<Props, State> {
     this.setState({ selectedToken: index });
   };
 
-  private getTokenImage = (): string => {
-    return tokensList[this.state.selectedToken].image;
-  };
 }
 
 export default MyTotalBalance;

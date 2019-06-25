@@ -43,12 +43,13 @@ const TH = styled.th<{ textAlign?: string }>`
 `;
 
 TH.defaultProps = {
-  textAlign: 'center',
+  textAlign: 'right',
 };
 
 const TD = styled.td<{ textAlign?: string }>`
   ${cellCSS}
   color: ${themeColors.tertiaryTextColor};
+  font-feature-settings: 'tnum' 1;
   font-weight: 400;
   text-align: ${props => props.textAlign};
 `;
@@ -187,7 +188,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
             <TR>
               <TH textAlign="left">Asset</TH>
               <TH>Price</TH>
-              <TH>Interest Rate</TH>
+              <TH textAlign="left">Interest Rate</TH>
               <TH>Wallet Balance</TH>
               <TH>Savings Balance</TH>
               <TH>&nbsp;</TH>
@@ -204,7 +205,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                     </TokenData>
                   </TD>
                   <TD>${tableData[index].price}</TD>
-                  <TD textAlign="center">{tableData[index].interestRate}</TD>
+                  <TD textAlign="left">{tableData[index].interestRate}</TD>
                   <TD>{tableData[index].walletBalance}</TD>
                   <TD>{tableData[index].savingsBalance}</TD>
                   <TD>
