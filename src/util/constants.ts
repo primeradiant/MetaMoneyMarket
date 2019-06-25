@@ -9,6 +9,7 @@ export const themeColors = {
   linkColor: '#00ce9f',
   primaryButtonColor: '#fff',
   primaryColor: '#00ebb5',
+  primaryColorLighter: '#17c79f',
   secondaryTextColor: '#666',
   tertiaryTextColor: '#333',
 };

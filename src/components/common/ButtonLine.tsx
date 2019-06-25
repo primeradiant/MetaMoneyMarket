@@ -32,6 +32,7 @@ const ButtonContainer = styled.button`
   }
 
   &[disabled] {
+    box-shadow: none;
     cursor: not-allowed;
     opacity: 0.5;
   }

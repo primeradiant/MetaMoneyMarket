@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 import Button from '../common/Button';
 import CheckboxInput from '../common/CheckboxInput';
-import CloseModal from '../common/img/CloseModal';
 import Metamask from '../common/img/Metamask';
 import SMS from '../common/img/SMS';
 import RadioInput from '../common/RadioInput';
+import ModalTitle from '../modal-title';
 
 import { modalStyle, themeColors } from '../../util/constants';
 
@@ -18,33 +18,6 @@ interface State {
   termsAccepted: boolean;
   loginMethod: string;
 }
-
-const ModalTitle = styled.div`
-  align-items: flex-start;
-  border-bottom: 1px solid ${themeColors.borderColor};
-  display: flex;
-  justify-content: space-between;
-  margin: 0 0 25px;
-  padding: 0 0 10px 0;
-`;
-
-const ModalTitleText = styled.h2`
-  color: #222;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  padding: 0 15px 0 0;
-`;
-
-const ModalClose = styled.div`
-  align-items: flex-start;
-  cursor: pointer;
-  display: flex;
-  height: 21px;
-  justify-content: flex-end;
-  width: 30px;
-`;
 
 const LoginItems = styled.div`
   margin-bottom: 45px;
@@ -130,12 +103,7 @@ class LoginModal extends React.Component<Props, State> {
 
     return (
       <Modal {...restProps} style={modalStyle}>
-        <ModalTitle>
-          <ModalTitleText>Login</ModalTitleText>
-          <ModalClose onClick={onRequestClose}>
-            <CloseModal />
-          </ModalClose>
-        </ModalTitle>
+        <ModalTitle title="Login" onRequestClose={onRequestClose} />
         <LoginItems>
           <LoginItem onClick={() => this.setLoginMethod('phone')}>
             <LoginItemIcon>
