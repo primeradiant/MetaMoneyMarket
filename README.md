@@ -1,3 +1,7 @@
-#Sovereign.
+# Sovereign
 
-Readme.
+_Your personal bank_
+
+## Setup
+
+## License
