@@ -4,11 +4,18 @@ import styled, { css } from 'styled-components';
 import ButtonLine from '../common/ButtonLine';
 import Card from '../common/card';
 import { tokensList } from '../common/img/token-icons';
+import DepositModal from '../deposit';
 import MyTotalBalance from '../my-total-balance';
+import WithdrawModal from '../withdraw';
 
 import { themeColors } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
+
+interface State {
+  depositModalIsOpen: boolean;
+  withdrawModalIsOpen: boolean;
+}
 
 const Table = styled.table`
   margin-bottom: 15px;
@@ -23,6 +30,7 @@ const TR = styled.tr`
     }
   }
 `;
+
 const THead = styled.thead``;
 const TBody = styled.tbody``;
 
@@ -175,53 +183,86 @@ const tableData = [
   },
 ];
 
-const AccountBalance: React.FC<Props> = (props: Props) => {
-  const { ...restProps } = props;
+class AccountBalance extends React.Component<Props, State> {
+  public state = {
+    depositModalIsOpen: false,
+    withdrawModalIsOpen: false,
+  };
 
-  return (
-    <Card {...restProps}>
-      <MyTotalBalance />
-      <Title>My Account</Title>
-      <TableOverflow>
-        <Table>
-          <THead>
-            <TR>
-              <TH textAlign="left">Asset</TH>
-              <TH>Price</TH>
-              <TH textAlign="left">Interest Rate</TH>
-              <TH>Wallet Balance</TH>
-              <TH>Savings Balance</TH>
-              <TH>&nbsp;</TH>
-            </TR>
-          </THead>
-          <TBody>
-            {tokensList.map((item, index) => {
-              return (
-                <TR key={index}>
-                  <TD textAlign="left">
-                    <TokenData>
-                      <TokenImage image={item.image} />
-                      <strong>{item.title}</strong>
-                    </TokenData>
-                  </TD>
-                  <TD>${tableData[index].price}</TD>
-                  <TD textAlign="left">{tableData[index].interestRate}</TD>
-                  <TD>{tableData[index].walletBalance}</TD>
-                  <TD>{tableData[index].savingsBalance}</TD>
-                  <TD>
-                    <ButtonsContainer>
-                      <ButtonLine>Deposit</ButtonLine>
-                      <ButtonLine>Withdraw</ButtonLine>
-                    </ButtonsContainer>
-                  </TD>
-                </TR>
-              );
-            })}
-          </TBody>
-        </Table>
-      </TableOverflow>
-    </Card>
-  );
-};
+  public render = () => {
+    const { ...restProps } = this.props;
+
+    return (
+      <Card {...restProps}>
+        <MyTotalBalance />
+        <Title>My Account</Title>
+        <TableOverflow>
+          <Table>
+            <THead>
+              <TR>
+                <TH textAlign="left">Asset</TH>
+                <TH>Price</TH>
+                <TH textAlign="left">Interest Rate</TH>
+                <TH>Wallet Balance</TH>
+                <TH>Savings Balance</TH>
+                <TH>&nbsp;</TH>
+              </TR>
+            </THead>
+            <TBody>
+              {tokensList.map((item, index) => {
+                return (
+                  <TR key={index}>
+                    <TD textAlign="left">
+                      <TokenData>
+                        <TokenImage image={item.image} />
+                        <strong>{item.title}</strong>
+                      </TokenData>
+                    </TD>
+                    <TD>${tableData[index].price}</TD>
+                    <TD textAlign="left">{tableData[index].interestRate}</TD>
+                    <TD>{tableData[index].walletBalance}</TD>
+                    <TD>{tableData[index].savingsBalance}</TD>
+                    <TD>
+                      <ButtonsContainer>
+                        <ButtonLine onClick={this.openDepositModal}>Deposit</ButtonLine>
+                        <ButtonLine onClick={this.openWithdrawModal}>Withdraw</ButtonLine>
+                      </ButtonsContainer>
+                    </TD>
+                  </TR>
+                );
+              })}
+            </TBody>
+          </Table>
+        </TableOverflow>
+        <DepositModal token="TOKEN" isOpen={this.state.depositModalIsOpen} onRequestClose={this.closeDepositModal} />
+        <WithdrawModal token="TOKEN" isOpen={this.state.withdrawModalIsOpen} onRequestClose={this.closeWithdrawModal} />
+      </Card>
+    );
+  };
+
+  private openDepositModal = (e: any) => {
+    this.setState({
+      depositModalIsOpen: true,
+    });
+  };
+
+  private closeDepositModal = () => {
+    this.setState({
+      depositModalIsOpen: false,
+    });
+  };
+
+  private openWithdrawModal = (e: any) => {
+    this.setState({
+      withdrawModalIsOpen: true,
+    });
+  };
+
+  private closeWithdrawModal = () => {
+    this.setState({
+      withdrawModalIsOpen: false,
+    });
+  };
+}
 
 export default AccountBalance;
