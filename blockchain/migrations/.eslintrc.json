@@ -1,0 +1,6 @@
+{
+    "extends": "../.eslintrc.json",
+    "globals": {
+      "artifacts": false
+    }
+}
