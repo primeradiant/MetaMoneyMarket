@@ -6,7 +6,7 @@ import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
 
-import { LoginModal } from '../login';
+import {LoginModal} from '../login';
 
 import {themeBreakPoints, themeColors} from '../../util/constants';
 

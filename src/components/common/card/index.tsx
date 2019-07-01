@@ -1,7 +1,7 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { themeColors } from '../../../util/constants';
+import {themeColors} from '../../../util/constants';
 
 import CardBase from './CardBase';
 
@@ -19,7 +19,7 @@ const CardTitle = styled.h1`
 `;
 
 const Card: React.FC<Props> = (props: Props) => {
-  const { title, children, ...restProps } = props;
+  const {title, children, ...restProps} = props;
 
   return (
     <CardBase {...restProps}>

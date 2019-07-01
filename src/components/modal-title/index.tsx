@@ -1,9 +1,9 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
 import CloseModal from '../common/img/CloseModal';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   closeButtonDisabled?: boolean;
@@ -53,7 +53,7 @@ const ModalClose = styled.button`
 
 class ModalTitle extends React.Component<Props> {
   public render = () => {
-    const { onRequestClose, title, closeButtonDisabled, ...restProps } = this.props;
+    const {onRequestClose, title, closeButtonDisabled, ...restProps} = this.props;
 
     return (
       <ModalTitleWrapper {...restProps}>

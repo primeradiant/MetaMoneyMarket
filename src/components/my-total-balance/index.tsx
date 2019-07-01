@@ -1,11 +1,11 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
 import CardBase from '../common/card/CardBase';
 import ChevronDown from '../common/img/ChevronDown';
-import { Dropdown, DropdownPositions } from '../dropdown';
+import {Dropdown, DropdownPositions} from '../dropdown';
 
-import { themeColors, themeDimensions } from '../../util/constants';
+import {themeColors, themeDimensions} from '../../util/constants';
 
 interface State {
   selectedToken: number;
@@ -90,7 +90,7 @@ const tokensList = [
   {
     text: 'DAI',
     title: 'DAI',
-  }
+  },
 ];
 
 class MyTotalBalance extends React.Component<Props, State> {
@@ -103,7 +103,7 @@ class MyTotalBalance extends React.Component<Props, State> {
   }
 
   public render = () => {
-    const { ...restProps } = this.props;
+    const {...restProps} = this.props;
 
     return (
       <MyTotalBalanceWrapper title="" {...restProps}>
@@ -141,9 +141,8 @@ class MyTotalBalance extends React.Component<Props, State> {
   };
 
   private setToken = (index: number) => {
-    this.setState({ selectedToken: index });
+    this.setState({selectedToken: index});
   };
-
 }
 
 export default MyTotalBalance;

@@ -1,9 +1,9 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 import Header from '../header';
 import ContentWrapper from './ContentWrapper';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ const MainWrapperComponent = styled.div`
 `;
 
 const MainWrapper: React.FC<Props> = (props: Props) => {
-  const { children, ...restProps } = props;
+  const {children, ...restProps} = props;
 
   return (
     <MainWrapperComponent {...restProps}>

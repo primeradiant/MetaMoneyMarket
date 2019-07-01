@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
-import FormRow, { FormRowsContainer } from '../common/FormRow';
+import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { modalStyle, themeColors } from '../../util/constants';
+import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
   token: string;
@@ -63,7 +63,7 @@ class DepositModal extends React.Component<Props, State> {
   };
 
   public render = () => {
-    const { onRequestClose, token, ...restProps } = this.props;
+    const {onRequestClose, token, ...restProps} = this.props;
 
     return (
       <Modal {...restProps} style={modalStyle}>
@@ -95,10 +95,10 @@ class DepositModal extends React.Component<Props, State> {
   };
 
   private sendDeposit = () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
     setTimeout(() => {
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
     }, 5000);
   };
 }

@@ -1,9 +1,9 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { ConnectionStatusDot } from '../common/ConnectionStatusDot';
+import {ConnectionStatusDot} from '../common/ConnectionStatusDot';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 const ConnectionStatusWrapper = styled.div`
   align-items: center;
@@ -29,7 +29,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ConnectionStatus: React.FC<Props> = (props: Props) => {
-  const { account, active, ...restProps } = props;
+  const {account, active, ...restProps} = props;
 
   const shortenedAccount = account.slice(0, 6) + '...' + account.slice(account.length - 4);
 

@@ -1,7 +1,7 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   valueColor?: string;
@@ -31,7 +31,7 @@ const FormRowText = styled.div`
   line-height: 1.2;
 `;
 
-const FormRowValue = styled.div<{ color?: string }>`
+const FormRowValue = styled.div<{color?: string}>`
   color: ${props => props.color};
   font-size: 14px;
   font-weight: 600;
@@ -44,7 +44,7 @@ FormRowValue.defaultProps = {
 };
 
 const FormRow: React.FC<Props> = (props: Props) => {
-  const { text, value, valueColor, ...restProps } = props;
+  const {text, value, valueColor, ...restProps} = props;
 
   return (
     <FormRowWrapper {...restProps}>

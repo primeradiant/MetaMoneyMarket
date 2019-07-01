@@ -1,14 +1,14 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   token: string;
 }
 
-const AmountTextfieldWrapper = styled.div<{ disabled?: boolean }>`
+const AmountTextfieldWrapper = styled.div<{disabled?: boolean}>`
   align-items: flex-start;
   border-bottom: 1px solid ${themeColors.borderColor};
   display: flex;
@@ -23,7 +23,7 @@ const AmountTextfieldWrapper = styled.div<{ disabled?: boolean }>`
     opacity: 0.5;
 
     &::before {
-      content: "";
+      content: '';
       height: 100%;
       left: 0;
       position: absolute;
@@ -90,7 +90,7 @@ const ValueInput = styled.input`
 
 class AmountTextfield extends React.Component<Props> {
   public render = () => {
-    const { disabled, token, ...restProps } = this.props;
+    const {disabled, token, ...restProps} = this.props;
 
     return (
       <AmountTextfieldWrapper disabled={disabled} {...restProps}>

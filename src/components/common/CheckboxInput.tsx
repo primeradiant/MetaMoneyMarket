@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
 import CheckboxOff from './img/CheckboxOff';
@@ -34,7 +34,7 @@ const CheckboxWrapper = styled.div`
 `;
 
 const CheckboxInput: React.FC<Props> = (props: Props) => {
-  const { checked, ...restProps } = props;
+  const {checked, ...restProps} = props;
 
   return (
     <CheckboxWrapper {...restProps}>

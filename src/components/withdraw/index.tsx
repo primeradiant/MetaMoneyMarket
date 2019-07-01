@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
-import FormRow, { FormRowsContainer } from '../common/FormRow';
+import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { modalStyle, themeColors } from '../../util/constants';
+import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
   token: string;
@@ -42,7 +42,7 @@ class WithdrawModal extends React.Component<Props, State> {
   };
 
   public render = () => {
-    const { onRequestClose, token, ...restProps } = this.props;
+    const {onRequestClose, token, ...restProps} = this.props;
 
     return (
       <Modal {...restProps} style={modalStyle}>
@@ -55,9 +55,7 @@ class WithdrawModal extends React.Component<Props, State> {
         </FormRowsContainer>
         <ModalSubtitle>Amount</ModalSubtitle>
         <AmountTextfield disabled={this.state.isLoading} token={token} />
-        {this.state.isLoading ? (
-          <LoadingStyled />
-        ) : null}
+        {this.state.isLoading ? <LoadingStyled /> : null}
         <ButtonStyled disabled={this.state.isLoading} onClick={this.send}>
           Withdraw
         </ButtonStyled>
@@ -66,10 +64,10 @@ class WithdrawModal extends React.Component<Props, State> {
   };
 
   private send = () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
     setTimeout(() => {
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
     }, 5000);
   };
 }

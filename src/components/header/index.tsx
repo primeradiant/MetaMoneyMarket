@@ -1,13 +1,13 @@
-import React, { HTMLAttributes } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, {HTMLAttributes} from 'react';
+import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
-import { useWeb3Context } from 'web3-react';
+import {useWeb3Context} from 'web3-react';
 
 import Logo from '../common/img/Logo';
 import ConnectionStatus from './ConnectionStatus';
 import Menu from './Menu';
 
-import { themeBreakPoints, themeColors, themeDimensions } from '../../util/constants';
+import {themeBreakPoints, themeColors, themeDimensions} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -42,7 +42,7 @@ const HeaderEndContent = styled.div`
 `;
 
 const Header: React.FC<Props> = (props: Props) => {
-  const { ...restProps } = props;
+  const {...restProps} = props;
   const context = useWeb3Context();
 
   return (

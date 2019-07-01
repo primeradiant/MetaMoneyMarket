@@ -1,7 +1,7 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { themeBreakPoints } from '../../util/constants';
+import {themeBreakPoints} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ const ContentCenterWrapper = styled.div`
 `;
 
 const ContentCenter: React.FC<Props> = (props: Props) => {
-  const { children, ...restProps } = props;
+  const {children, ...restProps} = props;
 
   return <ContentCenterWrapper {...restProps}>{children}</ContentCenterWrapper>;
 };

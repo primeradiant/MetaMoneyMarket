@@ -1,7 +1,7 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { themeColors, themeDimensions } from '../../../util/constants';
+import {themeColors, themeDimensions} from '../../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ const CardBaseWrapper = styled.div`
 `;
 
 const CardBase: React.FC<Props> = (props: Props) => {
-  const { children, ...restProps } = props;
+  const {children, ...restProps} = props;
 
   return <CardBaseWrapper {...restProps}>{children}</CardBaseWrapper>;
 };
