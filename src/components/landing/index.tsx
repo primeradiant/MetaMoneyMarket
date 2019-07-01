@@ -110,9 +110,11 @@ const Landing: React.FC<Props> = (props: Props) => {
     <>
       <WelcomeText>Welcome to Sovereign!</WelcomeText>
       <MainText>Your Personal Bank</MainText>
-      <ButtonContainer>
-        <BigButton onClick={openModal}>Start Now!</BigButton>
-      </ButtonContainer>
+      {!context.active && (
+        <ButtonContainer>
+          <BigButton onClick={openModal}>Start Now!</BigButton>
+        </ButtonContainer>
+      )}
       <InfoTextMaxWidth>
         Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
         mollitia animi similique sunt in culpa qui officia…
