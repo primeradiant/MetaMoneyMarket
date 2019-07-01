@@ -1,14 +1,14 @@
-import React, { HTMLAttributes } from 'react';
-import styled, { css } from 'styled-components';
+import React, {HTMLAttributes} from 'react';
+import styled, {css} from 'styled-components';
 
 import ButtonLine from '../common/ButtonLine';
 import Card from '../common/card';
-import { tokensList } from '../common/img/token-icons';
+import {tokensList} from '../common/img/token-icons';
 import DepositModal from '../deposit';
 import MyTotalBalance from '../my-total-balance';
 import WithdrawModal from '../withdraw';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -42,7 +42,7 @@ const cellCSS = css`
   white-space: nowrap;
 `;
 
-const TH = styled.th<{ textAlign?: string }>`
+const TH = styled.th<{textAlign?: string}>`
   ${cellCSS}
 
   color: #444;
@@ -54,7 +54,7 @@ TH.defaultProps = {
   textAlign: 'right',
 };
 
-const TD = styled.td<{ textAlign?: string }>`
+const TD = styled.td<{textAlign?: string}>`
   ${cellCSS}
   color: ${themeColors.tertiaryTextColor};
   font-feature-settings: 'tnum' 1;
@@ -92,7 +92,7 @@ const TokenData = styled.div`
   justify-content: flex-start;
 `;
 
-const TokenImage = styled.div<{ image: any }>`
+const TokenImage = styled.div<{image: any}>`
   background-image: url('${props => props.image}');
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -190,7 +190,7 @@ class AccountBalance extends React.Component<Props, State> {
   };
 
   public render = () => {
-    const { ...restProps } = this.props;
+    const {...restProps} = this.props;
 
     return (
       <Card {...restProps}>

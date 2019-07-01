@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
 import RadioOff from './img/RadioOff';
@@ -35,12 +35,12 @@ const RadioWrapper = styled.div`
 `;
 
 const RadioInput: React.FC<Props> = (props: Props) => {
-  const { checked, ...restProps } = props;
+  const {checked, onChange, ...restProps} = props;
 
   return (
     <RadioWrapper {...restProps}>
       {checked ? <RadioOn /> : <RadioOff />}
-      <input type="radio" checked={checked} />
+      <input type="radio" checked={checked} onChange={onChange} />
     </RadioWrapper>
   );
 };

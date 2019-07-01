@@ -1,5 +1,5 @@
-import React, { HTMLAttributes } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, {HTMLAttributes} from 'react';
+import styled, {keyframes} from 'styled-components';
 
 import LoadingIcon from './img/LoadingIcon';
 
@@ -25,7 +25,7 @@ const LoadingAnimate = styled.div`
 `;
 
 const Loading: React.FC = (props: Props) => {
-  const { ...restProps } = props;
+  const {...restProps} = props;
 
   return (
     <LoadingWrapper {...restProps}>

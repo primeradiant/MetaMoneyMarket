@@ -1,9 +1,9 @@
-import React, { HTMLAttributes } from 'react';
+import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
-import { ConnectionStatusDot } from '../common/ConnectionStatusDot';
+import {ConnectionStatusDot} from '../common/ConnectionStatusDot';
 
-import { themeColors } from '../../util/constants';
+import {themeColors} from '../../util/constants';
 
 const ConnectionStatusWrapper = styled.div`
   align-items: center;
@@ -23,17 +23,20 @@ const ConnectionStatusText = styled.span`
   font-weight: 600;
 `;
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  account: string;
+  active: boolean;
+}
 
 const ConnectionStatus: React.FC<Props> = (props: Props) => {
-  const { ...restProps } = props;
-  const accountAddress = '0x1234...5678';
-  const status: string = accountAddress ? 'active' : '';
+  const {account, active, ...restProps} = props;
+
+  const shortenedAccount = account.slice(0, 6) + '...' + account.slice(account.length - 4);
 
   return (
     <ConnectionStatusWrapper {...restProps}>
-      <ConnectionStatusDotStyled status={status} />
-      <ConnectionStatusText>{accountAddress}</ConnectionStatusText>
+      <ConnectionStatusDotStyled status={active} />
+      <ConnectionStatusText>{shortenedAccount}</ConnectionStatusText>
     </ConnectionStatusWrapper>
   );
 };

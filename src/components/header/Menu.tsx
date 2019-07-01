@@ -1,10 +1,11 @@
-import React, { HTMLAttributes } from 'react';
-import { NavLink } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import React, {HTMLAttributes, useState} from 'react';
+import {NavLink} from 'react-router-dom';
+import styled, {css} from 'styled-components';
+import {useWeb3Context} from 'web3-react';
 
-import LoginModal from '../login';
+import {LoginModal} from '../login';
 
-import { themeColors, themeDimensions } from '../../util/constants';
+import {themeColors, themeDimensions} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -52,37 +53,25 @@ const MenuItemLink = styled(NavLink)`
   ${MenuItemCSS}
 `;
 
-class Menu extends React.Component<Props, State> {
-  public state = {
-    modalIsOpen: false
-  };
+const Menu: React.FC<Props> = props => {
+  const {...restProps} = props;
+  const context = useWeb3Context();
 
-  public render = () => {
-    const { ...restProps } = this.props;
-    return (
-      <>
-        <MenuContainer {...restProps}>
-          <MenuItemLink activeClassName="active" to="/help">
-            Help
-          </MenuItemLink>
-          <MenuItem onClick={this.openModal}>Login</MenuItem>
-        </MenuContainer>
-        <LoginModal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} />
-      </>
-    );
-  };
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  private openModal = (e: any) => {
-    this.setState({
-      modalIsOpen: true,
-    });
-  };
-
-  private closeModal = () => {
-    this.setState({
-      modalIsOpen: false,
-    });
-  };
-}
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  return (
+    <>
+      <MenuContainer {...restProps}>
+        <MenuItemLink activeClassName="active" to="/help">
+          Help
+        </MenuItemLink>
+        {!context.active && <MenuItem onClick={openModal}>Login</MenuItem>}
+      </MenuContainer>
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
+    </>
+  );
+};
 
 export default Menu;
