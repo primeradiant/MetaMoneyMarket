@@ -1,0 +1,18 @@
+{
+  "extends": "../.eslintrc.json",
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "artifacts": false,
+    "contract": false,
+    "expect": false
+  },
+  "plugins": [
+    "mocha"
+  ],
+  "rules": {
+    "mocha/no-exclusive-tests": "error"
+  }
+}
