@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface StatusProps {
-    status?: string;
+    status: boolean;
 }
 
 export const ConnectionStatusDot = styled.div<StatusProps>`

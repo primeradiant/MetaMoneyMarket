@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-modal';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
+import {useWeb3Context} from 'web3-react';
 
 import Button from '../common/Button';
 import CheckboxInput from '../common/CheckboxInput';
@@ -10,13 +11,15 @@ import SMS from '../common/img/SMS';
 import RadioInput from '../common/RadioInput';
 import ModalTitle from '../modal-title';
 
-import { modalStyle, themeColors } from '../../util/constants';
+import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {}
 
+type LoginMethod = 'phone' | 'metamask';
+
 interface State {
   termsAccepted: boolean;
-  loginMethod: string;
+  loginMethod: LoginMethod;
 }
 
 const LoginItems = styled.div`
@@ -92,67 +95,68 @@ const TermsAndConditionsText = styled.span`
   }
 `;
 
-class LoginModal extends React.Component<Props, State> {
-  public state = {
-    loginMethod: 'phone',
-    termsAccepted: false,
+export const LoginModal: React.FC<Props> = props => {
+  const {onRequestClose, ...restProps} = props;
+  const context = useWeb3Context();
+
+  const [loginMethod, setLoginMethod] = useState<LoginMethod>('phone');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const toggleTerms = () => setTermsAccepted(!termsAccepted);
+
+  const login: React.MouseEventHandler<HTMLButtonElement> = e => {
+    if (loginMethod === 'metamask') {
+      context.setFirstValidConnector(['MetaMask']);
+    }
+
+    if (onRequestClose) {
+      onRequestClose(e);
+    }
   };
 
-  public render = () => {
-    const { onRequestClose, ...restProps } = this.props;
-
-    return (
-      <Modal {...restProps} style={modalStyle}>
-        <ModalTitle title="Login" onRequestClose={onRequestClose} />
-        <LoginItems>
-          <LoginItem onClick={() => this.setLoginMethod('phone')}>
-            <LoginItemIcon>
-              <SMS />
-            </LoginItemIcon>
-            <LoginItemText>
-              <LoginItemTitle>Use your phone</LoginItemTitle>
-              <LoginItemDescription>
-                Get a secure wallet quickly with only your phone number and a PIN.
-              </LoginItemDescription>
-            </LoginItemText>
-            <RadioInputWrapper>
-              <RadioInput checked={this.state.loginMethod === 'phone'} />
-            </RadioInputWrapper>
-          </LoginItem>
-          <LoginItem onClick={() => this.setLoginMethod('metamask')}>
-            <LoginItemIcon>
-              <Metamask />
-            </LoginItemIcon>
-            <LoginItemText>
-              <LoginItemTitle>MetaMask</LoginItemTitle>
-              <LoginItemDescription>Use this popular browser extension wallet.</LoginItemDescription>
-            </LoginItemText>
-            <RadioInputWrapper>
-              <RadioInput checked={this.state.loginMethod === 'metamask'} />
-            </RadioInputWrapper>
-          </LoginItem>
-        </LoginItems>
-        <TermsAndConditions>
-          <CheckboxInput onClick={this.toggleTerms} checked={this.state.termsAccepted} />
-          <TermsAndConditionsText>
-            I accept the{' '}
-            <NavLink onClick={onRequestClose} to="/terms">
-              Terms &amp; Conditions
-            </NavLink>
-          </TermsAndConditionsText>
-        </TermsAndConditions>
-        <ButtonStyled disabled={!this.state.termsAccepted}>Login</ButtonStyled>
-      </Modal>
-    );
-  };
-
-  private setLoginMethod = (method: string) => {
-    this.setState({ loginMethod: method });
-  };
-
-  private toggleTerms = () => {
-    this.setState({ termsAccepted: !this.state.termsAccepted });
-  };
-}
-
-export default LoginModal;
+  return (
+    <Modal {...restProps} style={modalStyle}>
+      <ModalTitle title="Login" onRequestClose={onRequestClose} />
+      <LoginItems>
+        <LoginItem onClick={() => setLoginMethod('phone')}>
+          <LoginItemIcon>
+            <SMS />
+          </LoginItemIcon>
+          <LoginItemText>
+            <LoginItemTitle>Use your phone</LoginItemTitle>
+            <LoginItemDescription>
+              Get a secure wallet quickly with only your phone number and a PIN.
+            </LoginItemDescription>
+          </LoginItemText>
+          <RadioInputWrapper>
+            <RadioInput checked={loginMethod === 'phone'} />
+          </RadioInputWrapper>
+        </LoginItem>
+        <LoginItem onClick={() => setLoginMethod('metamask')}>
+          <LoginItemIcon>
+            <Metamask />
+          </LoginItemIcon>
+          <LoginItemText>
+            <LoginItemTitle>MetaMask</LoginItemTitle>
+            <LoginItemDescription>Use this popular browser extension wallet.</LoginItemDescription>
+          </LoginItemText>
+          <RadioInputWrapper>
+            <RadioInput checked={loginMethod === 'metamask'} />
+          </RadioInputWrapper>
+        </LoginItem>
+      </LoginItems>
+      <TermsAndConditions>
+        <CheckboxInput onClick={toggleTerms} checked={termsAccepted} />
+        <TermsAndConditionsText>
+          I accept the{' '}
+          <NavLink onClick={onRequestClose} to="/terms">
+            Terms &amp; Conditions
+          </NavLink>
+        </TermsAndConditionsText>
+      </TermsAndConditions>
+      <ButtonStyled disabled={!termsAccepted} onClick={login}>
+        Login
+      </ButtonStyled>
+    </Modal>
+  );
+};
