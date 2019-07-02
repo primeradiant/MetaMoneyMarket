@@ -40,7 +40,7 @@ const RadioInput: React.FC<Props> = (props: Props) => {
   return (
     <RadioWrapper {...restProps}>
       {checked ? <RadioOn /> : <RadioOff />}
-      <input type="radio" checked={checked} onChange={onChange} />
+      <input type="radio" defaultChecked={checked} onChange={onChange} />
     </RadioWrapper>
   );
 };

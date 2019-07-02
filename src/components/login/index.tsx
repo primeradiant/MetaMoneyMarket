@@ -15,28 +15,43 @@ import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {}
 
-type LoginMethod = 'phone' | 'metamask';
-
-interface State {
-  termsAccepted: boolean;
-  loginMethod: LoginMethod;
-}
+type LoginMethod = 'metamask';
 
 const LoginItems = styled.div`
   margin-bottom: 45px;
 `;
 
-const LoginItem = styled.div`
+const LoginItem = styled.div<{disabled?: boolean}>`
   align-items: center;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   margin-bottom: 25px;
+  position: relative;
 
   &:last-child {
     margin-bottom: 0;
   }
+
+  &[disabled] {
+    &::after {
+      background-color: #fff;
+      content: "";
+      cursor: not-allowed;
+      height: 100%;
+      left: 0;
+      opacity: 0.5;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 12;
+    }
+  }
 `;
+
+LoginItem.defaultProps = {
+  disabled: false
+};
 
 const LoginItemIcon = styled.div`
   flex-grow: 0;
@@ -99,7 +114,7 @@ export const LoginModal: React.FC<Props> = props => {
   const {onRequestClose, ...restProps} = props;
   const context = useWeb3Context();
 
-  const [loginMethod, setLoginMethod] = useState<LoginMethod>('phone');
+  const [loginMethod, setLoginMethod] = useState<LoginMethod>('metamask');
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const toggleTerms = () => setTermsAccepted(!termsAccepted);
@@ -118,7 +133,7 @@ export const LoginModal: React.FC<Props> = props => {
     <Modal {...restProps} style={modalStyle}>
       <ModalTitle title="Login" onRequestClose={onRequestClose} />
       <LoginItems>
-        <LoginItem onClick={() => setLoginMethod('phone')}>
+        <LoginItem disabled={true}>
           <LoginItemIcon>
             <SMS />
           </LoginItemIcon>
@@ -129,7 +144,7 @@ export const LoginModal: React.FC<Props> = props => {
             </LoginItemDescription>
           </LoginItemText>
           <RadioInputWrapper>
-            <RadioInput checked={loginMethod === 'phone'} />
+            <RadioInput checked={false} />
           </RadioInputWrapper>
         </LoginItem>
         <LoginItem onClick={() => setLoginMethod('metamask')}>

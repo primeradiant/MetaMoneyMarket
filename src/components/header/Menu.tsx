@@ -61,6 +61,7 @@ const Menu: React.FC<Props> = props => {
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
   return (
     <>
       <MenuContainer {...restProps}>
