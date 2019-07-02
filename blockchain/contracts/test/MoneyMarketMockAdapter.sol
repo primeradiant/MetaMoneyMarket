@@ -19,6 +19,7 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
   function deposit(address tokenAddress, uint256 amount) external onlyOwner {
     IERC20 token = IERC20(tokenAddress);
     token.approve(address(moneyMarket), uint256(-1));
+
     require(
       token.balanceOf(msg.sender) >= amount,
       "MoneyMarketMockAdapter.deposit: not enough token balance"
@@ -53,7 +54,7 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
     token.transfer(recipient, amount);
   }
 
-  function getSupply(address tokenAddress) external view returns (uint256) {
+  function getSupply(address tokenAddress) external returns (uint256) {
     return moneyMarket.getSupply(tokenAddress);
   }
 }

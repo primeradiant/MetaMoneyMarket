@@ -5,5 +5,5 @@ interface IMoneyMarketAdapter {
   function deposit(address tokenAddress, uint256 amount) external;
   function withdraw(address tokenAddress, address recipient, uint256 amount)
     external;
-  function getSupply(address tokenAddress) external view returns (uint256);
+  function getSupply(address tokenAddress) external returns (uint256);
 }

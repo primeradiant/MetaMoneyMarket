@@ -42,10 +42,7 @@ contract MetaMoneyMarket is Ownable {
 
     TokenShare tokenShare = supportedMarkets[address(token)].tokenShare;
     uint256 mintedTokens = tokenShare.totalSupply();
-    uint256 ownedTokens = 0;
-    for (uint256 i = 0; i < moneyMarkets.length; i++) {
-      ownedTokens += moneyMarkets[i].getSupply(tokenAddress);
-    }
+    uint256 ownedTokens = totalSupply(tokenAddress);
 
     uint256 tokensToMint = mintedTokens > 0
       ? mintedTokens * amount / ownedTokens
@@ -97,6 +94,9 @@ contract MetaMoneyMarket is Ownable {
 
     for (uint256 i = 0; i < moneyMarkets.length && tokensToTransfer > 0; i++) {
       uint256 supply = moneyMarkets[i].getSupply(tokenAddress);
+      if (supply == 0) {
+        continue;
+      }
       if (supply >= tokensToTransfer) {
         moneyMarkets[i].withdraw(tokenAddress, msg.sender, tokensToTransfer);
         tokensToTransfer = 0;
@@ -134,7 +134,7 @@ contract MetaMoneyMarket is Ownable {
     return address(supportedMarkets[tokenAddress].tokenShare);
   }
 
-  function totalSupply(address tokenAddress) public view returns (uint256) {
+  function totalSupply(address tokenAddress) public returns (uint256) {
     uint256 ownedTokens = 0;
     for (uint256 i = 0; i < moneyMarkets.length; i++) {
       ownedTokens += moneyMarkets[i].getSupply(tokenAddress);

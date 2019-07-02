@@ -48,7 +48,7 @@ contract MoneyMarketMock is Ownable {
     uint256 mintedTokens = tokenShare.totalSupply();
     uint256 ownedTokens = token.balanceOf(address(this));
 
-    uint256 tokensToMint = mintedTokens > 0
+    uint256 tokensToMint = ownedTokens > 0
       ? mintedTokens * amount / ownedTokens
       : amount;
 
@@ -119,6 +119,10 @@ contract MoneyMarketMock is Ownable {
   {
     IERC20 token = IERC20(tokenAddress);
     return token.balanceOf(address(this));
+  }
+
+  function getAddress() external view returns (address) {
+    return address(this);
   }
 
   function getExchangeRate(address tokenAddress)
