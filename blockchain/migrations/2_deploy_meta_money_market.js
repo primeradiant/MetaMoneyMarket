@@ -8,7 +8,7 @@ const IERC20 = artifacts.require('IERC20');
 
 module.exports = async function(deployer, network, accounts) {
   let moneyMarkets = [];
-  if (network === 'test') {
+  if (network === 'development' || network === 'test') {
     await deployer.deploy(MoneyMarketMock, 1000);
     const moneyMarket1 = await MoneyMarketMock.deployed();
     await deployer.deploy(MoneyMarketMockAdapter, moneyMarket1.address);
