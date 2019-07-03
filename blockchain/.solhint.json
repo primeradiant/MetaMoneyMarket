@@ -5,6 +5,7 @@
     "prettier/prettier": "error",
     "indent": "off",
     "mark-callable-contracts": "off",
-    "no-empty-blocks": "off"
+    "no-empty-blocks": "off",
+    "func-order": "error"
   }
 }
