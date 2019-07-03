@@ -1,10 +1,12 @@
-import React, {HTMLAttributes} from 'react';
+import React, {HTMLAttributes, useState} from 'react';
 import styled, {css} from 'styled-components';
+import {useWeb3Context} from 'web3-react';
 
 import ButtonLine from '../common/ButtonLine';
 import Card from '../common/card';
 import {tokensList} from '../common/img/token-icons';
 import DepositModal from '../deposit';
+import {LoginModal} from '../login';
 import MyTotalBalance from '../my-total-balance';
 import WithdrawModal from '../withdraw';
 
@@ -44,7 +46,6 @@ const cellCSS = css`
 
 const TH = styled.th<{textAlign?: string}>`
   ${cellCSS}
-
   color: #444;
   font-weight: 600;
   text-align: ${props => props.textAlign};
@@ -116,153 +117,150 @@ const Title = styled.h1`
 
 const tableData = [
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '0.0000',
     savingsBalance: '99.99',
     walletBalance: '99999.99',
   },
   {
-    interestRate: 'Earn 1.01%',
+    interestRate: '1.01%',
     price: '10.0015',
     savingsBalance: '99.99',
     walletBalance: '500.25',
   },
   {
-    interestRate: 'Earn 12.99%',
+    interestRate: '12.99%',
     price: '999.0099',
     savingsBalance: '99.99',
     walletBalance: '0.15',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '23.3265',
     savingsBalance: '99.99',
     walletBalance: '123.45',
   },
   {
-    interestRate: 'Earn 9.99%',
+    interestRate: '9.99%',
     price: '0.3366',
     savingsBalance: '99.99',
     walletBalance: '10.00',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '88.8888',
     savingsBalance: '99.99',
     walletBalance: '56.65',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '55.6666',
     savingsBalance: '99.99',
     walletBalance: '22.11',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '44.3216',
     savingsBalance: '99.99',
     walletBalance: '23.21',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '78.7896',
     savingsBalance: '99.99',
     walletBalance: '0.88',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '32321.3366',
     savingsBalance: '99.99',
     walletBalance: '0.68',
   },
   {
-    interestRate: 'Earn 0.01%',
+    interestRate: '0.01%',
     price: '32321.3366',
     savingsBalance: '99.99',
     walletBalance: '0.68',
   },
 ];
 
-class AccountBalance extends React.Component<Props, State> {
-  public state = {
-    depositModalIsOpen: false,
-    withdrawModalIsOpen: false,
-  };
+const AccountBalance: React.FC<Props> = (props: Props) => {
+  const {...restProps} = props;
+  const context = useWeb3Context();
+  const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
+  const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
+  const [loginModalIsOpen, setModalIsOpen] = useState(false);
 
-  public render = () => {
-    const {...restProps} = this.props;
+  const openDepositModal = () => setDepositModalIsOpen(true);
+  const closeDepositModal = () => setDepositModalIsOpen(false);
+  const openWithdrawModal = () => setWithdrawModalIsOpen(true);
+  const closeWithdrawModal = () => setWithdrawModalIsOpen(false);
+  const openLoginModal = () => setModalIsOpen(true);
+  const closeLoginModal = () => setModalIsOpen(false);
 
-    return (
-      <Card {...restProps}>
-        <MyTotalBalance />
-        <Title>My Account</Title>
-        <TableOverflow>
-          <Table>
-            <THead>
-              <TR>
-                <TH textAlign="left">Asset</TH>
-                <TH>Price</TH>
-                <TH textAlign="left">Interest Rate</TH>
-                <TH>Wallet Balance</TH>
-                <TH>Savings Balance</TH>
-                <TH>&nbsp;</TH>
-              </TR>
-            </THead>
-            <TBody>
-              {tokensList.map((item, index) => {
-                return (
-                  <TR key={index}>
-                    <TD textAlign="left">
-                      <TokenData>
-                        <TokenImage image={item.image} />
-                        <strong>{item.title}</strong>
-                      </TokenData>
-                    </TD>
-                    <TD>${tableData[index].price}</TD>
-                    <TD textAlign="left">{tableData[index].interestRate}</TD>
-                    <TD>{tableData[index].walletBalance}</TD>
-                    <TD>{tableData[index].savingsBalance}</TD>
-                    <TD>
-                      <ButtonsContainer>
-                        <ButtonLine onClick={this.openDepositModal}>Deposit</ButtonLine>
-                        <ButtonLine onClick={this.openWithdrawModal}>Withdraw</ButtonLine>
-                      </ButtonsContainer>
-                    </TD>
-                  </TR>
-                );
-              })}
-            </TBody>
-          </Table>
-        </TableOverflow>
-        <DepositModal token="TOKEN" isOpen={this.state.depositModalIsOpen} onRequestClose={this.closeDepositModal} />
-        <WithdrawModal token="TOKEN" isOpen={this.state.withdrawModalIsOpen} onRequestClose={this.closeWithdrawModal} />
-      </Card>
-    );
-  };
+  const isLoggedIn = context.active;
 
-  private openDepositModal = (e: any) => {
-    this.setState({
-      depositModalIsOpen: true,
-    });
-  };
-
-  private closeDepositModal = () => {
-    this.setState({
-      depositModalIsOpen: false,
-    });
-  };
-
-  private openWithdrawModal = (e: any) => {
-    this.setState({
-      withdrawModalIsOpen: true,
-    });
-  };
-
-  private closeWithdrawModal = () => {
-    this.setState({
-      withdrawModalIsOpen: false,
-    });
-  };
-}
+  return (
+    <Card {...restProps}>
+      <MyTotalBalance />
+      <Title>My Account</Title>
+      <TableOverflow>
+        <Table>
+          <THead>
+            <TR>
+              <TH textAlign="left">Asset</TH>
+              <TH>Price</TH>
+              <TH textAlign="left">Interest Rate</TH>
+              {isLoggedIn ? (
+                <>
+                  <TH>Wallet Balance</TH>
+                  <TH>Savings Balance</TH>
+                </>
+              ) : null}
+              <TH>&nbsp;</TH>
+            </TR>
+          </THead>
+          <TBody>
+            {tokensList.map((item, index) => {
+              return (
+                <TR key={index}>
+                  <TD textAlign="left">
+                    <TokenData>
+                      <TokenImage image={item.image} />
+                      <strong>{item.title}</strong>
+                    </TokenData>
+                  </TD>
+                  <TD>${tableData[index].price}</TD>
+                  <TD textAlign="left">{isLoggedIn ? null : 'Earn'} {tableData[index].interestRate}</TD>
+                  {isLoggedIn ? (
+                    <>
+                      <TD>{tableData[index].walletBalance}</TD>
+                      <TD>{tableData[index].savingsBalance}</TD>
+                    </>
+                  ) : null}
+                  <TD>
+                    <ButtonsContainer>
+                      {isLoggedIn ? (
+                        <>
+                          <ButtonLine onClick={openDepositModal}>Deposit</ButtonLine>
+                          <ButtonLine onClick={openWithdrawModal}>Withdraw</ButtonLine>
+                        </>
+                      ) : (
+                        <ButtonLine onClick={openLoginModal}>Start Earning</ButtonLine>
+                      )}
+                    </ButtonsContainer>
+                  </TD>
+                </TR>
+              );
+            })}
+          </TBody>
+        </Table>
+      </TableOverflow>
+      <DepositModal token="TOKEN" isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
+      <WithdrawModal token="TOKEN" isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
+      <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} />
+    </Card>
+  );
+};
 
 export default AccountBalance;

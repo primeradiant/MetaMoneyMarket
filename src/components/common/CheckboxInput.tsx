@@ -39,7 +39,7 @@ const CheckboxInput: React.FC<Props> = (props: Props) => {
   return (
     <CheckboxWrapper {...restProps}>
       {checked ? <CheckboxOn /> : <CheckboxOff />}
-      <input type="radio" checked={checked} />
+      <input type="radio" defaultChecked={checked} />
     </CheckboxWrapper>
   );
 };
