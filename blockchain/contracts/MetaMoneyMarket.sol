@@ -181,7 +181,11 @@ contract MetaMoneyMarket is Ownable {
     *
     * Rejects if the token is not supported.
     */
-  function totalSupply(address tokenAddress) public checkMarketSupported(tokenAddress) returns (uint256) {
+  function totalSupply(address tokenAddress)
+    public
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
     uint256 ownedTokens = 0;
     for (uint256 i = 0; i < moneyMarkets.length; i++) {
       ownedTokens += moneyMarkets[i].getSupply(tokenAddress);
