@@ -17,21 +17,8 @@ contract MoneyMarketMock is Ownable {
     _;
   }
 
-  function isMarketSupported(address token) public view returns (bool) {
-    return supportedMarkets[token].isSupported;
-  }
-
   constructor(uint256 _rate) public {
     rate = _rate;
-  }
-
-  function getRate(address token)
-    external
-    view
-    checkMarketSupported(token)
-    returns (uint256)
-  {
-    return rate;
   }
 
   function setRate(uint256 newRate) external onlyOwner {
@@ -135,5 +122,18 @@ contract MoneyMarketMock is Ownable {
     TokenShare tokenShare = supportedMarkets[tokenAddress].tokenShare;
 
     return (tokenShare.totalSupply(), token.balanceOf(address(this)));
+  }
+
+  function getRate(address token)
+    external
+    view
+    checkMarketSupported(token)
+    returns (uint256)
+  {
+    return rate;
+  }
+
+  function isMarketSupported(address token) public view returns (bool) {
+    return supportedMarkets[token].isSupported;
   }
 }
