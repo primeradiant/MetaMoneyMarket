@@ -18,6 +18,7 @@ contract MetaMoneyMarket is Ownable {
 
   // maps token addresses to a struct indicating if the token is supported and to the address of the token share
   mapping(address => Market) public supportedMarkets;
+  address[] public supportedMarketsList;
 
   struct Market {
     bool isSupported;
@@ -151,6 +152,7 @@ contract MetaMoneyMarket is Ownable {
 
     TokenShare tokenShare = new TokenShare();
 
+    supportedMarketsList.push(tokenAddress);
     supportedMarkets[tokenAddress].isSupported = true;
     supportedMarkets[tokenAddress].tokenShare = tokenShare;
 
@@ -201,10 +203,25 @@ contract MetaMoneyMarket is Ownable {
     return supportedMarkets[tokenAddress].isSupported;
   }
 
+  function getMarketSymbol(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (string memory)
+  {
+    ERC20Detailed token = ERC20Detailed(tokenAddress);
+
+    return token.symbol();
+  }
+
   /**
     * @dev Returns the number of underlying money markets.
     */
   function moneyMarketsCount() public view returns (uint256) {
     return moneyMarkets.length;
+  }
+
+  function supportedMarketsCount() public view returns (uint256) {
+    return supportedMarketsList.length;
   }
 }
