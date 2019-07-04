@@ -12,7 +12,7 @@ interface IMoneyMarketAdapter {
   /**
     * @dev Deposits the given amount of tokens in the underlying money market.
     */
-  function deposit(address tokenAddress, uint256 amount) external;
+  function deposit(address tokenAddress, uint256 tokenAmount) external;
   /**
     * @dev Withdraws the given amount of tokens from the underlying money market and transfers them to `recipient`.
     */
