@@ -12,7 +12,9 @@ import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
   market: null | {
+    address: string;
     symbol: string | null;
+    walletBalance: string;
   };
 }
 
@@ -55,7 +57,7 @@ class WithdrawModal extends React.Component<Props, State> {
         <ModalTitle title={`Withdraw ${market.symbol}`} onRequestClose={onRequestClose} />
         <FormRowsContainer>
           <FormRow text="Account" value="0x1234...5678" />
-          <FormRow text={`Wallet ${market.symbol} Balance`} value="9999.9999" />
+          <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance} />
           <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
           <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
         </FormRowsContainer>

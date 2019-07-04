@@ -1,7 +1,9 @@
 import React, {HTMLAttributes, useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
+import * as contract from 'truffle-contract';
 import {useWeb3Context} from 'web3-react';
 
+import IERC20Artifact from '../../artifacts/IERC20.json';
 import { MMMContext } from '../../context/MetaMoneyMarket';
 import Button from '../common/Button';
 import Card from '../common/card';
@@ -13,6 +15,7 @@ import {themeBreakPoints, themeColors} from '../../util/constants';
 
 interface Market {
   address: string;
+  walletBalance: string;
   symbol: string;
 }
 
@@ -23,6 +26,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 interface State {
   modalIsOpen: boolean;
 }
+
+const IERC20 = contract(IERC20Artifact);
 
 const WelcomeText = styled.h2`
   color: ${themeColors.baseTextColor};
@@ -120,7 +125,8 @@ const Landing: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     const fetchMarkets = async () => {
-      if (metaMoneyMarket) {
+      if (context.active && metaMoneyMarket) {
+        IERC20.setProvider(context.library.givenProvider);
         const count = (await metaMoneyMarket.supportedMarketsCount()).toNumber();
         const fetchedMarkets: Markets = [];
 
@@ -128,9 +134,13 @@ const Landing: React.FC<Props> = (props: Props) => {
           const address = await metaMoneyMarket.supportedMarketsList(i);
           const symbol = await metaMoneyMarket.getMarketSymbol(address);
 
+          const token = await IERC20.at(address);
+          const balance = (await token.balanceOf(context.account)).toString();
+
           fetchedMarkets.push({
             address,
-            symbol,
+            walletBalance: balance,
+            symbol
           });
         }
 
@@ -139,14 +149,13 @@ const Landing: React.FC<Props> = (props: Props) => {
     };
 
     fetchMarkets();
-  }, [metaMoneyMarket]);
+  }, [metaMoneyMarket, context]);
 
   const marketsWithData = markets.map((m: Market, index: number) => ({
     ...m,
     interestRate: index,
     price: 10 + index,
-    savingsBalance: 100 + index,
-    walletBalance: 1000 + index
+    savingsBalance: 100 + index
   }));
 
   return (

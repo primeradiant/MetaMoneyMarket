@@ -15,6 +15,7 @@ import {modalStyle, themeColors} from '../../util/constants';
 interface Props extends React.ComponentProps<typeof Modal> {
   market: null | {
     address: string;
+    walletBalance: string;
     symbol: string;
   };
 }
@@ -86,7 +87,7 @@ const DepositModal: React.FC<Props> = props => {
       </ModalText>
       <FormRowsContainer>
         <FormRow text="Account" value="0x1234...5678" />
-        <FormRow text={`Available ${market.symbol}`} value="9999.9999" />
+        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance} />
         <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
         <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>

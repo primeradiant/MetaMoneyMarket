@@ -18,7 +18,7 @@ interface Market {
   interestRate: number;
   price: number;
   savingsBalance: number;
-  walletBalance: number;
+  walletBalance: string;
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
