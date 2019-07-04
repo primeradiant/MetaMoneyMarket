@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 import {themeColors} from '../../util/constants';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props extends HTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
+  value: number;
   token: string;
 }
 
@@ -90,12 +91,12 @@ const ValueInput = styled.input`
 
 class AmountTextfield extends React.Component<Props> {
   public render = () => {
-    const {disabled, token, ...restProps} = this.props;
+    const {disabled, token, value, onChange, ...restProps} = this.props;
 
     return (
       <AmountTextfieldWrapper disabled={disabled} {...restProps}>
         <MaxButton>Max</MaxButton>
-        <ValueInput placeholder="0.0000" disabled={disabled} />
+        <ValueInput placeholder="0.0000" disabled={disabled} value={value} onChange={onChange} />
         <TokenName>{token}</TokenName>
       </AmountTextfieldWrapper>
     );

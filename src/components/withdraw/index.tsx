@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import * as contract from 'truffle-contract';
+import { useWeb3Context } from 'web3-react';
 
+import IERC20Artifact from '../../artifacts/IERC20.json';
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
 import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
+import { MMMContext } from '../../context/MetaMoneyMarket';
 import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
@@ -18,9 +22,7 @@ interface Props extends React.ComponentProps<typeof Modal> {
   };
 }
 
-interface State {
-  isLoading: boolean;
-}
+const IERC20 = contract(IERC20Artifact);
 
 const ButtonStyled = styled(Button)`
   text-transform: uppercase;
@@ -40,44 +42,53 @@ const LoadingStyled = styled(Loading)`
   width: 100%;
 `;
 
-class WithdrawModal extends React.Component<Props, State> {
-  public state = {
-    isLoading: false,
-  };
+const WithdrawModal: React.FC<Props> = props => {
+  const {onRequestClose, market, ...restProps} = props;
 
-  public render = () => {
-    const {onRequestClose, market, ...restProps} = this.props;
+  const [amount, setAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-    if (!market) {
-      return <div/>;
+  const context = useWeb3Context();
+  const metaMoneyMarket = useContext(MMMContext);
+
+  if (!market) {
+    return <div />;
+  }
+
+  const sendWithdraw = async () => {
+    if (context.active && metaMoneyMarket) {
+      setIsLoading(true);
+      IERC20.setProvider(context.library.givenProvider);
+      const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
+      const tokenShare = await IERC20.at(tokenShareAddress);
+      await tokenShare.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
+      await metaMoneyMarket.withdraw(market.address, String(amount), { from: context.account, gas: '1000000' });
+      setIsLoading(false);
     }
-
-    return (
-      <Modal {...restProps} style={modalStyle}>
-        <ModalTitle title={`Withdraw ${market.symbol}`} onRequestClose={onRequestClose} />
-        <FormRowsContainer>
-          <FormRow text="Account" value="0x1234...5678" />
-          <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance} />
-          <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
-          <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
-        </FormRowsContainer>
-        <ModalSubtitle>Amount</ModalSubtitle>
-        <AmountTextfield disabled={this.state.isLoading} token={market.symbol || ''} />
-        {this.state.isLoading ? <LoadingStyled /> : null}
-        <ButtonStyled disabled={this.state.isLoading} onClick={this.send}>
-          Withdraw
-        </ButtonStyled>
-      </Modal>
-    );
   };
 
-  private send = () => {
-    this.setState({isLoading: true});
-
-    setTimeout(() => {
-      this.setState({isLoading: false});
-    }, 5000);
-  };
-}
+  return (
+    <Modal {...restProps} style={modalStyle}>
+      <ModalTitle title={`Withdraw ${market.symbol}`} onRequestClose={onRequestClose} />
+      <FormRowsContainer>
+        <FormRow text="Account" value="0x1234...5678" />
+        <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance} />
+        <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
+        <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
+      </FormRowsContainer>
+      <ModalSubtitle>Amount</ModalSubtitle>
+      <AmountTextfield
+        disabled={isLoading}
+        token={market.symbol || ''}
+        value={amount}
+        onChange={e => setAmount(+e.currentTarget.value)}
+      />
+      {isLoading ? <LoadingStyled /> : null}
+      <ButtonStyled disabled={isLoading} onClick={sendWithdraw}>
+        Withdraw
+      </ButtonStyled>
+    </Modal>
+  );
+};
 
 export default WithdrawModal;

@@ -10,10 +10,13 @@ interface Props {
 }
 
 interface MetaMoneyMarketContract {
+  address: string;
   deposit: (address: string, amount: string, options: any) => Promise<void>;
+  withdraw: (address: string, amount: string, options: any) => Promise<void>;
   supportedMarketsCount: () => Promise<BN>;
   supportedMarketsList: (index: number) => Promise<string>;
   getMarketSymbol: (address: string) => Promise<string>;
+  getTokenShare: (address: string) => Promise<string>;
 }
 
 const MetaMoneyMarket = contract(MetaMoneyContractArtifact);

@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import * as contract from 'truffle-contract';
 import { useWeb3Context } from 'web3-react';
 
+import IERC20Artifact from '../../artifacts/IERC20.json';
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
 import FormRow, {FormRowsContainer} from '../common/FormRow';
@@ -19,6 +21,8 @@ interface Props extends React.ComponentProps<typeof Modal> {
     symbol: string;
   };
 }
+
+const IERC20 = contract(IERC20Artifact);
 
 const ButtonStyled = styled(Button)`
   text-transform: uppercase;
@@ -62,6 +66,7 @@ const LoadingStyled = styled(Loading)`
 const DepositModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
+  const [amount, setAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const context = useWeb3Context();
@@ -72,9 +77,12 @@ const DepositModal: React.FC<Props> = props => {
   }
 
   const sendDeposit = async () => {
-    if (metaMoneyMarket) {
+    if (context.active && metaMoneyMarket) {
       setIsLoading(true);
-      await metaMoneyMarket.deposit(market.address, '1000', { from: context.account });
+      IERC20.setProvider(context.library.givenProvider);
+      const token = await IERC20.at(market.address);
+      await token.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
+      await metaMoneyMarket.deposit(market.address, String(amount), { from: context.account, gas: '1000000' });
       setIsLoading(false);
     }
   };
@@ -92,7 +100,7 @@ const DepositModal: React.FC<Props> = props => {
         <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
-      <AmountTextfield disabled={isLoading} token={market.symbol || ''} />
+      <AmountTextfield disabled={isLoading} token={market.symbol || ''} value={amount} onChange={(e) => setAmount(+e.currentTarget.value)} />
       {isLoading ? (
         <LoadingStyled />
       ) : (
