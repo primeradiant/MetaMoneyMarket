@@ -11,7 +11,9 @@ import ModalTitle from '../modal-title';
 import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
-  token: string;
+  market: null | {
+    symbol: string | null;
+  };
 }
 
 interface State {
@@ -42,19 +44,23 @@ class WithdrawModal extends React.Component<Props, State> {
   };
 
   public render = () => {
-    const {onRequestClose, token, ...restProps} = this.props;
+    const {onRequestClose, market, ...restProps} = this.props;
+
+    if (!market) {
+      return <div/>;
+    }
 
     return (
       <Modal {...restProps} style={modalStyle}>
-        <ModalTitle title={`Withdraw ${token}`} onRequestClose={onRequestClose} />
+        <ModalTitle title={`Withdraw ${market.symbol}`} onRequestClose={onRequestClose} />
         <FormRowsContainer>
           <FormRow text="Account" value="0x1234...5678" />
-          <FormRow text={`Wallet ${token} Balance`} value="9999.9999" />
-          <FormRow text={`Deposited ${token}`} value="9999.9999" />
+          <FormRow text={`Wallet ${market.symbol} Balance`} value="9999.9999" />
+          <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
           <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
         </FormRowsContainer>
         <ModalSubtitle>Amount</ModalSubtitle>
-        <AmountTextfield disabled={this.state.isLoading} token={token} />
+        <AmountTextfield disabled={this.state.isLoading} token={market.symbol || ''} />
         {this.state.isLoading ? <LoadingStyled /> : null}
         <ButtonStyled disabled={this.state.isLoading} onClick={this.send}>
           Withdraw

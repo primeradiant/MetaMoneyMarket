@@ -12,7 +12,18 @@ import WithdrawModal from '../withdraw';
 
 import {themeColors} from '../../util/constants';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Market {
+  address: string;
+  symbol: string;
+  interestRate: number;
+  price: number;
+  savingsBalance: number;
+  walletBalance: number;
+}
+
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  markets: Market[];
+}
 
 interface State {
   depositModalIsOpen: boolean;
@@ -115,81 +126,13 @@ const Title = styled.h1`
   border-top: 1px solid ${themeColors.borderColor};
 `;
 
-const tableData = [
-  {
-    interestRate: '0.01%',
-    price: '0.0000',
-    savingsBalance: '99.99',
-    walletBalance: '99999.99',
-  },
-  {
-    interestRate: '1.01%',
-    price: '10.0015',
-    savingsBalance: '99.99',
-    walletBalance: '500.25',
-  },
-  {
-    interestRate: '12.99%',
-    price: '999.0099',
-    savingsBalance: '99.99',
-    walletBalance: '0.15',
-  },
-  {
-    interestRate: '0.01%',
-    price: '23.3265',
-    savingsBalance: '99.99',
-    walletBalance: '123.45',
-  },
-  {
-    interestRate: '9.99%',
-    price: '0.3366',
-    savingsBalance: '99.99',
-    walletBalance: '10.00',
-  },
-  {
-    interestRate: '0.01%',
-    price: '88.8888',
-    savingsBalance: '99.99',
-    walletBalance: '56.65',
-  },
-  {
-    interestRate: '0.01%',
-    price: '55.6666',
-    savingsBalance: '99.99',
-    walletBalance: '22.11',
-  },
-  {
-    interestRate: '0.01%',
-    price: '44.3216',
-    savingsBalance: '99.99',
-    walletBalance: '23.21',
-  },
-  {
-    interestRate: '0.01%',
-    price: '78.7896',
-    savingsBalance: '99.99',
-    walletBalance: '0.88',
-  },
-  {
-    interestRate: '0.01%',
-    price: '32321.3366',
-    savingsBalance: '99.99',
-    walletBalance: '0.68',
-  },
-  {
-    interestRate: '0.01%',
-    price: '32321.3366',
-    savingsBalance: '99.99',
-    walletBalance: '0.68',
-  },
-];
-
 const AccountBalance: React.FC<Props> = (props: Props) => {
-  const {...restProps} = props;
+  const {markets, ...restProps} = props;
   const context = useWeb3Context();
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [loginModalIsOpen, setModalIsOpen] = useState(false);
+  const [currentMarket, setCurrentMarket] = useState<Market | null>(null);
 
   const openDepositModal = () => setDepositModalIsOpen(true);
   const closeDepositModal = () => setDepositModalIsOpen(false);
@@ -199,6 +142,16 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   const closeLoginModal = () => setModalIsOpen(false);
 
   const isLoggedIn = context.active;
+
+  const deposit = (market: Market) => {
+    openDepositModal();
+    setCurrentMarket(market);
+  };
+
+  const withdraw = (market: Market) => {
+    openWithdrawModal();
+    setCurrentMarket(market);
+  };
 
   return (
     <Card {...restProps}>
@@ -221,29 +174,29 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
             </TR>
           </THead>
           <TBody>
-            {tokensList.map((item, index) => {
+            {markets.map((market, index) => {
               return (
                 <TR key={index}>
                   <TD textAlign="left">
                     <TokenData>
-                      <TokenImage image={item.image} />
-                      <strong>{item.title}</strong>
+                      <TokenImage image={tokensList[0].image} />
+                      <strong>{market.symbol}</strong>
                     </TokenData>
                   </TD>
-                  <TD>${tableData[index].price}</TD>
-                  <TD textAlign="left">{isLoggedIn ? null : 'Earn'} {tableData[index].interestRate}</TD>
+                  <TD>${market.price}</TD>
+                  <TD textAlign="left">{isLoggedIn ? null : 'Earn'} {market.interestRate}</TD>
                   {isLoggedIn ? (
                     <>
-                      <TD>{tableData[index].walletBalance}</TD>
-                      <TD>{tableData[index].savingsBalance}</TD>
+                      <TD>{market.walletBalance}</TD>
+                      <TD>{market.savingsBalance}</TD>
                     </>
                   ) : null}
                   <TD>
                     <ButtonsContainer>
                       {isLoggedIn ? (
                         <>
-                          <ButtonLine onClick={openDepositModal}>Deposit</ButtonLine>
-                          <ButtonLine onClick={openWithdrawModal}>Withdraw</ButtonLine>
+                          <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
+                          <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>
                         </>
                       ) : (
                         <ButtonLine onClick={openLoginModal}>Start Earning</ButtonLine>
@@ -256,8 +209,8 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
           </TBody>
         </Table>
       </TableOverflow>
-      <DepositModal token="TOKEN" isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
-      <WithdrawModal token="TOKEN" isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
+      <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
+      <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
       <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} />
     </Card>
   );

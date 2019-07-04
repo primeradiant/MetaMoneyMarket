@@ -1,0 +1,46 @@
+import BN from 'bn.js';
+import React, { useEffect, useState } from 'react';
+import * as contract from 'truffle-contract';
+import { useWeb3Context } from 'web3-react';
+
+import MetaMoneyContractArtifact from '../artifacts/MetaMoneyMarket.json';
+
+interface Props {
+  children: React.ReactNode;
+}
+
+interface MetaMoneyMarketContract {
+  deposit: (address: string, amount: string, options: any) => Promise<void>;
+  supportedMarketsCount: () => Promise<BN>;
+  supportedMarketsList: (index: number) => Promise<string>;
+  getMarketSymbol: (address: string) => Promise<string>;
+}
+
+const MetaMoneyMarket = contract(MetaMoneyContractArtifact);
+
+export const MMMContext = React.createContext<null | MetaMoneyMarketContract>(null);
+
+export const MMMProvider: React.FC<Props> = ({children}) => {
+  const context = useWeb3Context();
+
+  const [metaMoneyMarket, setMetaMoneyMarket] = useState<null | MetaMoneyMarketContract>(null);
+
+  useEffect(() => {
+    const getMMMInstance = async () => {
+      if (context.active) {
+        MetaMoneyMarket.setProvider(context.library.givenProvider);
+        const mmm = await MetaMoneyMarket.deployed();
+
+        setMetaMoneyMarket(mmm);
+      }
+    };
+
+    getMMMInstance();
+  }, [context]);
+
+  return (
+    <MMMContext.Provider value={metaMoneyMarket}>
+      {children}
+    </MMMContext.Provider>
+  );
+};

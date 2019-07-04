@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import { useWeb3Context } from 'web3-react';
 
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
@@ -8,14 +9,14 @@ import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
+import { MMMContext } from '../../context/MetaMoneyMarket';
 import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
-  token: string;
-}
-
-interface State {
-  isLoading: boolean;
+  market: null | {
+    address: string;
+    symbol: string;
+  };
 }
 
 const ButtonStyled = styled(Button)`
@@ -57,50 +58,53 @@ const LoadingStyled = styled(Loading)`
   width: 100%;
 `;
 
-class DepositModal extends React.Component<Props, State> {
-  public state = {
-    isLoading: false,
+const DepositModal: React.FC<Props> = props => {
+  const {onRequestClose, market, ...restProps} = props;
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const context = useWeb3Context();
+  const metaMoneyMarket = useContext(MMMContext);
+
+  if (!market) {
+    return <div/>;
+  }
+
+  const sendDeposit = async () => {
+    if (metaMoneyMarket) {
+      setIsLoading(true);
+      await metaMoneyMarket.deposit(market.address, '1000', { from: context.account });
+      setIsLoading(false);
+    }
   };
 
-  public render = () => {
-    const {onRequestClose, token, ...restProps} = this.props;
-
-    return (
-      <Modal {...restProps} style={modalStyle}>
-        <ModalTitle title={`Deposit ${token}`} onRequestClose={onRequestClose} />
-        <ModalText>
-          Deposit <strong>{token}</strong> and earn interest automatically.
-        </ModalText>
-        <FormRowsContainer>
-          <FormRow text="Account" value="0x1234...5678" />
-          <FormRow text={`Available ${token}`} value="9999.9999" />
-          <FormRow text={`Deposited ${token}`} value="9999.9999" />
-          <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
-        </FormRowsContainer>
-        <ModalSubtitle>Amount</ModalSubtitle>
-        <AmountTextfield disabled={this.state.isLoading} token={token} />
-        {this.state.isLoading ? (
-          <LoadingStyled />
-        ) : (
-          <ModalNote>
-            <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{token}</strong>, and then make the
-            deposit.
-          </ModalNote>
-        )}
-        <ButtonStyled disabled={this.state.isLoading} onClick={this.sendDeposit}>
-          Deposit
-        </ButtonStyled>
-      </Modal>
-    );
-  };
-
-  private sendDeposit = () => {
-    this.setState({isLoading: true});
-
-    setTimeout(() => {
-      this.setState({isLoading: false});
-    }, 5000);
-  };
-}
+  return (
+    <Modal {...restProps} style={modalStyle}>
+      <ModalTitle title={`Deposit ${market.symbol}`} onRequestClose={onRequestClose} />
+      <ModalText>
+        Deposit <strong>{market.symbol}</strong> and earn interest automatically.
+      </ModalText>
+      <FormRowsContainer>
+        <FormRow text="Account" value="0x1234...5678" />
+        <FormRow text={`Available ${market.symbol}`} value="9999.9999" />
+        <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
+        <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
+      </FormRowsContainer>
+      <ModalSubtitle>Amount</ModalSubtitle>
+      <AmountTextfield disabled={isLoading} token={market.symbol || ''} />
+      {isLoading ? (
+        <LoadingStyled />
+      ) : (
+        <ModalNote>
+          <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then make the
+          deposit.
+        </ModalNote>
+      )}
+      <ButtonStyled disabled={isLoading} onClick={sendDeposit}>
+        Deposit
+      </ButtonStyled>
+    </Modal>
+  );
+};
 
 export default DepositModal;

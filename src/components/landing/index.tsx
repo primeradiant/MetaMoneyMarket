@@ -1,7 +1,8 @@
-import React, {HTMLAttributes, useState} from 'react';
+import React, {HTMLAttributes, useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 
+import { MMMContext } from '../../context/MetaMoneyMarket';
 import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
@@ -9,6 +10,13 @@ import MyAccount from '../my-account';
 import {LoginModal} from '../login';
 
 import {themeBreakPoints, themeColors} from '../../util/constants';
+
+interface Market {
+  address: string;
+  symbol: string;
+}
+
+type Markets = Market[];
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -101,10 +109,45 @@ const InfoBlockText = styled.div`
 
 const Landing: React.FC<Props> = (props: Props) => {
   const context = useWeb3Context();
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [markets, setMarkets] = useState<Markets>([]);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
+  const metaMoneyMarket = useContext(MMMContext);
+
+  useEffect(() => {
+    const fetchMarkets = async () => {
+      if (metaMoneyMarket) {
+        const count = (await metaMoneyMarket.supportedMarketsCount()).toNumber();
+        const fetchedMarkets: Markets = [];
+
+        for (let i = 0; i < count; i++) {
+          const address = await metaMoneyMarket.supportedMarketsList(i);
+          const symbol = await metaMoneyMarket.getMarketSymbol(address);
+
+          fetchedMarkets.push({
+            address,
+            symbol,
+          });
+        }
+
+        setMarkets(fetchedMarkets);
+      }
+    };
+
+    fetchMarkets();
+  }, [metaMoneyMarket]);
+
+  const marketsWithData = markets.map((m: Market, index: number) => ({
+    ...m,
+    interestRate: index,
+    price: 10 + index,
+    savingsBalance: 100 + index,
+    walletBalance: 1000 + index
+  }));
 
   return (
     <>
@@ -119,7 +162,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
         mollitia animi similique sunt in culpa qui officia…
       </InfoTextMaxWidth>
-      <MyAccountStyled />
+      <MyAccountStyled markets={marketsWithData} />
       <HomeTitle>
         Why <strong>Sovereign?</strong>
       </HomeTitle>
