@@ -8308,12 +8308,12 @@
         }
       },
       "links": {},
-      "address": "0xB8634D26997299d905730A91c0b3716803C1CB8C",
-      "transactionHash": "0xdafb0b00b71f92e6bb8e03852b99a632635fb934350eb470e1e50c10a0ee5c6a"
+      "address": "0x3b720bC07ECa503a7ace6c89606d5f62E17D5B74",
+      "transactionHash": "0x4c4c1434c7c9ca1e5a47037c64fb248920e2b8fbc4cdf0bf5b0c2fcbd94b142f"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-05T14:17:34.941Z",
+  "updatedAt": "2019-07-05T14:56:04.472Z",
   "devdoc": {
     "methods": {
       "isOwner()": {
