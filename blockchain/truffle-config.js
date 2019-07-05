@@ -17,7 +17,7 @@ module.exports = {
     },
     rinkeby: {
       network_id: '4',
-      provider: new PrivateKeyProvider(rinkebyPrivateKey, rinkebyRpcUrl)
+      provider: () => new PrivateKeyProvider(rinkebyPrivateKey, rinkebyRpcUrl)
     }
   },
 

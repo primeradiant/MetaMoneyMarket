@@ -8,7 +8,7 @@ const IERC20 = artifacts.require('IERC20');
 
 module.exports = async function(deployer, network, accounts) {
   let moneyMarkets = [];
-  if (network === 'test') {
+  if (network === 'development' || network === 'test') {
     await deployer.deploy(MoneyMarketMock, 1000);
     const moneyMarket1 = await MoneyMarketMock.deployed();
     await deployer.deploy(MoneyMarketMockAdapter, moneyMarket1.address);
@@ -21,13 +21,17 @@ module.exports = async function(deployer, network, accounts) {
 
     moneyMarkets = [moneyMarketAdapter1.address, moneyMarketAdapter2.address];
 
-    await deployer.deploy(TestToken, '2000000000');
+    await deployer.deploy(TestToken, 'TEST1', '2000000000');
     const testToken = await TestToken.deployed();
     await testToken.transfer(accounts[1], '100');
     await testToken.transfer(accounts[2], '100');
 
     await deployer.deploy(MetaMoneyMarket, moneyMarkets);
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
+
+    await moneyMarket1.addMarket(testToken.address);
+    await moneyMarket2.addMarket(testToken.address);
+    await metaMoneyMarket.addMarket(testToken.address);
 
     await moneyMarketAdapter1.transferOwnership(metaMoneyMarket.address);
     await moneyMarketAdapter2.transferOwnership(metaMoneyMarket.address);

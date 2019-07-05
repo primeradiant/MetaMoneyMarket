@@ -10,6 +10,7 @@ contract CToken is IERC20 {
   function mint(uint mintAmount) external returns (uint);
   function redeemUnderlying(uint redeemAmount) external returns (uint);
   function balanceOfUnderlying(address owner) external returns (uint);
+  function exchangeRateStored() public view returns (uint);
 }
 
 contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
@@ -23,14 +24,14 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     tokenToCToken[tokenAddress] = cTokenAddress;
   }
 
-  function getRate(address tokenAddress) external returns (uint256) {
+  function getRate(address tokenAddress) external view returns (uint256) {
     address cTokenAddress = tokenToCToken[tokenAddress];
     CToken cToken = CToken(cTokenAddress);
 
     return cToken.supplyRatePerBlock();
   }
 
-  function deposit(address tokenAddress, uint256 amount) external onlyOwner {
+  function deposit(address tokenAddress, uint256 tokenAmount) external onlyOwner {
     // get cToken
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
@@ -42,21 +43,21 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
 
     // transfer tokens from MMM
     require(
-      token.allowance(msg.sender, address(this)) >= amount,
+      token.allowance(msg.sender, address(this)) >= tokenAmount,
       "CompoundAdapter.deposit: Insufficient allowance"
     );
-    token.transferFrom(msg.sender, address(this), amount);
+    token.transferFrom(msg.sender, address(this), tokenAmount);
 
     // mint cTokens
     token.approve(cTokenAddress, uint256(-1));
-    uint256 result = cToken.mint(amount);
+    uint256 result = cToken.mint(tokenAmount);
     require(
       result == 0,
       "CompoundAdapter.deposit: There was an error minting the cToken"
     );
   }
 
-  function withdraw(address tokenAddress, address recipient, uint256 amount)
+  function withdraw(address tokenAddress, address recipient, uint256 tokenAmount)
     external
     onlyOwner
   {
@@ -68,12 +69,12 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     );
     CToken cToken = CToken(cTokenAddress);
 
-    uint256 result = cToken.redeemUnderlying(amount);
+    uint256 result = cToken.redeemUnderlying(tokenAmount);
     require(
       result == 0,
       "CompoundAdapter.withdraw: There was an error redeeming the cToken"
     );
-    token.transfer(recipient, token.balanceOf(address(this)));
+    token.transfer(recipient, tokenAmount);
   }
 
   function getSupply(address tokenAddress) external returns (uint256) {
@@ -81,5 +82,14 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     CToken cToken = CToken(cTokenAddress);
 
     return cToken.balanceOfUnderlying(address(this));
+  }
+
+  function getSupplyView(address tokenAddress) external view returns (uint256) {
+    address cTokenAddress = tokenToCToken[tokenAddress];
+    CToken cToken = CToken(cTokenAddress);
+
+    uint256 exchangeRate = cToken.exchangeRateStored();
+    uint256 balance = cToken.balanceOf(address(this));
+    return balance * exchangeRate;
   }
 }

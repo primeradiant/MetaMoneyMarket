@@ -1,6 +1,7 @@
 pragma solidity 0.5.8;
 
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 import "./IMoneyMarketAdapter.sol";
@@ -18,6 +19,7 @@ contract MetaMoneyMarket is Ownable {
 
   // maps token addresses to a struct indicating if the token is supported and to the address of the token share
   mapping(address => Market) public supportedMarkets;
+  address[] public supportedMarketsList;
 
   struct Market {
     bool isSupported;
@@ -30,6 +32,10 @@ contract MetaMoneyMarket is Ownable {
     * underlying money markets. See `IMoneyMarketAdapter`.
     */
   constructor(address[] memory _moneyMarkets) public {
+    require(
+      _moneyMarkets.length > 0,
+      "At least one money market has to be specified"
+    );
     for (uint256 i = 0; i < _moneyMarkets.length; i++) {
       moneyMarkets.push(IMoneyMarketAdapter(_moneyMarkets[i]));
     }
@@ -48,44 +54,37 @@ contract MetaMoneyMarket is Ownable {
     * Rejects if the token is not supported.
     *
     * @param tokenAddress Address of the token that is going to be deposited
-    * @param amount Amount of token units to deposit
+    * @param tokenAmount Amount of token units to deposit
     */
-  function deposit(address tokenAddress, uint256 amount)
+  function deposit(address tokenAddress, uint256 tokenAmount)
     external
     checkMarketSupported(tokenAddress)
   {
     IERC20 token = IERC20(tokenAddress);
 
-    TokenShare tokenShare = supportedMarkets[address(token)].tokenShare;
-    uint256 mintedTokens = tokenShare.totalSupply();
-    uint256 ownedTokens = totalSupply(tokenAddress);
+    TokenShare tokenShare = supportedMarkets[tokenAddress].tokenShare;
+    uint256 tokenShareSupply = tokenShare.totalSupply();
+    uint256 tokenSupply = totalSupply(tokenAddress);
 
-    uint256 tokensToMint = mintedTokens > 0
-      ? mintedTokens * amount / ownedTokens
-      : amount;
+    uint256 tokenSharesToMint = tokenSupply > 0
+      ? tokenShareSupply * tokenAmount / tokenSupply
+      : tokenAmount;
 
-    tokenShare.mint(msg.sender, tokensToMint);
+    tokenShare.mint(msg.sender, tokenSharesToMint);
 
-    IMoneyMarketAdapter bestMoneyMarket = moneyMarkets[0];
-    uint256 bestRate = moneyMarkets[0].getRate(tokenAddress);
-    for (uint256 i = 1; i < moneyMarkets.length; i++) {
-      uint256 rate = moneyMarkets[i].getRate(tokenAddress);
-      if (rate > bestRate) {
-        bestRate = rate;
-        bestMoneyMarket = moneyMarkets[i];
-      }
-    }
+    (IMoneyMarketAdapter bestMoneyMarket,) = getBestMoneyMarket(tokenAddress);
 
     require(
-      token.balanceOf(msg.sender) >= amount,
+      token.balanceOf(msg.sender) >= tokenAmount,
       "MetaMoneyMarket.deposit: User does not have enough balance"
     );
     require(
-      token.allowance(msg.sender, address(this)) >= amount,
+      token.allowance(msg.sender, address(this)) >= tokenAmount,
       "MetaMoneyMarket.deposit: Cannot transfer tokens from the user"
     );
-    token.transferFrom(msg.sender, address(this), amount);
-    bestMoneyMarket.deposit(tokenAddress, amount);
+    token.transferFrom(msg.sender, address(this), tokenAmount);
+
+    bestMoneyMarket.deposit(tokenAddress, tokenAmount);
   }
 
   /**
@@ -103,10 +102,10 @@ contract MetaMoneyMarket is Ownable {
     checkMarketSupported(tokenAddress)
   {
     TokenShare tokenShare = supportedMarkets[tokenAddress].tokenShare;
-    uint256 mintedTokens = tokenShare.totalSupply();
-    uint256 ownedTokens = totalSupply(tokenAddress);
+    uint256 tokenShareSupply = tokenShare.totalSupply();
+    uint256 tokenSupply = totalSupply(tokenAddress);
 
-    uint256 tokensToTransfer = ownedTokens * tokenShareAmount / mintedTokens;
+    uint256 tokensToTransfer = tokenSupply * tokenShareAmount / tokenShareSupply;
 
     require(
       tokenShare.balanceOf(msg.sender) >= tokenShareAmount,
@@ -151,6 +150,7 @@ contract MetaMoneyMarket is Ownable {
 
     TokenShare tokenShare = new TokenShare();
 
+    supportedMarketsList.push(tokenAddress);
     supportedMarkets[tokenAddress].isSupported = true;
     supportedMarkets[tokenAddress].tokenShare = tokenShare;
 
@@ -186,12 +186,33 @@ contract MetaMoneyMarket is Ownable {
     checkMarketSupported(tokenAddress)
     returns (uint256)
   {
-    uint256 ownedTokens = 0;
+    uint256 tokenSupply = 0;
     for (uint256 i = 0; i < moneyMarkets.length; i++) {
-      ownedTokens += moneyMarkets[i].getSupply(tokenAddress);
+      tokenSupply += moneyMarkets[i].getSupply(tokenAddress);
     }
 
-    return ownedTokens;
+    return tokenSupply;
+  }
+
+  /**
+    * @dev Returns the amount of tokens for the given `tokenAddress`; it might not include accrued interest.
+    *
+    * This function cannot cause side effects.
+    *
+    * Rejects if the token is not supported.
+    */
+  function totalSupplyView(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
+    uint256 tokenSupply = 0;
+    for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      tokenSupply += moneyMarkets[i].getSupplyView(tokenAddress);
+    }
+
+    return tokenSupply;
   }
 
   /**
@@ -201,10 +222,83 @@ contract MetaMoneyMarket is Ownable {
     return supportedMarkets[tokenAddress].isSupported;
   }
 
+  function getMarketSymbol(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (string memory)
+  {
+    ERC20Detailed token = ERC20Detailed(tokenAddress);
+
+    return token.symbol();
+  }
+
   /**
     * @dev Returns the number of underlying money markets.
     */
   function moneyMarketsCount() public view returns (uint256) {
     return moneyMarkets.length;
+  }
+
+  function supportedMarketsCount() public view returns (uint256) {
+    return supportedMarketsList.length;
+  }
+
+  function getDepositedAmount(address tokenAddress, address account)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
+    TokenShare tokenShare = supportedMarkets[address(tokenAddress)].tokenShare;
+
+    (uint256 tokenSupply, uint256 tokenShareSupply) = getExchangeRate(
+      tokenAddress
+    );
+    uint256 tokenShareBalance = tokenShare.balanceOf(account);
+
+    return tokenShareSupply > 0
+      ? tokenShareBalance * tokenSupply / tokenShareSupply
+      : 0;
+  }
+
+  function getExchangeRate(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256 tokenSupply, uint256 tokenShareSupply)
+  {
+    TokenShare tokenShare = supportedMarkets[address(tokenAddress)].tokenShare;
+
+    tokenSupply = totalSupplyView(tokenAddress);
+    tokenShareSupply = tokenShare.totalSupply();
+  }
+
+  function getBestMoneyMarket(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (IMoneyMarketAdapter bestMoneyMarket, uint256 bestRate)
+  {
+    bestMoneyMarket = moneyMarkets[0];
+    bestRate = moneyMarkets[0].getRate(tokenAddress);
+    for (uint256 i = 1; i < moneyMarkets.length; i++) {
+      uint256 rate = moneyMarkets[i].getRate(tokenAddress);
+      if (rate > bestRate) {
+        bestRate = rate;
+        bestMoneyMarket = moneyMarkets[i];
+      }
+    }
+  }
+
+  function getBestInterestRate(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
+    (, uint256 bestRate) = getBestMoneyMarket(tokenAddress);
+
+    return bestRate;
   }
 }

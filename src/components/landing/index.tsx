@@ -1,7 +1,8 @@
-import React, {HTMLAttributes, useState} from 'react';
+import React, {HTMLAttributes, useContext, useState} from 'react';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 
+import { ContractsContext, Market } from '../../context/contracts';
 import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
@@ -101,10 +102,18 @@ const InfoBlockText = styled.div`
 
 const Landing: React.FC<Props> = (props: Props) => {
   const context = useWeb3Context();
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
+  const { metaMoneyMarketData } = useContext(ContractsContext);
+
+  const marketsWithData = metaMoneyMarketData.map((m: Market, index: number) => ({
+    ...m,
+    price: 10 + index,
+  }));
 
   return (
     <>
@@ -119,7 +128,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
         mollitia animi similique sunt in culpa qui officia…
       </InfoTextMaxWidth>
-      <MyAccountStyled />
+      {context.active && <MyAccountStyled markets={marketsWithData} />}
       <HomeTitle>
         Why <strong>Sovereign?</strong>
       </HomeTitle>

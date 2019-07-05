@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import * as Web3 from 'web3';
 import Web3Provider from 'web3-react';
 
+import { ContractsProvider } from '../context/contracts';
 import {MetaMask} from '../web3/connectors';
 
 import Help from './help';
@@ -13,15 +14,17 @@ import Terms from './terms';
 const App: React.FC = () => {
   return (
     <Web3Provider connectors={{MetaMask}} libraryName={'web3.js'} web3Api={Web3}>
-      <BrowserRouter>
-        <MainWrapper>
-          <Switch>
-            <Route exact={true} path={`/`} component={Landing} />
-            <Route exact={true} path={`/help`} component={Help} />
-            <Route exact={true} path={`/terms`} component={Terms} />
-          </Switch>
-        </MainWrapper>
-      </BrowserRouter>
+      <ContractsProvider>
+        <BrowserRouter>
+          <MainWrapper>
+            <Switch>
+              <Route exact={true} path={`/`} component={Landing} />
+              <Route exact={true} path={`/help`} component={Help} />
+              <Route exact={true} path={`/terms`} component={Terms} />
+            </Switch>
+          </MainWrapper>
+        </BrowserRouter>
+      </ContractsProvider>
     </Web3Provider>
   );
 };

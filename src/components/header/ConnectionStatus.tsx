@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {ConnectionStatusDot} from '../common/ConnectionStatusDot';
 
 import {themeColors} from '../../util/constants';
+import {shortenAccount} from '../../util/utils';
 
 const ConnectionStatusWrapper = styled.div`
   align-items: center;
@@ -31,7 +32,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const ConnectionStatus: React.FC<Props> = (props: Props) => {
   const {account, active, ...restProps} = props;
 
-  const shortenedAccount = account.slice(0, 6) + '...' + account.slice(account.length - 4);
+  const shortenedAccount = shortenAccount(account);
 
   return (
     <ConnectionStatusWrapper {...restProps}>
