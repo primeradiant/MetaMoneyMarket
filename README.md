@@ -10,6 +10,7 @@ Clone the repository and install its dependencies:
 
 ```
 git clone git@github.com:Altoros/sovereign.git
+cd soverign
 yarn
 ```
 
