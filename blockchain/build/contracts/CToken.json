@@ -8343,7 +8343,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-05T16:53:49.667Z",
+  "updatedAt": "2019-07-05T19:07:49.373Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

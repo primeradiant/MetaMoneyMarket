@@ -1062,7 +1062,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-05T16:53:49.681Z",
+  "updatedAt": "2019-07-05T19:07:49.388Z",
   "devdoc": {
     "details": "Interface used by `MetaMoneyMarket` to interact with its underlying money markets.",
     "methods": {
