@@ -112,7 +112,6 @@ const Landing: React.FC<Props> = (props: Props) => {
 
   const marketsWithData = metaMoneyMarketData.map((m: Market, index: number) => ({
     ...m,
-    interestRate: index,
     price: 10 + index,
   }));
 

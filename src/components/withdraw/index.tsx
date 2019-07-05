@@ -17,6 +17,7 @@ import {shortenAccount} from '../../util/utils';
 interface Props {
   market: null | {
     address: string;
+    interestRate: number;
     savingsBalance: string;
     walletBalance: string;
     symbol: string;
@@ -86,7 +87,7 @@ const WithdrawModal: React.FC<Props> = props => {
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
         <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance} />
         <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance} />
-        <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
+        <FormRow text="Interest" value={`Earn ${market.interestRate.toFixed(4)}% APR`} valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
       <AmountTextfield

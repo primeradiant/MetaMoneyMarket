@@ -16,6 +16,7 @@ import {shortenAccount} from '../../util/utils';
 interface Props {
   market: null | {
     address: string;
+    interestRate: number;
     savingsBalance: string;
     walletBalance: string;
     symbol: string;
@@ -102,7 +103,7 @@ const DepositModal: React.FC<Props> = props => {
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
         <FormRow text={`Available ${market.symbol}`} value={market.walletBalance} />
         <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance} />
-        <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
+        <FormRow text="Interest" value={`Earn ${market.interestRate.toFixed(4)}% APR`} valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
       <AmountTextfield disabled={isLoading} token={market.symbol || ''} value={amount} onChange={(e) => setAmount(+e.currentTarget.value)} />

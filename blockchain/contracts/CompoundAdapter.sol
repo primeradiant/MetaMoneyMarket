@@ -24,7 +24,7 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     tokenToCToken[tokenAddress] = cTokenAddress;
   }
 
-  function getRate(address tokenAddress) external returns (uint256) {
+  function getRate(address tokenAddress) external view returns (uint256) {
     address cTokenAddress = tokenToCToken[tokenAddress];
     CToken cToken = CToken(cTokenAddress);
 

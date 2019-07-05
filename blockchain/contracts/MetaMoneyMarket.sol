@@ -32,7 +32,10 @@ contract MetaMoneyMarket is Ownable {
     * underlying money markets. See `IMoneyMarketAdapter`.
     */
   constructor(address[] memory _moneyMarkets) public {
-    require(_moneyMarkets.length > 0, "At least one money market has to be specified");
+    require(
+      _moneyMarkets.length > 0,
+      "At least one money market has to be specified"
+    );
     for (uint256 i = 0; i < _moneyMarkets.length; i++) {
       moneyMarkets.push(IMoneyMarketAdapter(_moneyMarkets[i]));
     }
@@ -69,15 +72,7 @@ contract MetaMoneyMarket is Ownable {
 
     tokenShare.mint(msg.sender, tokenSharesToMint);
 
-    IMoneyMarketAdapter bestMoneyMarket = moneyMarkets[0];
-    uint256 bestRate = moneyMarkets[0].getRate(tokenAddress);
-    for (uint256 i = 1; i < moneyMarkets.length; i++) {
-      uint256 rate = moneyMarkets[i].getRate(tokenAddress);
-      if (rate > bestRate) {
-        bestRate = rate;
-        bestMoneyMarket = moneyMarkets[i];
-      }
-    }
+    (IMoneyMarketAdapter bestMoneyMarket,) = getBestMoneyMarket(tokenAddress);
 
     require(
       token.balanceOf(msg.sender) >= tokenAmount,
@@ -254,13 +249,17 @@ contract MetaMoneyMarket is Ownable {
     view
     checkMarketSupported(tokenAddress)
     returns (uint256)
- {
+  {
     TokenShare tokenShare = supportedMarkets[address(tokenAddress)].tokenShare;
 
-    (uint256 tokenSupply, uint256 tokenShareSupply) = getExchangeRate(tokenAddress);
+    (uint256 tokenSupply, uint256 tokenShareSupply) = getExchangeRate(
+      tokenAddress
+    );
     uint256 tokenShareBalance = tokenShare.balanceOf(account);
 
-    return tokenShareSupply > 0 ? tokenShareBalance * tokenSupply / tokenShareSupply : 0;
+    return tokenShareSupply > 0
+      ? tokenShareBalance * tokenSupply / tokenShareSupply
+      : 0;
   }
 
   function getExchangeRate(address tokenAddress)
@@ -273,5 +272,33 @@ contract MetaMoneyMarket is Ownable {
 
     tokenSupply = totalSupplyView(tokenAddress);
     tokenShareSupply = tokenShare.totalSupply();
+  }
+
+  function getBestMoneyMarket(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (IMoneyMarketAdapter bestMoneyMarket, uint256 bestRate)
+  {
+    bestMoneyMarket = moneyMarkets[0];
+    bestRate = moneyMarkets[0].getRate(tokenAddress);
+    for (uint256 i = 1; i < moneyMarkets.length; i++) {
+      uint256 rate = moneyMarkets[i].getRate(tokenAddress);
+      if (rate > bestRate) {
+        bestRate = rate;
+        bestMoneyMarket = moneyMarkets[i];
+      }
+    }
+  }
+
+  function getBestInterestRate(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
+    (, uint256 bestRate) = getBestMoneyMarket(tokenAddress);
+
+    return bestRate;
   }
 }

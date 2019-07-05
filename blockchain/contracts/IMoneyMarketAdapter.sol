@@ -8,7 +8,7 @@ interface IMoneyMarketAdapter {
   /**
     * @dev Returns the interest rate per block for the given token.
     */
-  function getRate(address tokenAddress) external returns (uint256);
+  function getRate(address tokenAddress) external view returns (uint256);
   /**
     * @dev Deposits the given amount of tokens in the underlying money market.
     */

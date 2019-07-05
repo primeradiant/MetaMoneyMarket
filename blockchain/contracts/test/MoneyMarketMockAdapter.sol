@@ -12,7 +12,7 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
     moneyMarket = _moneyMarket;
   }
 
-  function getRate(address tokenAddress) external returns (uint256) {
+  function getRate(address tokenAddress) external view returns (uint256) {
     return moneyMarket.getRate(tokenAddress);
   }
 

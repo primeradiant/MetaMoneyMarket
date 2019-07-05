@@ -19,6 +19,7 @@ interface ContextValue {
 
 export interface Market {
   address: string;
+  interestRate: number;
   savingsBalance: string;
   symbol: string;
   walletBalance: string;
@@ -37,6 +38,7 @@ interface MetaMoneyMarketContract {
   withdraw: (address: string, amount: string, options: any) => Promise<void>;
   supportedMarketsCount: () => Promise<BN>;
   supportedMarketsList: (index: number) => Promise<string>;
+  getBestInterestRate: (address: string) => Promise<BN>;
   getExchangeRate: (address: string) => Promise<[BN, BN]>;
   getMarketSymbol: (address: string) => Promise<string>;
   getTokenShare: (address: string) => Promise<string>;
@@ -47,6 +49,9 @@ const MetaMoneyMarket = contract(MetaMoneyContractArtifact);
 
 const defaultValue: ContextValue = {} as ContextValue; // tslint:disable-line no-object-literal-type-assertion
 export const ContractsContext = React.createContext(defaultValue);
+
+const blocksPerYear = new BN('2102666');
+const e14 = new BN('100000000000000');
 
 export const ContractsProvider: React.FC<Props> = ({children}) => {
   const context = useWeb3Context();
@@ -71,9 +76,12 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
       const token = await IERC20.at(address);
       const balance = (await token.balanceOf(context.account)).toString();
       const deposited = (await metaMoneyMarket.getDepositedAmount(address, context.account)).toString();
+      const interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
+      const interestRate = interestRatePerBlock.mul(blocksPerYear).div(e14).toNumber() / 100;
 
       fetchedMarkets.push({
         address,
+        interestRate,
         savingsBalance: deposited,
         symbol,
         walletBalance: balance,
