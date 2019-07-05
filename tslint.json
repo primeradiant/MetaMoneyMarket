@@ -10,7 +10,9 @@
     "promise-function-async": false,
     "interface-name": [true, "never-prefix"],
     "jsx-no-lambda": false,
-    "no-console": false
+    "no-console": false,
+    "no-shadowed-variable": false,
+    "no-implicit-dependencies": false
   },
   "linterOptions": {
     "exclude": [

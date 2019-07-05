@@ -1,10 +1,8 @@
-import React, {HTMLAttributes, useContext, useEffect, useState} from 'react';
+import React, {HTMLAttributes, useContext, useState} from 'react';
 import styled from 'styled-components';
-import * as contract from 'truffle-contract';
 import {useWeb3Context} from 'web3-react';
 
-import IERC20Artifact from '../../artifacts/IERC20.json';
-import { ContractsContext } from '../../context/contracts';
+import { ContractsContext, Market } from '../../context/contracts';
 import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
@@ -13,21 +11,11 @@ import {LoginModal} from '../login';
 
 import {themeBreakPoints, themeColors} from '../../util/constants';
 
-interface Market {
-  address: string;
-  walletBalance: string;
-  symbol: string;
-}
-
-type Markets = Market[];
-
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 interface State {
   modalIsOpen: boolean;
 }
-
-const IERC20 = contract(IERC20Artifact);
 
 const WelcomeText = styled.h2`
   color: ${themeColors.baseTextColor};
@@ -116,42 +104,13 @@ const Landing: React.FC<Props> = (props: Props) => {
   const context = useWeb3Context();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [markets, setMarkets] = useState<Markets>([]);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const { metaMoneyMarket } = useContext(ContractsContext);
+  const { metaMoneyMarketData } = useContext(ContractsContext);
 
-  useEffect(() => {
-    const fetchMarkets = async () => {
-      if (context.active && metaMoneyMarket) {
-        IERC20.setProvider(context.library.givenProvider);
-        const count = (await metaMoneyMarket.supportedMarketsCount()).toNumber();
-        const fetchedMarkets: Markets = [];
-
-        for (let i = 0; i < count; i++) {
-          const address = await metaMoneyMarket.supportedMarketsList(i);
-          const symbol = await metaMoneyMarket.getMarketSymbol(address);
-
-          const token = await IERC20.at(address);
-          const balance = (await token.balanceOf(context.account)).toString();
-
-          fetchedMarkets.push({
-            address,
-            walletBalance: balance,
-            symbol
-          });
-        }
-
-        setMarkets(fetchedMarkets);
-      }
-    };
-
-    fetchMarkets();
-  }, [metaMoneyMarket, context]);
-
-  const marketsWithData = markets.map((m: Market, index: number) => ({
+  const marketsWithData = metaMoneyMarketData.map((m: Market, index: number) => ({
     ...m,
     interestRate: index,
     price: 10 + index,

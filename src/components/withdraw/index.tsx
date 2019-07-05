@@ -12,12 +12,14 @@ import ModalTitle from '../modal-title';
 import { ContractsContext } from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 
-interface Props extends React.ComponentProps<typeof Modal> {
+interface Props {
   market: null | {
     address: string;
-    symbol: string | null;
     walletBalance: string;
+    symbol: string;
   };
+  isOpen: boolean;
+  onRequestClose: () => void;
 }
 
 const ButtonStyled = styled(Button)`
@@ -45,11 +47,13 @@ const WithdrawModal: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   const context = useWeb3Context();
-  const { IERC20, metaMoneyMarket } = useContext(ContractsContext);
+  const { contracts, fetchMetaMoneyMarketData } = useContext(ContractsContext);
 
-  if (!market) {
-    return <div />;
+  if (!market || !contracts) {
+    return <div/>;
   }
+
+  const { IERC20, metaMoneyMarket } = contracts;
 
   const sendWithdraw = async () => {
     if (context.active && metaMoneyMarket) {
@@ -58,7 +62,11 @@ const WithdrawModal: React.FC<Props> = props => {
       const tokenShare = await IERC20.at(tokenShareAddress);
       await tokenShare.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
       await metaMoneyMarket.withdraw(market.address, String(amount), { from: context.account, gas: '1000000' });
+      fetchMetaMoneyMarketData(contracts);
       setIsLoading(false);
+      if (onRequestClose) {
+        onRequestClose();
+      }
     }
   };
 
