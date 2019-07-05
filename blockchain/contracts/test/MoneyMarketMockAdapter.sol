@@ -12,10 +12,6 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
     moneyMarket = _moneyMarket;
   }
 
-  function getRate(address tokenAddress) external view returns (uint256) {
-    return moneyMarket.getRate(tokenAddress);
-  }
-
   function deposit(address tokenAddress, uint256 amount) external onlyOwner {
     IERC20 token = IERC20(tokenAddress);
     token.approve(address(moneyMarket), uint256(-1));
@@ -52,6 +48,10 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
 
   function getSupply(address tokenAddress) external returns (uint256) {
     return moneyMarket.getSupply(tokenAddress);
+  }
+
+  function getRate(address tokenAddress) external view returns (uint256) {
+    return moneyMarket.getRate(tokenAddress);
   }
 
   function getSupplyView(address tokenAddress) external view returns (uint256) {
