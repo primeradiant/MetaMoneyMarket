@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import * as Web3 from 'web3';
 import Web3Provider from 'web3-react';
 
-import { MMMProvider } from '../context/MetaMoneyMarket';
+import { ContractsProvider } from '../context/contracts';
 import {MetaMask} from '../web3/connectors';
 
 import Help from './help';
@@ -14,7 +14,7 @@ import Terms from './terms';
 const App: React.FC = () => {
   return (
     <Web3Provider connectors={{MetaMask}} libraryName={'web3.js'} web3Api={Web3}>
-      <MMMProvider>
+      <ContractsProvider>
         <BrowserRouter>
           <MainWrapper>
             <Switch>
@@ -24,7 +24,7 @@ const App: React.FC = () => {
             </Switch>
           </MainWrapper>
         </BrowserRouter>
-      </MMMProvider>
+      </ContractsProvider>
     </Web3Provider>
   );
 };

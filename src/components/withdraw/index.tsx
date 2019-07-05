@@ -1,17 +1,15 @@
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import * as contract from 'truffle-contract';
 import { useWeb3Context } from 'web3-react';
 
-import IERC20Artifact from '../../artifacts/IERC20.json';
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
 import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { MMMContext } from '../../context/MetaMoneyMarket';
+import { ContractsContext } from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 
 interface Props extends React.ComponentProps<typeof Modal> {
@@ -21,8 +19,6 @@ interface Props extends React.ComponentProps<typeof Modal> {
     walletBalance: string;
   };
 }
-
-const IERC20 = contract(IERC20Artifact);
 
 const ButtonStyled = styled(Button)`
   text-transform: uppercase;
@@ -49,7 +45,7 @@ const WithdrawModal: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   const context = useWeb3Context();
-  const metaMoneyMarket = useContext(MMMContext);
+  const { IERC20, metaMoneyMarket } = useContext(ContractsContext);
 
   if (!market) {
     return <div />;
@@ -58,7 +54,6 @@ const WithdrawModal: React.FC<Props> = props => {
   const sendWithdraw = async () => {
     if (context.active && metaMoneyMarket) {
       setIsLoading(true);
-      IERC20.setProvider(context.library.givenProvider);
       const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
       const tokenShare = await IERC20.at(tokenShareAddress);
       await tokenShare.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
