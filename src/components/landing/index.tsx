@@ -128,7 +128,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
         mollitia animi similique sunt in culpa qui officia…
       </InfoTextMaxWidth>
-      <MyAccountStyled markets={marketsWithData} />
+      {context.active && <MyAccountStyled markets={marketsWithData} />}
       <HomeTitle>
         Why <strong>Sovereign?</strong>
       </HomeTitle>
