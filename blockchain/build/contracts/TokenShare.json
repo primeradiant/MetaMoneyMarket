@@ -353,14 +353,14 @@
     "absolutePath": "/home/fvictorio/repos/sovereign/blockchain/contracts/TokenShare.sol",
     "exportedSymbols": {
       "TokenShare": [
-        920
+        1060
       ]
     },
-    "id": 921,
+    "id": 1061,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 913,
+        "id": 1053,
         "literals": [
           "solidity",
           "0.5",
@@ -372,10 +372,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/token/ERC20/ERC20Burnable.sol",
         "file": "openzeppelin-solidity/contracts/token/ERC20/ERC20Burnable.sol",
-        "id": 914,
+        "id": 1054,
         "nodeType": "ImportDirective",
-        "scope": 921,
-        "sourceUnit": 2398,
+        "scope": 1061,
+        "sourceUnit": 2551,
         "src": "24:71:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -383,10 +383,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol",
         "file": "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol",
-        "id": 915,
+        "id": 1055,
         "nodeType": "ImportDirective",
-        "scope": 921,
-        "sourceUnit": 2484,
+        "scope": 1061,
+        "sourceUnit": 2637,
         "src": "96:71:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -397,17 +397,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 916,
+              "id": 1056,
               "name": "ERC20Burnable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2397,
+              "referencedDeclaration": 2550,
               "src": "192:13:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Burnable_$2397",
+                "typeIdentifier": "t_contract$_ERC20Burnable_$2550",
                 "typeString": "contract ERC20Burnable"
               }
             },
-            "id": 917,
+            "id": 1057,
             "nodeType": "InheritanceSpecifier",
             "src": "192:13:4"
           },
@@ -415,44 +415,44 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 918,
+              "id": 1058,
               "name": "ERC20Mintable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2483,
+              "referencedDeclaration": 2636,
               "src": "207:13:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Mintable_$2483",
+                "typeIdentifier": "t_contract$_ERC20Mintable_$2636",
                 "typeString": "contract ERC20Mintable"
               }
             },
-            "id": 919,
+            "id": 1059,
             "nodeType": "InheritanceSpecifier",
             "src": "207:13:4"
           }
         ],
         "contractDependencies": [
-          1725,
-          2366,
-          2397,
-          2483,
-          2552
+          1878,
+          2519,
+          2550,
+          2636,
+          2705
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 920,
+        "id": 1060,
         "linearizedBaseContracts": [
-          920,
-          2483,
-          1725,
-          2397,
-          2366,
-          2552
+          1060,
+          2636,
+          1878,
+          2550,
+          2519,
+          2705
         ],
         "name": "TokenShare",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 921,
+        "scope": 1061,
         "src": "169:54:4"
       }
     ],
@@ -462,14 +462,14 @@
     "absolutePath": "/home/fvictorio/repos/sovereign/blockchain/contracts/TokenShare.sol",
     "exportedSymbols": {
       "TokenShare": [
-        920
+        1060
       ]
     },
-    "id": 921,
+    "id": 1061,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 913,
+        "id": 1053,
         "literals": [
           "solidity",
           "0.5",
@@ -481,10 +481,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/token/ERC20/ERC20Burnable.sol",
         "file": "openzeppelin-solidity/contracts/token/ERC20/ERC20Burnable.sol",
-        "id": 914,
+        "id": 1054,
         "nodeType": "ImportDirective",
-        "scope": 921,
-        "sourceUnit": 2398,
+        "scope": 1061,
+        "sourceUnit": 2551,
         "src": "24:71:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -492,10 +492,10 @@
       {
         "absolutePath": "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol",
         "file": "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol",
-        "id": 915,
+        "id": 1055,
         "nodeType": "ImportDirective",
-        "scope": 921,
-        "sourceUnit": 2484,
+        "scope": 1061,
+        "sourceUnit": 2637,
         "src": "96:71:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -506,17 +506,17 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 916,
+              "id": 1056,
               "name": "ERC20Burnable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2397,
+              "referencedDeclaration": 2550,
               "src": "192:13:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Burnable_$2397",
+                "typeIdentifier": "t_contract$_ERC20Burnable_$2550",
                 "typeString": "contract ERC20Burnable"
               }
             },
-            "id": 917,
+            "id": 1057,
             "nodeType": "InheritanceSpecifier",
             "src": "192:13:4"
           },
@@ -524,44 +524,44 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 918,
+              "id": 1058,
               "name": "ERC20Mintable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2483,
+              "referencedDeclaration": 2636,
               "src": "207:13:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20Mintable_$2483",
+                "typeIdentifier": "t_contract$_ERC20Mintable_$2636",
                 "typeString": "contract ERC20Mintable"
               }
             },
-            "id": 919,
+            "id": 1059,
             "nodeType": "InheritanceSpecifier",
             "src": "207:13:4"
           }
         ],
         "contractDependencies": [
-          1725,
-          2366,
-          2397,
-          2483,
-          2552
+          1878,
+          2519,
+          2550,
+          2636,
+          2705
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 920,
+        "id": 1060,
         "linearizedBaseContracts": [
-          920,
-          2483,
-          1725,
-          2397,
-          2366,
-          2552
+          1060,
+          2636,
+          1878,
+          2550,
+          2519,
+          2705
         ],
         "name": "TokenShare",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 921,
+        "scope": 1061,
         "src": "169:54:4"
       }
     ],
@@ -573,7 +573,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-04T18:41:25.122Z",
+  "updatedAt": "2019-07-05T14:01:58.309Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {
