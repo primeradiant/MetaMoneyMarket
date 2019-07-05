@@ -59,7 +59,7 @@ contract MetaMoneyMarket is Ownable {
   {
     IERC20 token = IERC20(tokenAddress);
 
-    TokenShare tokenShare = supportedMarkets[address(token)].tokenShare;
+    TokenShare tokenShare = supportedMarkets[tokenAddress].tokenShare;
     uint256 tokenShareSupply = tokenShare.totalSupply();
     uint256 tokenSupply = totalSupply(tokenAddress);
 
@@ -200,6 +200,27 @@ contract MetaMoneyMarket is Ownable {
   }
 
   /**
+    * @dev Returns the amount of tokens for the given `tokenAddress`; it might not include accrued interest.
+    *
+    * This function cannot cause side effects.
+    *
+    * Rejects if the token is not supported.
+    */
+  function totalSupplyView(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
+    uint256 tokenSupply = 0;
+    for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      tokenSupply += moneyMarkets[i].getSupplyView(tokenAddress);
+    }
+
+    return tokenSupply;
+  }
+
+  /**
     * @dev Indicates if the given token is supported.
     */
   function isMarketSupported(address tokenAddress) public view returns (bool) {
@@ -226,5 +247,20 @@ contract MetaMoneyMarket is Ownable {
 
   function supportedMarketsCount() public view returns (uint256) {
     return supportedMarketsList.length;
+  }
+
+  function getDepositedAmount(address tokenAddress, address account)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+ {
+    TokenShare tokenShare = supportedMarkets[address(tokenAddress)].tokenShare;
+
+    uint256 tokenSupply = totalSupplyView(tokenAddress);
+    uint256 tokenShareSupply = tokenShare.totalSupply();
+    uint256 tokenShareBalance = tokenShare.balanceOf(account);
+
+    return tokenShareSupply > 0 ? tokenShareBalance * tokenSupply / tokenShareSupply : 0;
   }
 }

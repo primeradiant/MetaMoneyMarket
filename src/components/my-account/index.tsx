@@ -17,7 +17,7 @@ interface Market {
   symbol: string;
   interestRate: number;
   price: number;
-  savingsBalance: number;
+  savingsBalance: string;
   walletBalance: string;
 }
 

@@ -11,10 +11,12 @@ import ModalTitle from '../modal-title';
 
 import { ContractsContext } from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
+import {shortenAccount} from '../../util/utils';
 
 interface Props {
   market: null | {
     address: string;
+    savingsBalance: string;
     walletBalance: string;
     symbol: string;
   };
@@ -97,9 +99,9 @@ const DepositModal: React.FC<Props> = props => {
         Deposit <strong>{market.symbol}</strong> and earn interest automatically.
       </ModalText>
       <FormRowsContainer>
-        <FormRow text="Account" value="0x1234...5678" />
+        <FormRow text="Account" value={shortenAccount(context.account || '')} />
         <FormRow text={`Available ${market.symbol}`} value={market.walletBalance} />
-        <FormRow text={`Deposited ${market.symbol}`} value="9999.9999" />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance} />
         <FormRow text="Interest" value="Earn 0.1005% APR" valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>

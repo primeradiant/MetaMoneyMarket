@@ -19,8 +19,9 @@ interface ContextValue {
 
 export interface Market {
   address: string;
-  walletBalance: string;
+  savingsBalance: string;
   symbol: string;
+  walletBalance: string;
 }
 
 type Markets = Market[];
@@ -32,6 +33,7 @@ interface Props {
 interface MetaMoneyMarketContract {
   address: string;
   deposit: (address: string, amount: string, options: any) => Promise<void>;
+  getDepositedAmount: (tokenAddress: string, account: string) => Promise<BN>;
   withdraw: (address: string, amount: string, options: any) => Promise<void>;
   supportedMarketsCount: () => Promise<BN>;
   supportedMarketsList: (index: number) => Promise<string>;
@@ -54,7 +56,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
   const fetchMetaMoneyMarketData = useCallback(async (contracts: Contracts) => {
     const { IERC20, metaMoneyMarket } = contracts;
 
-    if (!context.active || !metaMoneyMarket) {
+    if (!context.active || !metaMoneyMarket || !context.account) {
       throw new Error('metaMoneyMarket is not instanced');
     }
 
@@ -67,11 +69,13 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
 
       const token = await IERC20.at(address);
       const balance = (await token.balanceOf(context.account)).toString();
+      const deposited = (await metaMoneyMarket.getDepositedAmount(address, context.account)).toString();
 
       fetchedMarkets.push({
         address,
+        savingsBalance: deposited,
         symbol,
-        walletBalance: balance
+        walletBalance: balance,
       });
     }
 

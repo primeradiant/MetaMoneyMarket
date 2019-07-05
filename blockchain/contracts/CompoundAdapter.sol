@@ -10,6 +10,7 @@ contract CToken is IERC20 {
   function mint(uint mintAmount) external returns (uint);
   function redeemUnderlying(uint redeemAmount) external returns (uint);
   function balanceOfUnderlying(address owner) external returns (uint);
+  function exchangeRateStored() public view returns (uint);
 }
 
 contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
@@ -81,5 +82,14 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     CToken cToken = CToken(cTokenAddress);
 
     return cToken.balanceOfUnderlying(address(this));
+  }
+
+  function getSupplyView(address tokenAddress) external view returns (uint256) {
+    address cTokenAddress = tokenToCToken[tokenAddress];
+    CToken cToken = CToken(cTokenAddress);
+
+    uint256 exchangeRate = cToken.exchangeRateStored();
+    uint256 balance = cToken.balanceOf(address(this));
+    return balance * exchangeRate;
   }
 }

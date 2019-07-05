@@ -22,4 +22,9 @@ interface IMoneyMarketAdapter {
     * @dev Returns the supply for the given token, including accrued interest. This function can have side effects.
     */
   function getSupply(address tokenAddress) external returns (uint256);
+
+  /**
+    * @dev Returns the supply for the given token; it might not include accrued interest. This function *cannot* have side effects.
+    */
+  function getSupplyView(address tokenAddress) external view returns (uint256);
 }

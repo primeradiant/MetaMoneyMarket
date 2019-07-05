@@ -114,7 +114,6 @@ const Landing: React.FC<Props> = (props: Props) => {
     ...m,
     interestRate: index,
     price: 10 + index,
-    savingsBalance: 100 + index
   }));
 
   return (
