@@ -90,6 +90,6 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
 
     uint256 exchangeRate = cToken.exchangeRateStored();
     uint256 balance = cToken.balanceOf(address(this));
-    return balance * exchangeRate;
+    return balance * exchangeRate / 10**18;
   }
 }
