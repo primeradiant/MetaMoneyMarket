@@ -37,6 +37,7 @@ interface MetaMoneyMarketContract {
   withdraw: (address: string, amount: string, options: any) => Promise<void>;
   supportedMarketsCount: () => Promise<BN>;
   supportedMarketsList: (index: number) => Promise<string>;
+  getExchangeRate: (address: string) => Promise<[BN, BN]>;
   getMarketSymbol: (address: string) => Promise<string>;
   getTokenShare: (address: string) => Promise<string>;
 }

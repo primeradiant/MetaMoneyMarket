@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
@@ -63,7 +64,13 @@ const WithdrawModal: React.FC<Props> = props => {
       const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
       const tokenShare = await IERC20.at(tokenShareAddress);
       await tokenShare.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
-      await metaMoneyMarket.withdraw(market.address, String(amount), { from: context.account, gas: '1000000' });
+
+      const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
+      const tokenSupply = exchangeRate[0];
+      const tokenShareSupply = exchangeRate[1];
+      const amountToBurn = (new BN(amount)).mul(tokenShareSupply).divRound(tokenSupply);
+      await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), { from: context.account, gas: '1000000' });
+
       fetchMetaMoneyMarketData(contracts);
       setIsLoading(false);
       if (onRequestClose) {

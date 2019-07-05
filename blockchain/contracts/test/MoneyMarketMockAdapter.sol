@@ -47,11 +47,7 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
     uint256 amountToWithdraw = amount * tokenShares / baseTokens;
 
     moneyMarket.withdraw(tokenAddress, amountToWithdraw);
-    require(
-      token.balanceOf(address(this)) >= amount,
-      "MoneyMarketMockAdapter.withdraw: not enough token balance"
-    );
-    token.transfer(recipient, amount);
+    token.transfer(recipient, token.balanceOf(address(this)));
   }
 
   function getSupply(address tokenAddress) external returns (uint256) {

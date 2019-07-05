@@ -257,10 +257,21 @@ contract MetaMoneyMarket is Ownable {
  {
     TokenShare tokenShare = supportedMarkets[address(tokenAddress)].tokenShare;
 
-    uint256 tokenSupply = totalSupplyView(tokenAddress);
-    uint256 tokenShareSupply = tokenShare.totalSupply();
+    (uint256 tokenSupply, uint256 tokenShareSupply) = getExchangeRate(tokenAddress);
     uint256 tokenShareBalance = tokenShare.balanceOf(account);
 
     return tokenShareSupply > 0 ? tokenShareBalance * tokenSupply / tokenShareSupply : 0;
+  }
+
+  function getExchangeRate(address tokenAddress)
+    public
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256 tokenSupply, uint256 tokenShareSupply)
+  {
+    TokenShare tokenShare = supportedMarkets[address(tokenAddress)].tokenShare;
+
+    tokenSupply = totalSupplyView(tokenAddress);
+    tokenShareSupply = tokenShare.totalSupply();
   }
 }
