@@ -36,6 +36,9 @@ export const MMMProvider: React.FC<Props> = ({children}) => {
 
         setMetaMoneyMarket(mmm);
       }
+      if (context.error) {
+        console.error('There was an error connecting to web3:', context.error.message);
+      }
     };
 
     getMMMInstance();

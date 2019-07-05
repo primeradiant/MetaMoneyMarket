@@ -9,7 +9,8 @@
     "completed-docs": false,
     "promise-function-async": false,
     "interface-name": [true, "never-prefix"],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-console": false
   },
   "linterOptions": {
     "exclude": [
