@@ -4,7 +4,7 @@ import {useWeb3Context} from 'web3-react';
 
 import ButtonLine from '../common/ButtonLine';
 import Card from '../common/card';
-import {tokensList} from '../common/img/token-icons';
+import {getTokenDataBySymbol} from '../common/img/token-icons';
 import DepositModal from '../deposit';
 import {LoginModal} from '../login';
 import MyTotalBalance from '../my-total-balance';
@@ -175,11 +175,13 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
           </THead>
           <TBody>
             {markets.map((market, index) => {
+              const tokenData = getTokenDataBySymbol(market.symbol);
+              const image = tokenData ? tokenData.image : '';
               return (
                 <TR key={index}>
                   <TD textAlign="left">
                     <TokenData>
-                      <TokenImage image={tokensList[0].image} />
+                      <TokenImage image={image} />
                       <strong>{market.symbol}</strong>
                     </TokenData>
                   </TD>
