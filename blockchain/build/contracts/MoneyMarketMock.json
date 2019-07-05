@@ -10798,12 +10798,12 @@
         }
       },
       "links": {},
-      "address": "0x85cd1F9550CdF662944bEc3E58021f8dbE6fE878",
-      "transactionHash": "0x5e1d12ae33082a0e51cd996abb22bedeac40ccc572906e059e7eb4faae1dd796"
+      "address": "0x97bd553f21B175F7CC00819cC6494a7FbA344180",
+      "transactionHash": "0x3df3e81ec4025b0e68e28ee4e076b7990aca85854077b35a3a0544aac565a90b"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-05T14:56:04.507Z",
+  "updatedAt": "2019-07-05T17:01:20.745Z",
   "devdoc": {
     "methods": {
       "isOwner()": {

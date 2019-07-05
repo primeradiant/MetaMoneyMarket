@@ -2,7 +2,7 @@
   "contractName": "IMoneyMarketAdapter",
   "abi": [
     {
-      "constant": false,
+      "constant": true,
       "inputs": [
         {
           "name": "tokenAddress",
@@ -17,7 +17,7 @@
         }
       ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -99,12 +99,12 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getRate\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\"}],\"name\":\"deposit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getSupplyView\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface used by `MetaMoneyMarket` to interact with its underlying money markets.\",\"methods\":{\"deposit(address,uint256)\":{\"details\":\"Deposits the given amount of tokens in the underlying money market.\"},\"getRate(address)\":{\"details\":\"Returns the interest rate per block for the given token.\"},\"getSupply(address)\":{\"details\":\"Returns the supply for the given token, including accrued interest. This function can have side effects.\"},\"getSupplyView(address)\":{\"details\":\"Returns the supply for the given token; it might not include accrued interest. This function *cannot* have side effects.\"},\"withdraw(address,address,uint256)\":{\"details\":\"Withdraws the given amount of tokens from the underlying money market and transfers them to `recipient`.\"}},\"title\":\"IMoneyMarketAdapter\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol\":\"IMoneyMarketAdapter\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol\":{\"keccak256\":\"0x8cf632de3d67390262c1377af609f4bb1038e1bdbdf652325a680b9f31d52397\",\"urls\":[\"bzzr://6ad4aa01a840bf19ca4f717e563e7f603e4c83d830127b6c00898bdd7873b79f\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getRate\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"tokenAmount\",\"type\":\"uint256\"}],\"name\":\"deposit\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"},{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getSupplyView\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface used by `MetaMoneyMarket` to interact with its underlying money markets.\",\"methods\":{\"deposit(address,uint256)\":{\"details\":\"Deposits the given amount of tokens in the underlying money market.\"},\"getRate(address)\":{\"details\":\"Returns the interest rate per block for the given token.\"},\"getSupply(address)\":{\"details\":\"Returns the supply for the given token, including accrued interest. This function can have side effects.\"},\"getSupplyView(address)\":{\"details\":\"Returns the supply for the given token; it might not include accrued interest. This function *cannot* have side effects.\"},\"withdraw(address,address,uint256)\":{\"details\":\"Withdraws the given amount of tokens from the underlying money market and transfers them to `recipient`.\"}},\"title\":\"IMoneyMarketAdapter\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol\":\"IMoneyMarketAdapter\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol\":{\"keccak256\":\"0x86791ed4c89d94940dd987ad9416a58e61233011253d9f0fe4301ad860bb0cd1\",\"urls\":[\"bzzr://c4c104b48b53b23094b273e1297726c2183484b1e998d8c57ddc37568f8be3e9\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity 0.5.8;\n\n/**\n * @title IMoneyMarketAdapter\n * @dev Interface used by `MetaMoneyMarket` to interact with its underlying money markets.\n */\ninterface IMoneyMarketAdapter {\n  /**\n    * @dev Returns the interest rate per block for the given token.\n    */\n  function getRate(address tokenAddress) external returns (uint256);\n  /**\n    * @dev Deposits the given amount of tokens in the underlying money market.\n    */\n  function deposit(address tokenAddress, uint256 tokenAmount) external;\n  /**\n    * @dev Withdraws the given amount of tokens from the underlying money market and transfers them to `recipient`.\n    */\n  function withdraw(address tokenAddress, address recipient, uint256 amount)\n    external;\n  /**\n    * @dev Returns the supply for the given token, including accrued interest. This function can have side effects.\n    */\n  function getSupply(address tokenAddress) external returns (uint256);\n\n  /**\n    * @dev Returns the supply for the given token; it might not include accrued interest. This function *cannot* have side effects.\n    */\n  function getSupplyView(address tokenAddress) external view returns (uint256);\n}\n",
+  "source": "pragma solidity 0.5.8;\n\n/**\n * @title IMoneyMarketAdapter\n * @dev Interface used by `MetaMoneyMarket` to interact with its underlying money markets.\n */\ninterface IMoneyMarketAdapter {\n  /**\n    * @dev Returns the interest rate per block for the given token.\n    */\n  function getRate(address tokenAddress) external view returns (uint256);\n  /**\n    * @dev Deposits the given amount of tokens in the underlying money market.\n    */\n  function deposit(address tokenAddress, uint256 tokenAmount) external;\n  /**\n    * @dev Withdraws the given amount of tokens from the underlying money market and transfers them to `recipient`.\n    */\n  function withdraw(address tokenAddress, address recipient, uint256 amount)\n    external;\n  /**\n    * @dev Returns the supply for the given token, including accrued interest. This function can have side effects.\n    */\n  function getSupply(address tokenAddress) external returns (uint256);\n\n  /**\n    * @dev Returns the supply for the given token; it might not include accrued interest. This function *cannot* have side effects.\n    */\n  function getSupplyView(address tokenAddress) external view returns (uint256);\n}\n",
   "sourcePath": "/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol",
   "ast": {
     "absolutePath": "/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol",
@@ -192,7 +192,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 308,
-                  "src": "325:7:1",
+                  "src": "330:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -203,7 +203,7 @@
                     "id": 305,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "325:7:1",
+                    "src": "330:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -213,11 +213,11 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "324:9:1"
+              "src": "329:9:1"
             },
             "scope": 339,
-            "src": "268:66:1",
-            "stateMutability": "nonpayable",
+            "src": "268:71:1",
+            "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           },
@@ -240,7 +240,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 315,
-                  "src": "446:20:1",
+                  "src": "451:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -251,7 +251,7 @@
                     "id": 309,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "446:7:1",
+                    "src": "451:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -267,7 +267,7 @@
                   "name": "tokenAmount",
                   "nodeType": "VariableDeclaration",
                   "scope": 315,
-                  "src": "468:19:1",
+                  "src": "473:19:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -278,7 +278,7 @@
                     "id": 311,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "468:7:1",
+                    "src": "473:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -288,16 +288,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "445:43:1"
+              "src": "450:43:1"
             },
             "returnParameters": {
               "id": 314,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "497:0:1"
+              "src": "502:0:1"
             },
             "scope": 339,
-            "src": "429:69:1",
+            "src": "434:69:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -321,7 +321,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 324,
-                  "src": "648:20:1",
+                  "src": "653:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -332,7 +332,7 @@
                     "id": 316,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "648:7:1",
+                    "src": "653:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -348,7 +348,7 @@
                   "name": "recipient",
                   "nodeType": "VariableDeclaration",
                   "scope": 324,
-                  "src": "670:17:1",
+                  "src": "675:17:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -359,7 +359,7 @@
                     "id": 318,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "670:7:1",
+                    "src": "675:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -375,7 +375,7 @@
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
                   "scope": 324,
-                  "src": "689:14:1",
+                  "src": "694:14:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -386,7 +386,7 @@
                     "id": 320,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "689:7:1",
+                    "src": "694:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -396,16 +396,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "647:57:1"
+              "src": "652:57:1"
             },
             "returnParameters": {
               "id": 323,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "717:0:1"
+              "src": "722:0:1"
             },
             "scope": 339,
-            "src": "630:88:1",
+            "src": "635:88:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -429,7 +429,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 331,
-                  "src": "869:20:1",
+                  "src": "874:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -440,7 +440,7 @@
                     "id": 325,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "869:7:1",
+                    "src": "874:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -451,7 +451,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "868:22:1"
+              "src": "873:22:1"
             },
             "returnParameters": {
               "id": 330,
@@ -463,7 +463,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 331,
-                  "src": "909:7:1",
+                  "src": "914:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -474,7 +474,7 @@
                     "id": 328,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "909:7:1",
+                    "src": "914:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -484,10 +484,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "908:9:1"
+              "src": "913:9:1"
             },
             "scope": 339,
-            "src": "850:68:1",
+            "src": "855:68:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -511,7 +511,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 338,
-                  "src": "1090:20:1",
+                  "src": "1095:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -522,7 +522,7 @@
                     "id": 332,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1090:7:1",
+                    "src": "1095:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -533,7 +533,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1089:22:1"
+              "src": "1094:22:1"
             },
             "returnParameters": {
               "id": 337,
@@ -545,7 +545,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 338,
-                  "src": "1135:7:1",
+                  "src": "1140:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -556,7 +556,7 @@
                     "id": 335,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1135:7:1",
+                    "src": "1140:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -566,20 +566,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1134:9:1"
+              "src": "1139:9:1"
             },
             "scope": 339,
-            "src": "1067:77:1",
+            "src": "1072:77:1",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
         "scope": 340,
-        "src": "153:993:1"
+        "src": "153:998:1"
       }
     ],
-    "src": "0:1147:1"
+    "src": "0:1152:1"
   },
   "legacyAST": {
     "absolutePath": "/home/fvictorio/repos/sovereign/blockchain/contracts/IMoneyMarketAdapter.sol",
@@ -667,7 +667,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 308,
-                  "src": "325:7:1",
+                  "src": "330:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -678,7 +678,7 @@
                     "id": 305,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "325:7:1",
+                    "src": "330:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -688,11 +688,11 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "324:9:1"
+              "src": "329:9:1"
             },
             "scope": 339,
-            "src": "268:66:1",
-            "stateMutability": "nonpayable",
+            "src": "268:71:1",
+            "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           },
@@ -715,7 +715,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 315,
-                  "src": "446:20:1",
+                  "src": "451:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -726,7 +726,7 @@
                     "id": 309,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "446:7:1",
+                    "src": "451:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -742,7 +742,7 @@
                   "name": "tokenAmount",
                   "nodeType": "VariableDeclaration",
                   "scope": 315,
-                  "src": "468:19:1",
+                  "src": "473:19:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -753,7 +753,7 @@
                     "id": 311,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "468:7:1",
+                    "src": "473:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -763,16 +763,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "445:43:1"
+              "src": "450:43:1"
             },
             "returnParameters": {
               "id": 314,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "497:0:1"
+              "src": "502:0:1"
             },
             "scope": 339,
-            "src": "429:69:1",
+            "src": "434:69:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -796,7 +796,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 324,
-                  "src": "648:20:1",
+                  "src": "653:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -807,7 +807,7 @@
                     "id": 316,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "648:7:1",
+                    "src": "653:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -823,7 +823,7 @@
                   "name": "recipient",
                   "nodeType": "VariableDeclaration",
                   "scope": 324,
-                  "src": "670:17:1",
+                  "src": "675:17:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -834,7 +834,7 @@
                     "id": 318,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "670:7:1",
+                    "src": "675:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -850,7 +850,7 @@
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
                   "scope": 324,
-                  "src": "689:14:1",
+                  "src": "694:14:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -861,7 +861,7 @@
                     "id": 320,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "689:7:1",
+                    "src": "694:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -871,16 +871,16 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "647:57:1"
+              "src": "652:57:1"
             },
             "returnParameters": {
               "id": 323,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "717:0:1"
+              "src": "722:0:1"
             },
             "scope": 339,
-            "src": "630:88:1",
+            "src": "635:88:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -904,7 +904,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 331,
-                  "src": "869:20:1",
+                  "src": "874:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -915,7 +915,7 @@
                     "id": 325,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "869:7:1",
+                    "src": "874:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -926,7 +926,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "868:22:1"
+              "src": "873:22:1"
             },
             "returnParameters": {
               "id": 330,
@@ -938,7 +938,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 331,
-                  "src": "909:7:1",
+                  "src": "914:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -949,7 +949,7 @@
                     "id": 328,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "909:7:1",
+                    "src": "914:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -959,10 +959,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "908:9:1"
+              "src": "913:9:1"
             },
             "scope": 339,
-            "src": "850:68:1",
+            "src": "855:68:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -986,7 +986,7 @@
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
                   "scope": 338,
-                  "src": "1090:20:1",
+                  "src": "1095:20:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -997,7 +997,7 @@
                     "id": 332,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1090:7:1",
+                    "src": "1095:7:1",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1008,7 +1008,7 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1089:22:1"
+              "src": "1094:22:1"
             },
             "returnParameters": {
               "id": 337,
@@ -1020,7 +1020,7 @@
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "scope": 338,
-                  "src": "1135:7:1",
+                  "src": "1140:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1031,7 +1031,7 @@
                     "id": 335,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1135:7:1",
+                    "src": "1140:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1041,20 +1041,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1134:9:1"
+              "src": "1139:9:1"
             },
             "scope": 339,
-            "src": "1067:77:1",
+            "src": "1072:77:1",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
         "scope": 340,
-        "src": "153:993:1"
+        "src": "153:998:1"
       }
     ],
-    "src": "0:1147:1"
+    "src": "0:1152:1"
   },
   "compiler": {
     "name": "solc",
@@ -1062,7 +1062,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-05T14:01:58.296Z",
+  "updatedAt": "2019-07-05T16:53:49.681Z",
   "devdoc": {
     "details": "Interface used by `MetaMoneyMarket` to interact with its underlying money markets.",
     "methods": {
