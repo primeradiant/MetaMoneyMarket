@@ -9,18 +9,12 @@ import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { ContractsContext } from '../../context/contracts';
+import { ContractsContext, Market } from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 import {shortenAccount} from '../../util/utils';
 
 interface Props {
-  market: null | {
-    address: string;
-    interestRate: number;
-    savingsBalance: string;
-    walletBalance: string;
-    symbol: string;
-  };
+  market: null | Market;
   isOpen: boolean;
   onRequestClose: () => void;
 }
@@ -80,12 +74,12 @@ const DepositModal: React.FC<Props> = props => {
   const { IERC20, metaMoneyMarket } = contracts;
 
   const sendDeposit = async () => {
-    if (context.active && metaMoneyMarket) {
+    if (context.account && metaMoneyMarket) {
       setIsLoading(true);
       const token = await IERC20.at(market.address);
       await token.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
       await metaMoneyMarket.deposit(market.address, String(amount), { from: context.account, gas: '1000000' });
-      fetchMetaMoneyMarketData(contracts);
+      fetchMetaMoneyMarketData(contracts, context.account);
       setIsLoading(false);
       if (onRequestClose) {
         onRequestClose();
@@ -101,8 +95,8 @@ const DepositModal: React.FC<Props> = props => {
       </ModalText>
       <FormRowsContainer>
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
-        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance} />
+        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance!} />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance!} />
         <FormRow text="Interest" value={`Earn ${market.interestRate.toFixed(4)}% APR`} valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>

@@ -10,18 +10,12 @@ import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { ContractsContext } from '../../context/contracts';
+import { ContractsContext, Market } from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 import {shortenAccount} from '../../util/utils';
 
 interface Props {
-  market: null | {
-    address: string;
-    interestRate: number;
-    savingsBalance: string;
-    walletBalance: string;
-    symbol: string;
-  };
+  market: null | Market;
   isOpen: boolean;
   onRequestClose: () => void;
 }
@@ -60,7 +54,7 @@ const WithdrawModal: React.FC<Props> = props => {
   const { IERC20, metaMoneyMarket } = contracts;
 
   const sendWithdraw = async () => {
-    if (context.active && metaMoneyMarket) {
+    if (context.account && metaMoneyMarket) {
       setIsLoading(true);
       const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
       const tokenShare = await IERC20.at(tokenShareAddress);
@@ -72,7 +66,7 @@ const WithdrawModal: React.FC<Props> = props => {
       const amountToBurn = (new BN(amount)).mul(tokenShareSupply).divRound(tokenSupply);
       await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), { from: context.account, gas: '1000000' });
 
-      fetchMetaMoneyMarketData(contracts);
+      fetchMetaMoneyMarketData(contracts, context.account);
       setIsLoading(false);
       if (onRequestClose) {
         onRequestClose();
@@ -85,8 +79,8 @@ const WithdrawModal: React.FC<Props> = props => {
       <ModalTitle title={`Withdraw ${market.symbol}`} onRequestClose={onRequestClose} />
       <FormRowsContainer>
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
-        <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance} />
+        <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance!} />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance!} />
         <FormRow text="Interest" value={`Earn ${market.interestRate.toFixed(4)}% APR`} valueColor={themeColors.primaryColorLighter} />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
