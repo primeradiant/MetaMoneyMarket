@@ -63,7 +63,7 @@ const WithdrawModal: React.FC<Props> = props => {
       const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
       const tokenSupply = exchangeRate[0];
       const tokenShareSupply = exchangeRate[1];
-      const amountToBurn = (new BN(amount)).mul(tokenShareSupply).divRound(tokenSupply);
+      const amountToBurn = (new BN(String(amount))).mul(tokenShareSupply).divRound(tokenSupply);
       await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), { from: context.account, gas: '1000000' });
 
       fetchMetaMoneyMarketData(contracts, context.account);
