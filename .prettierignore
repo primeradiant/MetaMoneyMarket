@@ -1,7 +1,5 @@
-config
-public
+/public
 node_modules
-src/assets
-src/contracts
-src/services
-src/serviceWorker.ts
+/blockchain/build
+/src/artifacts
+/src/serviceWorker.ts
