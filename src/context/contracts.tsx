@@ -5,7 +5,7 @@ import {useWeb3Context} from 'web3-react';
 
 import IERC20Artifact from '../artifacts/IERC20.json';
 import MetaMoneyContractArtifact from '../artifacts/MetaMoneyMarket.json';
-import { getPrice } from '../services/nomics';
+import {getPrice} from '../services/nomics';
 
 interface Contracts {
   metaMoneyMarket: MetaMoneyMarketContract;
@@ -61,40 +61,57 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
   const [contracts, setContracts] = useState<ContextValue['contracts']>(null);
   const [marketsData, setMarketsData] = useState<Markets>([]);
 
-  const fetchMetaMoneyMarketData = useCallback(async (contracts: Contracts, account?: string) => {
-    const { IERC20, metaMoneyMarket } = contracts;
+  const fetchMetaMoneyMarketData = useCallback(
+    async (contracts: Contracts, account?: string) => {
+      const {IERC20, metaMoneyMarket} = contracts;
 
-    if (!context.active || !metaMoneyMarket) {
-      throw new Error('metaMoneyMarket is not instanced');
-    }
+      if (!context.active || !metaMoneyMarket) {
+        throw new Error('metaMoneyMarket is not instanced');
+      }
 
-    const count = (await metaMoneyMarket.supportedMarketsCount()).toNumber();
-    const fetchedMarkets: Markets = [];
+      const count = (await metaMoneyMarket.supportedMarketsCount()).toNumber();
+      const fetchedMarkets: Markets = [];
 
-    for (let i = 0; i < count; i++) {
-      const address = await metaMoneyMarket.supportedMarketsList(i);
-      const symbol = await metaMoneyMarket.getMarketSymbol(address);
+      for (let i = 0; i < count; i++) {
+        const address = await metaMoneyMarket.supportedMarketsList(i);
+        let symbol = 'UNKNOWN';
+        try {
+          symbol = await metaMoneyMarket.getMarketSymbol(address);
+        } catch (e) {
+          console.error(`Could not get symbol for token at address ${address}`);
+        }
 
-      const token = await IERC20.at(address);
-      const balance = account ? (await token.balanceOf(account)).toString() : undefined;
-      const deposited = account ? (await metaMoneyMarket.getDepositedAmount(address, account)).toString() : undefined;
-      const interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
-      const interestRate = interestRatePerBlock.mul(blocksPerYear).div(e14).toNumber() / 100;
+        const token = await IERC20.at(address);
+        const balance = account ? (await token.balanceOf(account)).toString() : undefined;
+        const deposited = account ? (await metaMoneyMarket.getDepositedAmount(address, account)).toString() : undefined;
+        const interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
+        const interestRate =
+          interestRatePerBlock
+            .mul(blocksPerYear)
+            .div(e14)
+            .toNumber() / 100;
 
-      const price = await getPrice(symbol);
+        let price = 0;
+        try {
+          price = await getPrice(symbol);
+        } catch (e) {
+          console.error(`Could not get price for token at address ${address}`);
+        }
 
-      fetchedMarkets.push({
-        address,
-        interestRate,
-        price,
-        savingsBalance: deposited,
-        symbol,
-        walletBalance: balance
-      });
-    }
+        fetchedMarkets.push({
+          address,
+          interestRate,
+          price,
+          savingsBalance: deposited,
+          symbol,
+          walletBalance: balance,
+        });
+      }
 
-    setMarketsData(fetchedMarkets);
-  }, [context]);
+      setMarketsData(fetchedMarkets);
+    },
+    [context],
+  );
 
   useEffect(() => {
     const getContracts = async () => {
@@ -103,7 +120,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
         MetaMoneyMarket.setProvider(context.library.givenProvider);
         const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
-        const contracts = { IERC20, metaMoneyMarket };
+        const contracts = {IERC20, metaMoneyMarket};
         setContracts(contracts);
 
         fetchMetaMoneyMarketData(contracts);
@@ -131,9 +148,8 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
   const contractsContext = {
     contracts,
     fetchMetaMoneyMarketData,
-    marketsData
+    marketsData,
   };
-
 
   return <ContractsContext.Provider value={contractsContext}>{children}</ContractsContext.Provider>;
 };
