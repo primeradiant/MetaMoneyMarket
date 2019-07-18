@@ -9,9 +9,7 @@
     "contract": false,
     "expect": false
   },
-  "plugins": [
-    "mocha"
-  ],
+  "plugins": ["mocha"],
   "rules": {
     "mocha/no-exclusive-tests": "error"
   }

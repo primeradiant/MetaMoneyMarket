@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import { useWeb3Context } from 'web3-react';
+import {useWeb3Context} from 'web3-react';
 
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
@@ -9,7 +9,7 @@ import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { ContractsContext, Market } from '../../context/contracts';
+import {ContractsContext, Market} from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 import {shortenAccount} from '../../util/utils';
 
@@ -65,20 +65,20 @@ const DepositModal: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   const context = useWeb3Context();
-  const { contracts, fetchMetaMoneyMarketData } = useContext(ContractsContext);
+  const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
   if (!market || !contracts) {
-    return <div/>;
+    return <div />;
   }
 
-  const { IERC20, metaMoneyMarket } = contracts;
+  const {IERC20, metaMoneyMarket} = contracts;
 
   const sendDeposit = async () => {
     if (context.account && metaMoneyMarket) {
       setIsLoading(true);
       const token = await IERC20.at(market.address);
-      await token.approve(metaMoneyMarket.address, '-1', { from: context.account, gas: '1000000' });
-      await metaMoneyMarket.deposit(market.address, String(amount), { from: context.account, gas: '1000000' });
+      await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+      await metaMoneyMarket.deposit(market.address, String(amount), {from: context.account, gas: '1000000'});
       fetchMetaMoneyMarketData(contracts, context.account);
       setIsLoading(false);
       if (onRequestClose) {
@@ -97,16 +97,25 @@ const DepositModal: React.FC<Props> = props => {
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
         <FormRow text={`Available ${market.symbol}`} value={market.walletBalance!} />
         <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance!} />
-        <FormRow text="Interest" value={`Earn ${market.interestRate.toFixed(4)}% APR`} valueColor={themeColors.primaryColorLighter} />
+        <FormRow
+          text="Interest"
+          value={`Earn ${market.interestRate.toFixed(4)}% APR`}
+          valueColor={themeColors.primaryColorLighter}
+        />
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
-      <AmountTextfield disabled={isLoading} token={market.symbol || ''} value={amount} onChange={(e) => setAmount(+e.currentTarget.value)} />
+      <AmountTextfield
+        disabled={isLoading}
+        token={market.symbol || ''}
+        value={amount}
+        onChange={e => setAmount(+e.currentTarget.value)}
+      />
       {isLoading ? (
         <LoadingStyled />
       ) : (
         <ModalNote>
-          <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then make the
-          deposit.
+          <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then make
+          the deposit.
         </ModalNote>
       )}
       <ButtonStyled disabled={isLoading} onClick={sendDeposit}>

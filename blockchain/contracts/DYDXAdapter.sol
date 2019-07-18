@@ -7,53 +7,51 @@ import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "./IMoneyMarketAdapter.sol";
 
 contract SoloMargin {
-    enum ActionType {
-        Deposit,
-        Withdraw
-    }
-    enum AssetDenomination {
-        Wei,
-        Par
-    }
+  enum ActionType {Deposit, Withdraw}
+  enum AssetDenomination {Wei, Par}
 
-    enum AssetReference {
-        Delta,
-        Target
-    }
+  enum AssetReference {Delta, Target}
 
-    struct AccountInfo {
-        address owner;
-        uint256 number;
-    }
-    struct ActionArgs {
-        ActionType actionType;
-        uint256 accountId;
-        AssetAmount amount;
-        uint256 primaryMarketId;
-        uint256 secondaryMarketId;
-        address otherAddress;
-        uint256 otherAccountId;
-        bytes data;
-    }
-    struct AssetAmount {
-        bool sign; // true if positive
-        AssetDenomination denomination;
-        AssetReference ref;
-        uint256 value;
-    }
-    struct Rate {
-        uint256 value;
-    }
-    struct Wei {
-        bool sign; // true if positive
-        uint256 value;
-    }
+  struct AccountInfo {
+    address owner;
+    uint256 number;
+  }
+  struct ActionArgs {
+    ActionType actionType;
+    uint256 accountId;
+    AssetAmount amount;
+    uint256 primaryMarketId;
+    uint256 secondaryMarketId;
+    address otherAddress;
+    uint256 otherAccountId;
+    bytes data;
+  }
+  struct AssetAmount {
+    bool sign; // true if positive
+    AssetDenomination denomination;
+    AssetReference ref;
+    uint256 value;
+  }
+  struct Rate {
+    uint256 value;
+  }
+  struct Wei {
+    bool sign; // true if positive
+    uint256 value;
+  }
 
-    function getMarketInterestRate(uint256 marketId) public view returns (Rate memory);
+  function getMarketInterestRate(uint256 marketId)
+    public
+    view
+    returns (Rate memory);
 
-    function getAccountWei(AccountInfo memory account, uint256 marketId) public view returns (Wei memory);
+  function getAccountWei(AccountInfo memory account, uint256 marketId)
+    public
+    view
+    returns (Wei memory);
 
-    function operate(AccountInfo[] memory accounts, ActionArgs[] memory actions) public;
+  function operate(AccountInfo[] memory accounts, ActionArgs[] memory actions)
+    public;
 }
 
 contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
@@ -70,7 +68,10 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
   }
 
   modifier checkMarketSupported(address tokenAddress) {
-    require(isMarketSupported(tokenAddress), "Unknown market id for the given token address");
+    require(
+      isMarketSupported(tokenAddress),
+      "Unknown market id for the given token address"
+    );
     _;
   }
 
@@ -90,7 +91,12 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     tokenToMarketId[tokenAddress].exists = true;
   }
 
-  function getRate(address tokenAddress) external view checkMarketSupported(tokenAddress) returns (uint256) {
+  function getRate(address tokenAddress)
+    external
+    view
+    checkMarketSupported(tokenAddress)
+    returns (uint256)
+  {
     uint256 marketId = tokenToMarketId[tokenAddress].id;
 
     uint256 ratePerSecond = soloMargin.getMarketInterestRate(marketId).value;
@@ -98,7 +104,11 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     return ratePerSecond * 15;
   }
 
-  function deposit(address tokenAddress, uint256 tokenAmount) external onlyOwner checkMarketSupported(tokenAddress) {
+  function deposit(address tokenAddress, uint256 tokenAmount)
+    external
+    onlyOwner
+    checkMarketSupported(tokenAddress)
+  {
     IERC20 token = IERC20(tokenAddress);
     require(
       token.allowance(msg.sender, address(this)) >= tokenAmount,
@@ -115,7 +125,12 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     actions[0] = SoloMargin.ActionArgs(
       SoloMargin.ActionType.Deposit,
       0,
-      SoloMargin.AssetAmount(true, SoloMargin.AssetDenomination.Wei, SoloMargin.AssetReference.Delta, tokenAmount),
+      SoloMargin.AssetAmount(
+        true,
+        SoloMargin.AssetDenomination.Wei,
+        SoloMargin.AssetReference.Delta,
+        tokenAmount
+      ),
       marketId,
       0,
       address(this),
@@ -126,11 +141,11 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     soloMargin.operate(accounts, actions);
   }
 
-  function withdraw(address tokenAddress, address recipient, uint256 tokenAmount)
-    external
-    onlyOwner
-    checkMarketSupported(tokenAddress)
-  {
+  function withdraw(
+    address tokenAddress,
+    address recipient,
+    uint256 tokenAmount
+  ) external onlyOwner checkMarketSupported(tokenAddress) {
     IERC20 token = IERC20(tokenAddress);
 
     uint256 marketId = tokenToMarketId[tokenAddress].id;
@@ -141,7 +156,12 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     actions[0] = SoloMargin.ActionArgs(
       SoloMargin.ActionType.Withdraw,
       0,
-      SoloMargin.AssetAmount(false, SoloMargin.AssetDenomination.Wei, SoloMargin.AssetReference.Delta, tokenAmount),
+      SoloMargin.AssetAmount(
+        false,
+        SoloMargin.AssetDenomination.Wei,
+        SoloMargin.AssetReference.Delta,
+        tokenAmount
+      ),
       marketId,
       0,
       address(this),
@@ -159,7 +179,10 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
 
   function getSupplyView(address tokenAddress) external view returns (uint256) {
     uint256 marketId = tokenToMarketId[tokenAddress].id;
-    SoloMargin.AccountInfo memory account = SoloMargin.AccountInfo(address(this), 0);
+    SoloMargin.AccountInfo memory account = SoloMargin.AccountInfo(
+      address(this),
+      0
+    );
 
     return soloMargin.getAccountWei(account, marketId).value;
   }

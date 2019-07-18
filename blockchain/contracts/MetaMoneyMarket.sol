@@ -72,7 +72,7 @@ contract MetaMoneyMarket is Ownable {
 
     tokenShare.mint(msg.sender, tokenSharesToMint);
 
-    (IMoneyMarketAdapter bestMoneyMarket,) = getBestMoneyMarket(tokenAddress);
+    (IMoneyMarketAdapter bestMoneyMarket, ) = getBestMoneyMarket(tokenAddress);
 
     require(
       token.balanceOf(msg.sender) >= tokenAmount,

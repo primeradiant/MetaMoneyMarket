@@ -2,7 +2,7 @@ import React, {HTMLAttributes, useContext, useState} from 'react';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 
-import { ContractsContext } from '../../context/contracts';
+import {ContractsContext} from '../../context/contracts';
 import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
@@ -108,7 +108,7 @@ const Landing: React.FC<Props> = (props: Props) => {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const { marketsData } = useContext(ContractsContext);
+  const {marketsData} = useContext(ContractsContext);
 
   return (
     <>

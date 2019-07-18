@@ -10,7 +10,7 @@ import {LoginModal} from '../login';
 import MyTotalBalance from '../my-total-balance';
 import WithdrawModal from '../withdraw';
 
-import { Market, Markets } from '../../context/contracts';
+import {Market, Markets} from '../../context/contracts';
 import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -178,7 +178,9 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                     </TokenData>
                   </TD>
                   <TD>${market.price}</TD>
-                  <TD textAlign="left">{isLoggedIn ? null : 'Earn'} {market.interestRate}%</TD>
+                  <TD textAlign="left">
+                    {isLoggedIn ? null : 'Earn'} {market.interestRate}%
+                  </TD>
                   {isLoggedIn ? (
                     <>
                       <TD>{market.walletBalance}</TD>
