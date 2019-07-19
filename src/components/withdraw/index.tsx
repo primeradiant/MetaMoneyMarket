@@ -43,6 +43,14 @@ const WithdrawModal: React.FC<Props> = props => {
 
   const [amount, setAmount] = useState(new BN(0));
   const [isLoading, setIsLoading] = useState(false);
+  const [maxEnabled, setMaxEnabled] = useState(false);
+
+  const onMax = () => {
+    setMaxEnabled(true);
+    if (market && market.savingsBalance) {
+      setAmount(market.savingsBalance.amount);
+    }
+  };
 
   const context = useWeb3Context();
   const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
@@ -58,12 +66,23 @@ const WithdrawModal: React.FC<Props> = props => {
       setIsLoading(true);
       const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
       const tokenShare = await IERC20.at(tokenShareAddress);
-      await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
 
-      const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
-      const tokenSupply = exchangeRate[0];
-      const tokenShareSupply = exchangeRate[1];
-      const amountToBurn = amount.mul(tokenShareSupply).divRound(tokenSupply);
+      const allowance: BN = await tokenShare.allowance(context.account, metaMoneyMarket.address);
+
+      let amountToBurn: BN;
+      if (maxEnabled) {
+        amountToBurn = await tokenShare.balanceOf(context.account);
+      } else {
+        const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
+        const tokenSupply = exchangeRate[0];
+        const tokenShareSupply = exchangeRate[1];
+        amountToBurn = amount.mul(tokenShareSupply).divRound(tokenSupply);
+      }
+
+      if (allowance.lt(amountToBurn)) {
+        await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+      }
+
       await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {from: context.account, gas: '1000000'});
 
       fetchMetaMoneyMarketData(contracts, context.account);
@@ -92,9 +111,13 @@ const WithdrawModal: React.FC<Props> = props => {
         decimals={market.savingsBalance.decimals}
         disabled={isLoading}
         max={market.savingsBalance.amount}
+        onMax={onMax}
         token={market.symbol || ''}
         value={amount}
-        onChange={setAmount}
+        onChange={value => {
+          setMaxEnabled(false);
+          setAmount(value);
+        }}
       />
       {isLoading ? <LoadingStyled /> : null}
       <ButtonStyled disabled={isLoading} onClick={sendWithdraw}>

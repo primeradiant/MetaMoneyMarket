@@ -9,6 +9,7 @@ interface Props {
   decimals: number;
   disabled?: boolean;
   max: BN;
+  onMax: () => void;
   value: BN;
   token: string;
   onChange: (newValue: BN) => void;
@@ -96,11 +97,11 @@ const ValueInput = styled<any>(BigNumberInput)`
 
 class AmountTextfield extends React.Component<Props> {
   public render = () => {
-    const {decimals, disabled, max, token, value, onChange, ...restProps} = this.props;
+    const {decimals, disabled, max, token, onMax, value, onChange, ...restProps} = this.props;
 
     return (
       <AmountTextfieldWrapper disabled={disabled} {...restProps}>
-        <MaxButton>Max</MaxButton>
+        <MaxButton onClick={onMax}>Max</MaxButton>
         <ValueInput min={new BN(0)} max={max} value={value} onChange={onChange} decimals={decimals} />
         <TokenName>{token}</TokenName>
       </AmountTextfieldWrapper>

@@ -64,6 +64,14 @@ const DepositModal: React.FC<Props> = props => {
 
   const [amount, setAmount] = useState(new BN(0));
   const [isLoading, setIsLoading] = useState(false);
+  const [maxEnabled, setMaxEnabled] = useState(false);
+
+  const onMax = () => {
+    setMaxEnabled(true);
+    if (market && market.walletBalance) {
+      setAmount(market.walletBalance.amount);
+    }
+  };
 
   const context = useWeb3Context();
   const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
@@ -78,8 +86,15 @@ const DepositModal: React.FC<Props> = props => {
     if (context.account && metaMoneyMarket) {
       setIsLoading(true);
       const token = await IERC20.at(market.address);
-      await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
-      await metaMoneyMarket.deposit(market.address, amount.toString(), {from: context.account, gas: '1000000'});
+
+      const allowance: BN = await token.allowance(context.account, metaMoneyMarket.address);
+      const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount;
+
+      if (allowance.lt(amountToDeposit)) {
+        await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+      }
+
+      await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {from: context.account, gas: '1000000'});
       fetchMetaMoneyMarketData(contracts, context.account);
       setIsLoading(false);
       if (onRequestClose) {
@@ -109,9 +124,13 @@ const DepositModal: React.FC<Props> = props => {
         decimals={market.walletBalance.decimals}
         disabled={isLoading}
         max={market.walletBalance.amount}
+        onMax={onMax}
         token={market.symbol || ''}
         value={amount}
-        onChange={setAmount}
+        onChange={value => {
+          setMaxEnabled(false);
+          setAmount(value);
+        }}
       />
       {isLoading ? (
         <LoadingStyled />
