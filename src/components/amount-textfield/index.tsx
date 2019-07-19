@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {themeColors} from '../../util/constants';
-import { BigNumberInput } from '../common/BigNumberInput';
+import {BigNumberInput} from '../common/BigNumberInput';
 
 interface Props {
   decimals: number;

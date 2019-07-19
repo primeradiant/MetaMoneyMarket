@@ -16,7 +16,10 @@ export default class TokenAmount implements ITokenAmount {
   public static format(amount: BN, decimals: number, precision: number = 4) {
     const scale = new BN(10).pow(new BN(decimals));
     const integer = amount.div(scale).toString();
-    const fractional = amount.mod(scale).toString().slice(0, precision);
+    const fractional = amount
+      .mod(scale)
+      .toString()
+      .slice(0, precision);
     return `${integer}.${fractional}`;
   }
 
