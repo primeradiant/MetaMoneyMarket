@@ -1,4 +1,6 @@
 import BN from 'bn.js';
+import find from 'lodash.find';
+import uniqBy from 'lodash.uniqby';
 import React, {useCallback, useEffect, useState} from 'react';
 import * as contract from 'truffle-contract';
 import {useWeb3Context} from 'web3-react';
@@ -34,6 +36,30 @@ interface MetaMoneyMarketContract {
   getExchangeRate: (address: string) => Promise<[BN, BN]>;
   getMarketSymbol: (address: string) => Promise<string>;
   getTokenShare: (address: string) => Promise<string>;
+}
+
+function mergeMarkets(markets1: Markets, markets2: Markets): Markets {
+  const symbols = uniqBy(markets1.concat(markets2), 'symbol').map(x => x.symbol);
+
+  return symbols.map(symbol => {
+    const m1 = find(markets1, {symbol});
+    const m2 = find(markets2, {symbol});
+
+    if (m1 && m2) {
+      return {
+        ...m1,
+        ...m2,
+        savingsBalance: m1.savingsBalance || m2.savingsBalance,
+        walletBalance: m1.walletBalance || m2.walletBalance,
+      };
+    } else if (m1) {
+      return m1;
+    } else if (m2) {
+      return m2;
+    } else {
+      throw new Error('Assertion error');
+    }
+  });
 }
 
 const IERC20 = contract(IERC20Artifact);
@@ -105,7 +131,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
         });
       }
 
-      setMarketsData(fetchedMarkets);
+      setMarketsData(marketsData => mergeMarkets(marketsData, fetchedMarkets));
     },
     [context],
   );
