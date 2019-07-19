@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import React, {useContext, useState} from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
@@ -9,7 +10,7 @@ import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import {ContractsContext, Market} from '../../context/contracts';
+import {ContractsContext} from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 import {shortenAccount} from '../../util/utils';
 
@@ -61,13 +62,13 @@ const LoadingStyled = styled(Loading)`
 const DepositModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(new BN(0));
   const [isLoading, setIsLoading] = useState(false);
 
   const context = useWeb3Context();
   const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
-  if (!market || !contracts) {
+  if (!market || !contracts || !market.savingsBalance || !market.walletBalance) {
     return <div />;
   }
 
@@ -78,7 +79,7 @@ const DepositModal: React.FC<Props> = props => {
       setIsLoading(true);
       const token = await IERC20.at(market.address);
       await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
-      await metaMoneyMarket.deposit(market.address, String(amount), {from: context.account, gas: '1000000'});
+      await metaMoneyMarket.deposit(market.address, amount.toString(), {from: context.account, gas: '1000000'});
       fetchMetaMoneyMarketData(contracts, context.account);
       setIsLoading(false);
       if (onRequestClose) {
@@ -95,8 +96,8 @@ const DepositModal: React.FC<Props> = props => {
       </ModalText>
       <FormRowsContainer>
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
-        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance!} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance!} />
+        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance.format()} />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance.format()} />
         <FormRow
           text="Interest"
           value={`Earn ${market.interestRate.toFixed(4)}% APR`}
@@ -105,10 +106,12 @@ const DepositModal: React.FC<Props> = props => {
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
       <AmountTextfield
+        decimals={market.walletBalance.decimals}
         disabled={isLoading}
+        max={market.walletBalance.amount}
         token={market.symbol || ''}
         value={amount}
-        onChange={e => setAmount(+e.currentTarget.value)}
+        onChange={setAmount}
       />
       {isLoading ? (
         <LoadingStyled />

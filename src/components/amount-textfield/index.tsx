@@ -1,12 +1,17 @@
-import React, {HTMLAttributes} from 'react';
+import BN from 'bn.js';
+import React from 'react';
 import styled from 'styled-components';
 
 import {themeColors} from '../../util/constants';
+import { BigNumberInput } from '../common/BigNumberInput';
 
-interface Props extends HTMLAttributes<HTMLInputElement> {
+interface Props {
+  decimals: number;
   disabled?: boolean;
-  value: number;
+  max: BN;
+  value: BN;
   token: string;
+  onChange: (newValue: BN) => void;
 }
 
 const AmountTextfieldWrapper = styled.div<{disabled?: boolean}>`
@@ -70,7 +75,7 @@ const TokenName = styled.div`
   z-index: 1;
 `;
 
-const ValueInput = styled.input`
+const ValueInput = styled<any>(BigNumberInput)`
   background-color: transparent;
   border: none;
   color: ${themeColors.baseTextColor};
@@ -91,12 +96,12 @@ const ValueInput = styled.input`
 
 class AmountTextfield extends React.Component<Props> {
   public render = () => {
-    const {disabled, token, value, onChange, ...restProps} = this.props;
+    const {decimals, disabled, max, token, value, onChange, ...restProps} = this.props;
 
     return (
       <AmountTextfieldWrapper disabled={disabled} {...restProps}>
         <MaxButton>Max</MaxButton>
-        <ValueInput placeholder="0.0000" disabled={disabled} value={value} onChange={onChange} />
+        <ValueInput min={new BN(0)} max={max} value={value} onChange={onChange} decimals={decimals} />
         <TokenName>{token}</TokenName>
       </AmountTextfieldWrapper>
     );

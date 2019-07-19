@@ -3,9 +3,10 @@ import React, {useCallback, useEffect, useState} from 'react';
 import * as contract from 'truffle-contract';
 import {useWeb3Context} from 'web3-react';
 
-import IERC20Artifact from '../artifacts/IERC20.json';
+import IERC20Artifact from '../artifacts/ERC20Detailed.json';
 import MetaMoneyContractArtifact from '../artifacts/MetaMoneyMarket.json';
 import {getPrice} from '../services/nomics';
+import TokenAmount from '../util/token-amount';
 
 interface Contracts {
   metaMoneyMarket: MetaMoneyMarketContract;
@@ -17,17 +18,6 @@ interface ContextValue {
   marketsData: Markets;
   fetchMetaMoneyMarketData: (contracts: Contracts, account?: string) => Promise<void>;
 }
-
-export interface Market {
-  address: string;
-  symbol: string;
-  interestRate: number;
-  price: number;
-  savingsBalance?: string;
-  walletBalance?: string;
-}
-
-export type Markets = Market[];
 
 interface Props {
   children: React.ReactNode;
@@ -82,8 +72,8 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
         }
 
         const token = await IERC20.at(address);
-        const balance = account ? (await token.balanceOf(account)).toString() : undefined;
-        const deposited = account ? (await metaMoneyMarket.getDepositedAmount(address, account)).toString() : undefined;
+        const balance = account ? (await token.balanceOf(account)) : undefined;
+        const deposited = account ? (await metaMoneyMarket.getDepositedAmount(address, account)) : undefined;
         const interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
         const interestRate =
           interestRatePerBlock
@@ -98,13 +88,20 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
           console.error(`Could not get price for token at address ${address}`);
         }
 
+        let decimals = 18;
+        try {
+          decimals = (await token.decimals()).toNumber();
+        } catch (e) {
+          console.error(`Could not get decimals for token at address ${address}`);
+        }
+
         fetchedMarkets.push({
           address,
           interestRate,
           price,
-          savingsBalance: deposited,
+          savingsBalance: deposited ? new TokenAmount(deposited, decimals) : deposited,
           symbol,
-          walletBalance: balance,
+          walletBalance: balance ? new TokenAmount(balance, decimals) : balance,
         });
       }
 
