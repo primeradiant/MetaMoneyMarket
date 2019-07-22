@@ -31,7 +31,10 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     return cToken.supplyRatePerBlock();
   }
 
-  function deposit(address tokenAddress, uint256 tokenAmount) external onlyOwner {
+  function deposit(address tokenAddress, uint256 tokenAmount)
+    external
+    onlyOwner
+  {
     // get cToken
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
@@ -57,10 +60,11 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     );
   }
 
-  function withdraw(address tokenAddress, address recipient, uint256 tokenAmount)
-    external
-    onlyOwner
-  {
+  function withdraw(
+    address tokenAddress,
+    address recipient,
+    uint256 tokenAmount
+  ) external onlyOwner {
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
     require(
@@ -90,6 +94,6 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
 
     uint256 exchangeRate = cToken.exchangeRateStored();
     uint256 balance = cToken.balanceOf(address(this));
-    return balance * exchangeRate / 10**18;
+    return balance * exchangeRate / 10 ** 18;
   }
 }

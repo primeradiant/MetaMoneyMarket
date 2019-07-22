@@ -16,7 +16,7 @@ interface TokenData {
   title: string;
 }
 
-export const tokensList: { [symbol: string]: TokenData } = {
+export const tokensList: {[symbol: string]: TokenData} = {
   BAT: {
     image: BAT,
     text: 'Basic Attention',

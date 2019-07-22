@@ -36,7 +36,7 @@ const LoginItem = styled.div<{disabled?: boolean}>`
   &[disabled] {
     &::after {
       background-color: #fff;
-      content: "";
+      content: '';
       cursor: not-allowed;
       height: 100%;
       left: 0;
@@ -50,7 +50,7 @@ const LoginItem = styled.div<{disabled?: boolean}>`
 `;
 
 LoginItem.defaultProps = {
-  disabled: false
+  disabled: false,
 };
 
 const LoginItemIcon = styled.div`

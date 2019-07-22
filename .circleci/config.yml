@@ -21,5 +21,8 @@ jobs:
           name: Lint checks
           command: yarn run lint
       - run:
+          name: Check prettier
+          command: yarn run prettier-check
+      - run:
           name: Tests
           command: yarn run test --maxWorkers 2 --passWithNoTests
