@@ -53,7 +53,7 @@ const Header: React.FC<Props> = (props: Props) => {
         </LogoWrapper>
         <HeaderEndContent>
           <Menu />
-          {context.active && <ConnectionStatus active={context.active} account={context.account!} />}
+          {context.active && context.account && <ConnectionStatus active={context.active} account={context.account} />}
         </HeaderEndContent>
       </HeaderContent>
     </HeaderContainer>

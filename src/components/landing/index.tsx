@@ -2,7 +2,7 @@ import React, {HTMLAttributes, useContext, useState} from 'react';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 
-import { ContractsContext, Market } from '../../context/contracts';
+import { ContractsContext } from '../../context/contracts';
 import Button from '../common/Button';
 import Card from '../common/card';
 import MyAccount from '../my-account';
@@ -108,18 +108,13 @@ const Landing: React.FC<Props> = (props: Props) => {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const { metaMoneyMarketData } = useContext(ContractsContext);
-
-  const marketsWithData = metaMoneyMarketData.map((m: Market, index: number) => ({
-    ...m,
-    price: 10 + index,
-  }));
+  const { marketsData } = useContext(ContractsContext);
 
   return (
     <>
       <WelcomeText>Welcome to Sovereign!</WelcomeText>
       <MainText>Your Personal Bank</MainText>
-      {!context.active && (
+      {!context.account && (
         <ButtonContainer>
           <BigButton onClick={openModal}>Start Now!</BigButton>
         </ButtonContainer>
@@ -128,7 +123,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
         mollitia animi similique sunt in culpa qui officia…
       </InfoTextMaxWidth>
-      {context.active && <MyAccountStyled markets={marketsWithData} />}
+      <MyAccountStyled marketsData={marketsData} />
       <HomeTitle>
         Why <strong>Sovereign?</strong>
       </HomeTitle>

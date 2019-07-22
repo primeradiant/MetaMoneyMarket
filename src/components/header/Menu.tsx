@@ -68,7 +68,7 @@ const Menu: React.FC<Props> = props => {
         <MenuItemLink activeClassName="active" to="/help">
           Help
         </MenuItemLink>
-        {!context.active && <MenuItem onClick={openModal}>Login</MenuItem>}
+        {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
       </MenuContainer>
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </>

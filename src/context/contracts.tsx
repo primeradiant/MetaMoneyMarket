@@ -5,6 +5,7 @@ import {useWeb3Context} from 'web3-react';
 
 import IERC20Artifact from '../artifacts/IERC20.json';
 import MetaMoneyContractArtifact from '../artifacts/MetaMoneyMarket.json';
+import { getPrice } from '../services/nomics';
 
 interface Contracts {
   metaMoneyMarket: MetaMoneyMarketContract;
@@ -13,19 +14,20 @@ interface Contracts {
 
 interface ContextValue {
   contracts: Contracts | null;
-  metaMoneyMarketData: Markets;
-  fetchMetaMoneyMarketData: (contracts: Contracts) => Promise<void>;
+  marketsData: Markets;
+  fetchMetaMoneyMarketData: (contracts: Contracts, account?: string) => Promise<void>;
 }
 
 export interface Market {
   address: string;
-  interestRate: number;
-  savingsBalance: string;
   symbol: string;
-  walletBalance: string;
+  interestRate: number;
+  price: number;
+  savingsBalance?: string;
+  walletBalance?: string;
 }
 
-type Markets = Market[];
+export type Markets = Market[];
 
 interface Props {
   children: React.ReactNode;
@@ -57,12 +59,12 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
   const context = useWeb3Context();
 
   const [contracts, setContracts] = useState<ContextValue['contracts']>(null);
-  const [metaMoneyMarketData, setMetaMoneyMarketData] = useState<Markets>([]);
+  const [marketsData, setMarketsData] = useState<Markets>([]);
 
-  const fetchMetaMoneyMarketData = useCallback(async (contracts: Contracts) => {
+  const fetchMetaMoneyMarketData = useCallback(async (contracts: Contracts, account?: string) => {
     const { IERC20, metaMoneyMarket } = contracts;
 
-    if (!context.active || !metaMoneyMarket || !context.account) {
+    if (!context.active || !metaMoneyMarket) {
       throw new Error('metaMoneyMarket is not instanced');
     }
 
@@ -74,21 +76,24 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
       const symbol = await metaMoneyMarket.getMarketSymbol(address);
 
       const token = await IERC20.at(address);
-      const balance = (await token.balanceOf(context.account)).toString();
-      const deposited = (await metaMoneyMarket.getDepositedAmount(address, context.account)).toString();
+      const balance = account ? (await token.balanceOf(account)).toString() : undefined;
+      const deposited = account ? (await metaMoneyMarket.getDepositedAmount(address, account)).toString() : undefined;
       const interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
       const interestRate = interestRatePerBlock.mul(blocksPerYear).div(e14).toNumber() / 100;
+
+      const price = await getPrice(symbol);
 
       fetchedMarkets.push({
         address,
         interestRate,
+        price,
         savingsBalance: deposited,
         symbol,
-        walletBalance: balance,
+        walletBalance: balance
       });
     }
 
-    setMetaMoneyMarketData(fetchedMarkets);
+    setMarketsData(fetchedMarkets);
   }, [context]);
 
   useEffect(() => {
@@ -100,6 +105,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
 
         const contracts = { IERC20, metaMoneyMarket };
         setContracts(contracts);
+
         fetchMetaMoneyMarketData(contracts);
       }
       if (context.error) {
@@ -110,10 +116,22 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
     getContracts();
   }, [context, fetchMetaMoneyMarketData]);
 
+  useEffect(() => {
+    if (context.active && context.account && contracts) {
+      fetchMetaMoneyMarketData(contracts, context.account);
+    }
+  }, [context, contracts, fetchMetaMoneyMarketData]);
+
+  useEffect(() => {
+    if (!context.active) {
+      context.setFirstValidConnector(['Infura']);
+    }
+  }, [context]);
+
   const contractsContext = {
     contracts,
     fetchMetaMoneyMarketData,
-    metaMoneyMarketData
+    marketsData
   };
 
 

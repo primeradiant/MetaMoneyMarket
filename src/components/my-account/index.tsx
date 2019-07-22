@@ -10,19 +10,11 @@ import {LoginModal} from '../login';
 import MyTotalBalance from '../my-total-balance';
 import WithdrawModal from '../withdraw';
 
+import { Market, Markets } from '../../context/contracts';
 import {themeColors} from '../../util/constants';
 
-interface Market {
-  address: string;
-  symbol: string;
-  interestRate: number;
-  price: number;
-  savingsBalance: string;
-  walletBalance: string;
-}
-
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  markets: Market[];
+  marketsData: Markets;
 }
 
 interface State {
@@ -127,7 +119,7 @@ const Title = styled.h1`
 `;
 
 const AccountBalance: React.FC<Props> = (props: Props) => {
-  const {markets, ...restProps} = props;
+  const {marketsData, ...restProps} = props;
   const context = useWeb3Context();
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
@@ -141,7 +133,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   const openLoginModal = () => setModalIsOpen(true);
   const closeLoginModal = () => setModalIsOpen(false);
 
-  const isLoggedIn = context.active;
+  const isLoggedIn = context.account;
 
   const deposit = (market: Market) => {
     openDepositModal();
@@ -174,7 +166,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
             </TR>
           </THead>
           <TBody>
-            {markets.map((market, index) => {
+            {marketsData.map((market, index) => {
               const tokenData = getTokenDataBySymbol(market.symbol);
               const image = tokenData ? tokenData.image : '';
               return (
