@@ -62,6 +62,8 @@ const Menu: React.FC<Props> = props => {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
+  const logout = () => context.unsetConnector();
+
   return (
     <>
       <MenuContainer {...restProps}>
@@ -69,6 +71,7 @@ const Menu: React.FC<Props> = props => {
           Help
         </MenuItemLink>
         {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
+        {context.account && <MenuItem onClick={logout}>Logout</MenuItem>}
       </MenuContainer>
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </>

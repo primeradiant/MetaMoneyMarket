@@ -8,7 +8,7 @@
     "no-unnecessary-type-assertion": false,
     "completed-docs": false,
     "promise-function-async": false,
-    "interface-name": [true, "never-prefix"],
+    "interface-name": false,
     "jsx-no-lambda": false,
     "no-console": false,
     "no-shadowed-variable": false,

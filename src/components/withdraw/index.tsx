@@ -10,7 +10,7 @@ import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import {ContractsContext, Market} from '../../context/contracts';
+import {ContractsContext} from '../../context/contracts';
 import {modalStyle, themeColors} from '../../util/constants';
 import {shortenAccount} from '../../util/utils';
 
@@ -41,13 +41,21 @@ const LoadingStyled = styled(Loading)`
 const WithdrawModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(new BN(0));
   const [isLoading, setIsLoading] = useState(false);
+  const [maxEnabled, setMaxEnabled] = useState(false);
+
+  const onMax = () => {
+    setMaxEnabled(true);
+    if (market && market.savingsBalance) {
+      setAmount(market.savingsBalance.amount);
+    }
+  };
 
   const context = useWeb3Context();
   const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
-  if (!market || !contracts) {
+  if (!market || !contracts || !market.savingsBalance || !market.walletBalance) {
     return <div />;
   }
 
@@ -58,12 +66,23 @@ const WithdrawModal: React.FC<Props> = props => {
       setIsLoading(true);
       const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
       const tokenShare = await IERC20.at(tokenShareAddress);
-      await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
 
-      const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
-      const tokenSupply = exchangeRate[0];
-      const tokenShareSupply = exchangeRate[1];
-      const amountToBurn = new BN(String(amount)).mul(tokenShareSupply).divRound(tokenSupply);
+      const allowance: BN = await tokenShare.allowance(context.account, metaMoneyMarket.address);
+
+      let amountToBurn: BN;
+      if (maxEnabled) {
+        amountToBurn = await tokenShare.balanceOf(context.account);
+      } else {
+        const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
+        const tokenSupply = exchangeRate[0];
+        const tokenShareSupply = exchangeRate[1];
+        amountToBurn = amount.mul(tokenShareSupply).divRound(tokenSupply);
+      }
+
+      if (allowance.lt(amountToBurn)) {
+        await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+      }
+
       await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {from: context.account, gas: '1000000'});
 
       fetchMetaMoneyMarketData(contracts, context.account);
@@ -79,8 +98,8 @@ const WithdrawModal: React.FC<Props> = props => {
       <ModalTitle title={`Withdraw ${market.symbol}`} onRequestClose={onRequestClose} />
       <FormRowsContainer>
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
-        <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance!} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance!} />
+        <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance.format()} />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance.format()} />
         <FormRow
           text="Interest"
           value={`Earn ${market.interestRate.toFixed(4)}% APR`}
@@ -89,10 +108,16 @@ const WithdrawModal: React.FC<Props> = props => {
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
       <AmountTextfield
+        decimals={market.savingsBalance.decimals}
         disabled={isLoading}
+        max={market.savingsBalance.amount}
+        onMax={onMax}
         token={market.symbol || ''}
         value={amount}
-        onChange={e => setAmount(+e.currentTarget.value)}
+        onChange={value => {
+          setMaxEnabled(false);
+          setAmount(value);
+        }}
       />
       {isLoading ? <LoadingStyled /> : null}
       <ButtonStyled disabled={isLoading} onClick={sendWithdraw}>
