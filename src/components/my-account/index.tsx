@@ -24,7 +24,7 @@ interface State {
 const Table = styled.table`
   margin-bottom: 15px;
   margin-top: 15px;
-  width: 100%;
+  max-width: 1100px;
 `;
 
 const TR = styled.tr`
