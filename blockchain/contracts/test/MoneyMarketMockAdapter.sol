@@ -46,6 +46,19 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
     token.transfer(recipient, token.balanceOf(address(this)));
   }
 
+  function withdrawAll(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
+
+    IERC20 token = IERC20(tokenAddress);
+    IERC20 tokenShare = IERC20(moneyMarket.getTokenShare(tokenAddress));
+    tokenShare.approve(address(moneyMarket), uint256(-1));
+
+    moneyMarket.withdrawAll(tokenAddress);
+    token.transfer(recipient, token.balanceOf(address(this)));
+  }
+
   function getSupply(address tokenAddress) external returns (uint256) {
     return moneyMarket.getSupply(tokenAddress);
   }

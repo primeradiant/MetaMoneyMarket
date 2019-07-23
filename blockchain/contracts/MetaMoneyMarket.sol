@@ -161,6 +161,47 @@ contract MetaMoneyMarket is Ownable {
   }
 
   /**
+    * @dev Take all the supply of `tokenAddress` and redistribute it according to `percentages`.
+    *
+    * Rejects if the token is not supported.
+    *
+    * @param tokenAddress Address of the token that is going to be rebalanced
+    * @param percentages A list of percentages, expressed as units in 10000, indicating how to deposit the tokens in
+    * each underlying money market. The length of this array is one less than the amount of money markets: the last
+    * money market will receive the remaining tokens. For example, if there are 3 money markets, and you want to
+    * rebalance so that the first one has 10.5% of the tokens, the second one 55%, and the third one 34.5%, this param
+    * will be [1050, 5500].
+    */
+  function rebalance(address tokenAddress, uint256[] memory percentages)
+    public
+    checkMarketSupported(tokenAddress)
+    onlyOwner
+  {
+    IERC20 token = IERC20(tokenAddress);
+
+    require(percentages.length + 1 == moneyMarkets.length);
+
+    for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      moneyMarkets[i].withdrawAll(tokenAddress, address(this));
+    }
+
+    uint256 totalSupply = token.balanceOf(address(this));
+
+    for (uint256 i = 0; i < percentages.length; i++) {
+      uint256 amountToDeposit = totalSupply * percentages[i] / 10000;
+      if (amountToDeposit == 0) {
+        continue;
+      }
+      moneyMarkets[i].deposit(tokenAddress, amountToDeposit);
+    }
+
+    uint256 remainingTokens = token.balanceOf(address(this));
+    if (remainingTokens > 0) {
+      moneyMarkets[moneyMarkets.length - 1].deposit(tokenAddress, remainingTokens);
+    }
+  }
+
+  /**
     * @dev Return the address of the `TokenShare` for the given `tokenAddress`.
     *
     * Rejects if the token is not supported.
