@@ -49,7 +49,7 @@ function mergeMarkets(markets1: Markets, markets2: Markets): Markets {
       return {
         ...m1,
         ...m2,
-        savingsBalance: m1.savingsBalance || m2.savingsBalance,
+        depositBalance: m1.depositBalance || m2.depositBalance,
         walletBalance: m1.walletBalance || m2.walletBalance,
       };
     } else if (m1) {
@@ -125,7 +125,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
           address,
           interestRate,
           price,
-          savingsBalance: deposited ? new TokenAmount(deposited, decimals) : deposited,
+          depositBalance: deposited ? new TokenAmount(deposited, decimals) : deposited,
           symbol,
           walletBalance: balance ? new TokenAmount(balance, decimals) : balance,
         });

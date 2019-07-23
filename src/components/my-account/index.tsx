@@ -158,7 +158,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
               {isLoggedIn ? (
                 <>
                   <TH>Wallet Balance</TH>
-                  <TH>Savings Balance</TH>
+                  <TH>Deposit Balance</TH>
                 </>
               ) : null}
               <TH>&nbsp;</TH>
@@ -183,7 +183,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                   {isLoggedIn ? (
                     <>
                       <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
-                      <TD>{market.savingsBalance ? market.savingsBalance.format() : '-'}</TD>
+                      <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
                     </>
                   ) : null}
                   <TD>

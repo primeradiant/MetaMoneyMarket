@@ -13,7 +13,7 @@ declare interface Market {
   symbol: string;
   interestRate: number;
   price: number;
-  savingsBalance?: ITokenAmount;
+  depositBalance?: ITokenAmount;
   walletBalance?: ITokenAmount;
 }
 
