@@ -154,7 +154,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
             <TR>
               <TH textAlign="left">Asset</TH>
               <TH>Price</TH>
-              <TH textAlign="left">Interest Rate</TH>
+              <TH>Interest Rate</TH>
               {isLoggedIn ? (
                 <>
                   <TH>Wallet Balance</TH>
@@ -177,7 +177,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                     </TokenData>
                   </TD>
                   <TD>${market.price}</TD>
-                  <TD textAlign="left">
+                  <TD>
                     {isLoggedIn ? null : 'Earn'} {market.interestRate}%
                   </TD>
                   {isLoggedIn ? (
