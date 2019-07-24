@@ -62,7 +62,7 @@ const LoadingStyled = styled(Loading)`
 const DepositModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
-  const [amount, setAmount] = useState(new BN(0));
+  const [amount, setAmount] = useState<Maybe<BN>>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [maxEnabled, setMaxEnabled] = useState(false);
 
@@ -88,7 +88,7 @@ const DepositModal: React.FC<Props> = props => {
       const token = await IERC20.at(market.address);
 
       const allowance: BN = await token.allowance(context.account, metaMoneyMarket.address);
-      const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount;
+      const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount || new BN(0);
 
       if (allowance.lt(amountToDeposit)) {
         await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
@@ -143,7 +143,7 @@ const DepositModal: React.FC<Props> = props => {
           the deposit.
         </ModalNote>
       )}
-      <ButtonStyled disabled={isLoading} onClick={sendDeposit}>
+      <ButtonStyled disabled={isLoading || !amount} onClick={sendDeposit}>
         Deposit
       </ButtonStyled>
     </Modal>

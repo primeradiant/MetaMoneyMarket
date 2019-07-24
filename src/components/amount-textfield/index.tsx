@@ -10,7 +10,7 @@ interface Props {
   disabled?: boolean;
   max: BN;
   onMax: () => void;
-  value: BN;
+  value: Maybe<BN>;
   token: string;
   onChange: (newValue: BN) => void;
 }

@@ -18,3 +18,5 @@ declare interface Market {
 }
 
 declare type Markets = Market[];
+
+declare type Maybe<T> = T | null;

@@ -41,7 +41,7 @@ const LoadingStyled = styled(Loading)`
 const WithdrawModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
-  const [amount, setAmount] = useState(new BN(0));
+  const [amount, setAmount] = useState<Maybe<BN>>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [maxEnabled, setMaxEnabled] = useState(false);
 
@@ -76,7 +76,7 @@ const WithdrawModal: React.FC<Props> = props => {
         const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
         const tokenSupply = exchangeRate[0];
         const tokenShareSupply = exchangeRate[1];
-        amountToBurn = amount.mul(tokenShareSupply).divRound(tokenSupply);
+        amountToBurn = (amount || new BN(0)).mul(tokenShareSupply).divRound(tokenSupply);
       }
 
       if (allowance.lt(amountToBurn)) {
@@ -120,7 +120,7 @@ const WithdrawModal: React.FC<Props> = props => {
         }}
       />
       {isLoading ? <LoadingStyled /> : null}
-      <ButtonStyled disabled={isLoading} onClick={sendWithdraw}>
+      <ButtonStyled disabled={isLoading || !amount} onClick={sendWithdraw}>
         Withdraw
       </ButtonStyled>
     </Modal>
