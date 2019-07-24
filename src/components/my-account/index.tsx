@@ -143,7 +143,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
 
   return (
     <Card {...restProps}>
-      <Title>My Account</Title>
+      <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
       <TableOverflow>
         <Table>
           <THead>
