@@ -68,6 +68,10 @@ contract MoneyMarketMock is Ownable {
       tokenShare.allowance(msg.sender, address(this)) >= amount,
       "MoneyMarketMock.withdraw: Cannot burn token share"
     );
+    require(
+      tokenShare.balanceOf(msg.sender) >= amount,
+      "MoneyMarketMock.withdraw: Not enough token shares to burn"
+    );
     tokenShare.burnFrom(msg.sender, amount);
 
     require(
@@ -75,6 +79,18 @@ contract MoneyMarketMock is Ownable {
       "MoneyMarketMock.withdraw: Not enough tokens to transfer"
     );
     token.transfer(msg.sender, tokensToTransfer);
+  }
+
+  function withdrawAll(address tokenAddress)
+    external
+    checkMarketSupported(tokenAddress)
+  {
+    IERC20 token = IERC20(tokenAddress);
+
+    TokenShare tokenShare = supportedMarkets[tokenAddress].tokenShare;
+    tokenShare.burnFrom(msg.sender, tokenShare.balanceOf(msg.sender));
+
+    token.transfer(msg.sender, token.balanceOf(address(this)));
   }
 
   function addMarket(address tokenAddress) external onlyOwner {

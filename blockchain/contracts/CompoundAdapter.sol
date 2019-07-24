@@ -81,6 +81,26 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     token.transfer(recipient, tokenAmount);
   }
 
+  function withdrawAll(
+    address tokenAddress,
+    address recipient
+  ) external onlyOwner {
+    IERC20 token = IERC20(tokenAddress);
+    address cTokenAddress = tokenToCToken[tokenAddress];
+    require(
+      cTokenAddress != address(0),
+      "CompoundAdapter.withdraw: Unknown cToken for given token address"
+    );
+    CToken cToken = CToken(cTokenAddress);
+
+    uint256 result = cToken.redeemUnderlying(cToken.balanceOfUnderlying(address(this)));
+    require(
+      result == 0,
+      "CompoundAdapter.withdraw: There was an error redeeming the cToken"
+    );
+    token.transfer(recipient, token.balanceOf(address(this)));
+  }
+
   function getSupply(address tokenAddress) external returns (uint256) {
     address cTokenAddress = tokenToCToken[tokenAddress];
     CToken cToken = CToken(cTokenAddress);

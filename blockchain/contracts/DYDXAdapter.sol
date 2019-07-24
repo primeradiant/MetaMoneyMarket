@@ -173,6 +173,40 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     token.transfer(recipient, tokenAmount);
   }
 
+  function withdrawAll(
+    address tokenAddress,
+    address recipient
+  ) external onlyOwner checkMarketSupported(tokenAddress) {
+    IERC20 token = IERC20(tokenAddress);
+
+    uint256 marketId = tokenToMarketId[tokenAddress].id;
+
+    SoloMargin.AccountInfo[] memory accounts = new SoloMargin.AccountInfo[](1);
+    accounts[0] = SoloMargin.AccountInfo(address(this), 0);
+
+    uint256 balance = soloMargin.getAccountWei(accounts[0], marketId).value;
+
+    SoloMargin.ActionArgs[] memory actions = new SoloMargin.ActionArgs[](1);
+    actions[0] = SoloMargin.ActionArgs(
+      SoloMargin.ActionType.Withdraw,
+      0,
+      SoloMargin.AssetAmount(
+        false,
+        SoloMargin.AssetDenomination.Wei,
+        SoloMargin.AssetReference.Delta,
+        balance
+      ),
+      marketId,
+      0,
+      address(this),
+      0,
+      ""
+    );
+    soloMargin.operate(accounts, actions);
+
+    token.transfer(recipient, token.balanceOf(address(this)));
+  }
+
   function getSupply(address tokenAddress) external returns (uint256) {
     return this.getSupplyView(tokenAddress);
   }

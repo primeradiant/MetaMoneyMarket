@@ -19,7 +19,9 @@ export default class TokenAmount implements ITokenAmount {
     const fractional = amount
       .mod(scale)
       .toString()
+      .padStart(decimals, '0')
       .slice(0, precision);
+
     return `${integer}.${fractional}`;
   }
 
