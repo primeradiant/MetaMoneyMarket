@@ -123,9 +123,9 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
 
         fetchedMarkets.push({
           address,
+          depositBalance: deposited ? new TokenAmount(deposited, decimals) : deposited,
           interestRate,
           price,
-          depositBalance: deposited ? new TokenAmount(deposited, decimals) : deposited,
           symbol,
           walletBalance: balance ? new TokenAmount(balance, decimals) : balance,
         });

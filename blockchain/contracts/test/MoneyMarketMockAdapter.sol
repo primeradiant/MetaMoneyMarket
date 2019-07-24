@@ -52,7 +52,6 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter, Claimable {
     external
     onlyOwner
   {
-
     IERC20 token = IERC20(tokenAddress);
     IERC20 tokenShare = IERC20(moneyMarket.getTokenShare(tokenAddress));
     tokenShare.approve(address(moneyMarket), uint256(-1));
@@ -61,7 +60,10 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter, Claimable {
     token.transfer(recipient, token.balanceOf(address(this)));
   }
 
-  function claimTokens(address tokenAddress, address recipient) external onlyOwner {
+  function claimTokens(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
     _claimTokens(tokenAddress, recipient);
   }
 
