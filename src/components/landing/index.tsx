@@ -1,11 +1,9 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
 import styled from 'styled-components';
-import {useWeb3Context} from 'web3-react';
 
 import {ContractsContext} from '../../context/contracts';
-import Button from '../common/Button';
 import Card from '../common/card';
-import MyAccount from '../my-account';
+import AccountBalance from '../my-account/AccountBalance';
 
 import {LoginModal} from '../login';
 
@@ -13,7 +11,9 @@ import {themeBreakPoints, themeColors} from '../../util/constants';
 
 import { MailChimpForm } from './MailChimpForm';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  history: any;
+}
 
 interface State {
   modalIsOpen: boolean;
@@ -37,17 +37,6 @@ const MainText = styled.h1`
   text-align: center;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-`;
-
-const BigButton = styled(Button)`
-  height: 45px;
-  font-size: 21px;
-`;
-
 const InfoText = styled.p`
   color: ${themeColors.secondaryTextColor};
   font-size: 20px;
@@ -58,7 +47,7 @@ const InfoText = styled.p`
   text-align: center;
 `;
 
-const MyAccountStyled = styled(MyAccount)`
+const AccountBalanceStyled = styled(AccountBalance)`
   margin: 0 0 55px;
 `;
 
@@ -100,11 +89,8 @@ const InfoBlockText = styled.div`
 `;
 
 const Landing: React.FC<Props> = (props: Props) => {
-  const context = useWeb3Context();
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
   const {marketsData} = useContext(ContractsContext);
@@ -116,7 +102,7 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <MailChimpForm />
 
-      <MyAccountStyled marketsData={marketsData} />
+      <AccountBalanceStyled marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
 
       <HomeTitle>How it works?</HomeTitle>
       <InfoText>
@@ -144,7 +130,7 @@ const Landing: React.FC<Props> = (props: Props) => {
           </InfoBlockText>
         </Card>
       </InfoBlocks>
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
     </>
   );
 };
