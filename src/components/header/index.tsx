@@ -11,7 +11,9 @@ import {themeBreakPoints, themeColors, themeDimensions} from '../../util/constan
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
-const LogoWrapper = styled(NavLink)``;
+const LogoWrapper = styled(NavLink)`
+  text-decoration: none;
+`;
 
 const HeaderContainer = styled.div`
   background-color: ${themeColors.headerBackgroundColor};
