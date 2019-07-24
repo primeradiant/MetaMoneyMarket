@@ -112,9 +112,6 @@ const Title = styled.h1`
   font-size: 17px;
   font-weight: 600;
   line-height: 1.35;
-  margin: 25px 0 0 0;
-  padding: 25px 0 0 0;
-  border-top: 1px solid ${themeColors.borderColor};
 `;
 
 const AccountBalance: React.FC<Props> = (props: Props) => {
@@ -146,7 +143,6 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
 
   return (
     <Card {...restProps}>
-      <MyTotalBalance />
       <Title>My Account</Title>
       <TableOverflow>
         <Table>
