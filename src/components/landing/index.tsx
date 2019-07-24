@@ -116,11 +116,6 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <MailChimpForm />
 
-      {!context.account && (
-        <ButtonContainer>
-          <BigButton onClick={openModal}>Start Now!</BigButton>
-        </ButtonContainer>
-      )}
       <MyAccountStyled marketsData={marketsData} />
 
       <HomeTitle>How it works?</HomeTitle>
