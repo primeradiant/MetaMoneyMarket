@@ -82,10 +82,10 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     token.transfer(recipient, tokenAmount);
   }
 
-  function withdrawAll(
-    address tokenAddress,
-    address recipient
-  ) external onlyOwner {
+  function withdrawAll(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
     require(
@@ -94,7 +94,9 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     );
     CToken cToken = CToken(cTokenAddress);
 
-    uint256 result = cToken.redeemUnderlying(cToken.balanceOfUnderlying(address(this)));
+    uint256 result = cToken.redeemUnderlying(
+      cToken.balanceOfUnderlying(address(this))
+    );
     require(
       result == 0,
       "CompoundAdapter.withdraw: There was an error redeeming the cToken"
@@ -102,7 +104,10 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     token.transfer(recipient, token.balanceOf(address(this)));
   }
 
-  function claimTokens(address tokenAddress, address recipient) external onlyOwner {
+  function claimTokens(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
     _claimTokens(tokenAddress, recipient);
   }
 

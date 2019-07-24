@@ -174,10 +174,11 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     token.transfer(recipient, tokenAmount);
   }
 
-  function withdrawAll(
-    address tokenAddress,
-    address recipient
-  ) external onlyOwner checkMarketSupported(tokenAddress) {
+  function withdrawAll(address tokenAddress, address recipient)
+    external
+    onlyOwner
+    checkMarketSupported(tokenAddress)
+  {
     IERC20 token = IERC20(tokenAddress);
 
     uint256 marketId = tokenToMarketId[tokenAddress].id;
@@ -208,7 +209,10 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     token.transfer(recipient, token.balanceOf(address(this)));
   }
 
-  function claimTokens(address tokenAddress, address recipient) external onlyOwner {
+  function claimTokens(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
     _claimTokens(tokenAddress, recipient);
   }
 

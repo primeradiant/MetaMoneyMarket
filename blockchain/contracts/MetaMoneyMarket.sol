@@ -198,15 +198,25 @@ contract MetaMoneyMarket is Ownable, Claimable {
 
     uint256 remainingTokens = token.balanceOf(address(this));
     if (remainingTokens > 0) {
-      moneyMarkets[moneyMarkets.length - 1].deposit(tokenAddress, remainingTokens);
+      moneyMarkets[moneyMarkets.length - 1].deposit(
+        tokenAddress,
+        remainingTokens
+      );
     }
   }
 
-  function claimTokens(address tokenAddress, address recipient) public onlyOwner {
+  function claimTokens(address tokenAddress, address recipient)
+    public
+    onlyOwner
+  {
     _claimTokens(tokenAddress, recipient);
   }
 
-  function claimTokensFromAdapter(uint256 index, address tokenAddress, address recipient) public onlyOwner {
+  function claimTokensFromAdapter(
+    uint256 index,
+    address tokenAddress,
+    address recipient
+  ) public onlyOwner {
     IMoneyMarketAdapter moneyMarket = moneyMarkets[index];
     moneyMarket.claimTokens(tokenAddress, recipient);
   }

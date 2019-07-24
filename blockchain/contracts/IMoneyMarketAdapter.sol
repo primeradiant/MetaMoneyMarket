@@ -24,8 +24,7 @@ interface IMoneyMarketAdapter {
   /**
     * @dev Withdraws all the tokens from the underlying money market and transfers them to `recipient`.
     */
-  function withdrawAll(address tokenAddress, address recipient)
-    external;
+  function withdrawAll(address tokenAddress, address recipient) external;
 
   function claimTokens(address tokenAddress, address recipient) external;
 
