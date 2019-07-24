@@ -47,15 +47,15 @@ const WithdrawModal: React.FC<Props> = props => {
 
   const onMax = () => {
     setMaxEnabled(true);
-    if (market && market.savingsBalance) {
-      setAmount(market.savingsBalance.amount);
+    if (market && market.depositBalance) {
+      setAmount(market.depositBalance.amount);
     }
   };
 
   const context = useWeb3Context();
   const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
-  if (!market || !contracts || !market.savingsBalance || !market.walletBalance) {
+  if (!market || !contracts || !market.depositBalance || !market.walletBalance) {
     return <div />;
   }
 
@@ -99,7 +99,7 @@ const WithdrawModal: React.FC<Props> = props => {
       <FormRowsContainer>
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
         <FormRow text={`Wallet ${market.symbol} Balance`} value={market.walletBalance.format()} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance.format()} />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.depositBalance.format()} />
         <FormRow
           text="Interest"
           value={`Earn ${market.interestRate.toFixed(4)}% APR`}
@@ -108,9 +108,9 @@ const WithdrawModal: React.FC<Props> = props => {
       </FormRowsContainer>
       <ModalSubtitle>Amount</ModalSubtitle>
       <AmountTextfield
-        decimals={market.savingsBalance.decimals}
+        decimals={market.depositBalance.decimals}
         disabled={isLoading}
-        max={market.savingsBalance.amount}
+        max={market.depositBalance.amount}
         onMax={onMax}
         token={market.symbol || ''}
         value={amount}

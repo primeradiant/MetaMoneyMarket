@@ -3,6 +3,7 @@ pragma solidity 0.5.8;
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 
+import "./Claimable.sol";
 import "./IMoneyMarketAdapter.sol";
 
 contract CToken is IERC20 {
@@ -13,7 +14,7 @@ contract CToken is IERC20 {
   function exchangeRateStored() public view returns (uint);
 }
 
-contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
+contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   // map a token address to a cToken address
   mapping(address => address) public tokenToCToken;
 
@@ -81,10 +82,10 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     token.transfer(recipient, tokenAmount);
   }
 
-  function withdrawAll(
-    address tokenAddress,
-    address recipient
-  ) external onlyOwner {
+  function withdrawAll(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
     require(
@@ -93,12 +94,21 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable {
     );
     CToken cToken = CToken(cTokenAddress);
 
-    uint256 result = cToken.redeemUnderlying(cToken.balanceOfUnderlying(address(this)));
+    uint256 result = cToken.redeemUnderlying(
+      cToken.balanceOfUnderlying(address(this))
+    );
     require(
       result == 0,
       "CompoundAdapter.withdraw: There was an error redeeming the cToken"
     );
     token.transfer(recipient, token.balanceOf(address(this)));
+  }
+
+  function claimTokens(address tokenAddress, address recipient)
+    external
+    onlyOwner
+  {
+    _claimTokens(tokenAddress, recipient);
   }
 
   function getSupply(address tokenAddress) external returns (uint256) {

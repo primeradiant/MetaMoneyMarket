@@ -24,7 +24,7 @@ interface State {
 const Table = styled.table`
   margin-bottom: 15px;
   margin-top: 15px;
-  width: 100%;
+  max-width: 1100px;
 `;
 
 const TR = styled.tr`
@@ -154,11 +154,11 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
             <TR>
               <TH textAlign="left">Asset</TH>
               <TH>Price</TH>
-              <TH textAlign="right">Interest Rate</TH>
+              <TH>Interest Rate</TH>
               {isLoggedIn ? (
                 <>
                   <TH>Wallet Balance</TH>
-                  <TH>Savings Balance</TH>
+                  <TH>Deposit Balance</TH>
                 </>
               ) : null}
               <TH>&nbsp;</TH>
@@ -177,13 +177,13 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                     </TokenData>
                   </TD>
                   <TD>${market.price}</TD>
-                  <TD textAlign="right">
+                  <TD>
                     {isLoggedIn ? null : 'Earn'} {market.interestRate}%
                   </TD>
                   {isLoggedIn ? (
                     <>
                       <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
-                      <TD>{market.savingsBalance ? market.savingsBalance.format() : '-'}</TD>
+                      <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
                     </>
                   ) : null}
                   <TD>

@@ -76,7 +76,7 @@ const DepositModal: React.FC<Props> = props => {
   const context = useWeb3Context();
   const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
-  if (!market || !contracts || !market.savingsBalance || !market.walletBalance) {
+  if (!market || !contracts || !market.depositBalance || !market.walletBalance) {
     return <div />;
   }
 
@@ -115,7 +115,7 @@ const DepositModal: React.FC<Props> = props => {
       <FormRowsContainer>
         <FormRow text="Account" value={shortenAccount(context.account || '')} />
         <FormRow text={`Available ${market.symbol}`} value={market.walletBalance.format()} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.savingsBalance.format()} />
+        <FormRow text={`Deposited ${market.symbol}`} value={market.depositBalance.format()} />
         <FormRow
           text="Interest"
           value={`Earn ${market.interestRate.toFixed(4)}% APR`}
