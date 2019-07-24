@@ -52,6 +52,8 @@ const InfoText = styled.p`
   font-weight: 600;
   line-height: 1.35;
   margin: 0 auto 45px;
+  max-width: 1000px;
+  text-align: center;
 `;
 
 const InfoTextMaxWidth = styled(InfoText)`
@@ -67,9 +69,10 @@ const MyAccountStyled = styled(MyAccount)`
 const HomeTitle = styled.h2`
   color: ${themeColors.tertiaryTextColor};
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
   margin: 0 0 10px;
+  text-align: center;
 `;
 
 const InfoBlocks = styled.div`
@@ -100,6 +103,41 @@ const InfoBlockText = styled.div`
   }
 `;
 
+const MailChimpForm = () => (
+  <div
+    id="mc_embed_signup"
+    style={{clear: 'left', font: '14px Helvetica,Arial,sans-serif', width: '100%', marginBottom: '2rem'}}
+  >
+    <form
+      action="https://gmail.us3.list-manage.com/subscribe/post?u=62a77ff46a9469711efebfd67&amp;id=1b6a93db6d"
+      method="post"
+      id="mc-embedded-subscribe-form"
+      name="mc-embedded-subscribe-form"
+      className="validate"
+      target="_blank"
+      noValidate={true}
+    >
+      <div id="mc_embed_signup_scroll">
+        <input
+          type="email"
+          value=""
+          name="EMAIL"
+          className="email"
+          id="mce-EMAIL"
+          placeholder="Sign up to get early access"
+          required={true}
+        />
+        <div style={{position: 'absolute', left: '-5000px'}} aria-hidden="true">
+          <input type="text" name="b_62a77ff46a9469711efebfd67_1b6a93db6d" tabIndex={-1} value="" />
+        </div>
+        <div className="clear">
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" className="button" />
+        </div>
+      </div>
+    </form>
+  </div>
+);
+
 const Landing: React.FC<Props> = (props: Props) => {
   const context = useWeb3Context();
 
@@ -113,42 +151,40 @@ const Landing: React.FC<Props> = (props: Props) => {
   return (
     <>
       <WelcomeText>Welcome to Sovereign!</WelcomeText>
-      <MainText>Your Personal Bank</MainText>
+      <MainText>Maximize your crypto gains</MainText>
+
+      <MailChimpForm />
+
       {!context.account && (
         <ButtonContainer>
           <BigButton onClick={openModal}>Start Now!</BigButton>
         </ButtonContainer>
       )}
-      <InfoTextMaxWidth>
-        Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
-        mollitia animi similique sunt in culpa qui officia…
-      </InfoTextMaxWidth>
       <MyAccountStyled marketsData={marketsData} />
-      <HomeTitle>
-        Why <strong>Sovereign?</strong>
-      </HomeTitle>
-      <InfoText>Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
+
+      <HomeTitle>How it works?</HomeTitle>
+      <InfoText>
+        Instead of manually moving money around burning fees chasing the optimal interest rate. Deposit your tokens into
+        the MetaMoneyMarket, and the smart contract will automatically deposit into the highest yielding Money Market,
+        periodically rebalancing for you when rates change.
+      </InfoText>
+
       <InfoBlocks>
-        <Card title="Title 1">
+        <Card title="Best Rate">
           <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,{' '}
-            <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est laborum
-            et dolorum fuga.
+            By combining multiple markets into one, you get the best rate for a wider number of tokens than any
+            contract.
           </InfoBlockText>
         </Card>
-        <Card title="Title 2">
+        <Card title="Meta Tokens">
           <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
-            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            You will receive a Token which represents your balance on deposit. Which you can then use in other DeFi
+            Protocols.
           </InfoBlockText>
         </Card>
-        <Card title="Title 3">
+        <Card title="Auto Rebalance">
           <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
-            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3%.
           </InfoBlockText>
         </Card>
       </InfoBlocks>
