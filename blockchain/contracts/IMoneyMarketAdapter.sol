@@ -27,6 +27,8 @@ interface IMoneyMarketAdapter {
   function withdrawAll(address tokenAddress, address recipient)
     external;
 
+  function claimTokens(address tokenAddress, address recipient) external;
+
   /**
     * @dev Returns the supply for the given token, including accrued interest. This function can have side effects.
     */

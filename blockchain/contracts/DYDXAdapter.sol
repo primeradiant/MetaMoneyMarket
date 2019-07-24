@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 
+import "./Claimable.sol";
 import "./IMoneyMarketAdapter.sol";
 
 contract SoloMargin {
@@ -54,7 +55,7 @@ contract SoloMargin {
     public;
 }
 
-contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
+contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   // dyDx SoloMargin contract
   SoloMargin soloMargin;
 
@@ -205,6 +206,10 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable {
     soloMargin.operate(accounts, actions);
 
     token.transfer(recipient, token.balanceOf(address(this)));
+  }
+
+  function claimTokens(address tokenAddress, address recipient) external onlyOwner {
+    _claimTokens(tokenAddress, recipient);
   }
 
   function getSupply(address tokenAddress) external returns (uint256) {

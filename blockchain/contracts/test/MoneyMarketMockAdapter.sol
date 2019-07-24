@@ -2,10 +2,12 @@ pragma solidity 0.5.8;
 
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+
+import "../Claimable.sol";
 import "../IMoneyMarketAdapter.sol";
 import "./MoneyMarketMock.sol";
 
-contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
+contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter, Claimable {
   MoneyMarketMock public moneyMarket;
 
   constructor(MoneyMarketMock _moneyMarket) public {
@@ -57,6 +59,10 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter {
 
     moneyMarket.withdrawAll(tokenAddress);
     token.transfer(recipient, token.balanceOf(address(this)));
+  }
+
+  function claimTokens(address tokenAddress, address recipient) external onlyOwner {
+    _claimTokens(tokenAddress, recipient);
   }
 
   function getSupply(address tokenAddress) external returns (uint256) {

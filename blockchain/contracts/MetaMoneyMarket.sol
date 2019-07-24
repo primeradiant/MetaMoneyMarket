@@ -4,6 +4,7 @@ import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
+import "./Claimable.sol";
 import "./IMoneyMarketAdapter.sol";
 import "./TokenShare.sol";
 
@@ -13,7 +14,7 @@ import "./TokenShare.sol";
  * contracts and selects the one with the highest rate.
  * The addresses of the money markets are specified on deployment.
  */
-contract MetaMoneyMarket is Ownable {
+contract MetaMoneyMarket is Ownable, Claimable {
   // list of adapters for the underlying money markets
   IMoneyMarketAdapter[] public moneyMarkets;
 
@@ -199,6 +200,15 @@ contract MetaMoneyMarket is Ownable {
     if (remainingTokens > 0) {
       moneyMarkets[moneyMarkets.length - 1].deposit(tokenAddress, remainingTokens);
     }
+  }
+
+  function claimTokens(address tokenAddress, address recipient) public onlyOwner {
+    _claimTokens(tokenAddress, recipient);
+  }
+
+  function claimTokensFromAdapter(uint256 index, address tokenAddress, address recipient) public onlyOwner {
+    IMoneyMarketAdapter moneyMarket = moneyMarkets[index];
+    moneyMarket.claimTokens(tokenAddress, recipient);
   }
 
   /**
