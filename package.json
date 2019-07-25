@@ -59,7 +59,9 @@
     "prettier:contracts": "prettier --write 'blockchain/**/*.{js,json,md,sol}'",
     "prettier-check": "prettier --check 'src/**/*.{ts,tsx,json,md}' --check 'blockchain/**/*.{js,json,md,sol}'",
     "deploy:local": "cd blockchain && truffle migrate",
-    "deploy:rinkeby": "cd blockchain && truffle migrate --network rinkeby"
+    "deploy:rinkeby": "cd blockchain && truffle migrate --network rinkeby",
+    "deploy:kovan": "cd blockchain && truffle migrate --network kovan",
+    "deploy:mainnet": "cd blockchain && truffle migrate --network mainnet"
   },
   "eslintConfig": {
     "extends": "react-app"

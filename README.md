@@ -36,7 +36,7 @@ yarn start
 
 Connect MetaMask to `localhost:8545` and import the first account from ganache.
 
-### Test in Rinkeby
+### Test in Rinkeby/Kovan
 
 Using the private key for an account with Rinkeby ether and a URL for a Rinkeby
 RPC endpoint, deploy the contracts:
@@ -50,6 +50,46 @@ Then start the app and connect MetaMask to Rinkeby:
 ```
 yarn start
 ```
+
+To deploy in kovan, follow the same steps but replacing everything for "Kovan"
+(`KOVAN_PRIVATE_KEY`, `KOVAN_RPC_URL`, `yarn deploy:kovan`, etc.)
+
+### Deploy in Mainnet
+
+Using the private key for an account with Mainnet ether and a URL for a Mainnet
+RPC endpoint, deploy the contracts:
+
+```
+MAINNET_PRIVATE_KEY=abcdef... MAINNET_RPC_URL=https://mainnet.infura.io/... yarn deploy:mainnet
+```
+
+Then start the app and connect MetaMask to the Mainnet:
+
+```
+yarn start
+```
+
+### Adding new tokens
+
+The `blockchain/migrations/2_deploy_meta_money_market.js` file has some
+configuration objects that specify the tokens that will be supported by the
+deployed `MetaMoneyMarket` contract. To add new supported tokens at deploy time,
+modify the `tokens` property of the corresponding object. For example, for
+adding support for USDC when deploying in the mainnet, you should modify the
+`mainnetConfig.tokens` array, adding this object:
+
+```
+{
+  name: 'usdc',
+  tokenAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+  cTokenAddress: '0x39aa39c021dfbae8fac545936693ac917d5e7563',
+  marketId: 2
+}
+```
+
+`name` is only used for logging. `tokenAddress` is the address of the
+token. `cTokenAddress` is the cUSDC token in the Compound protocol.
+`marketId` is the market id for USDC in the dYdX protocol.
 
 ## The MetaMoneyMarket contract
 
