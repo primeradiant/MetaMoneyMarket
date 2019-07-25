@@ -56,7 +56,7 @@ const HomeTitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   line-height: 1.2;
-  margin: 0 0 10px;
+  margin: 50px 0 10px;
   text-align: center;
 `;
 
