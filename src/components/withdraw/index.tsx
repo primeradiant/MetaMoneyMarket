@@ -99,7 +99,10 @@ const WithdrawModal: React.FC<Props> = props => {
           await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
         }
 
-        await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {from: context.account, gas: '1000000'});
+        await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {
+          from: context.account,
+          gas: '1000000',
+        });
 
         fetchMetaMoneyMarketData(contracts, context.account);
         if (onRequestClose) {
@@ -139,10 +142,10 @@ const WithdrawModal: React.FC<Props> = props => {
           setAmount(value);
         }}
       />
-      {isLoading ? <LoadingStyled /> : (
-        <ModalNote>
-          {error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}
-        </ModalNote>
+      {isLoading ? (
+        <LoadingStyled />
+      ) : (
+        <ModalNote>{error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}</ModalNote>
       )}
       <ButtonStyled disabled={isLoading || !amount} onClick={sendWithdraw}>
         Withdraw

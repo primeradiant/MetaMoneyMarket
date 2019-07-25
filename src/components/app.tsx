@@ -8,7 +8,7 @@ import {Infura, MetaMask} from '../web3/connectors';
 
 import Help from './help';
 import Landing from './landing';
-import { MainWrapper } from './layout/MainWrapper';
+import {MainWrapper} from './layout/MainWrapper';
 import MyAccount from './my-account';
 import Terms from './terms';
 

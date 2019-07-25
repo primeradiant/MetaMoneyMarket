@@ -8,9 +8,7 @@ const LogoTitle = styled.h1`
 `;
 
 const Logo = () => {
-  return (
-    <LogoTitle>MetaMoneyMarket</LogoTitle>
-  );
+  return <LogoTitle>MetaMoneyMarket</LogoTitle>;
 };
 
 export default Logo;

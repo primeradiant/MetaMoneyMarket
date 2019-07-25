@@ -53,7 +53,9 @@ export class BigNumberInput extends React.Component<Props, State> {
   };
 
   public readonly state = {
-    currentValueStr: this.props.value ? TokenAmount.format(this.props.value, this.props.decimals, this.props.valueFixedDecimals) : '',
+    currentValueStr: this.props.value
+      ? TokenAmount.format(this.props.value, this.props.decimals, this.props.valueFixedDecimals)
+      : '',
   };
 
   private textInput: any;

@@ -1,6 +1,6 @@
 import React, {HTMLAttributes, useState} from 'react';
 import styled, {css} from 'styled-components';
-import { useWeb3Context } from 'web3-react';
+import {useWeb3Context} from 'web3-react';
 
 import ButtonLine from '../common/ButtonLine';
 import Card from '../common/card';
@@ -133,7 +133,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
       props.redirect('/my-account');
     }
     setModalIsOpen(true);
-  }
+  };
   const closeLoginModal = () => setModalIsOpen(false);
 
   const deposit = (market: Market) => {

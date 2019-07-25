@@ -9,7 +9,7 @@ import {LoginModal} from '../login';
 
 import {themeBreakPoints, themeColors} from '../../util/constants';
 
-import { MailChimpForm } from './MailChimpForm';
+import {MailChimpForm} from './MailChimpForm';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
@@ -97,7 +97,6 @@ const Landing: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-
       <MainText>Maximize your crypto gains</MainText>
       <WelcomeText>Currently in alpha testing!</WelcomeText>
 
