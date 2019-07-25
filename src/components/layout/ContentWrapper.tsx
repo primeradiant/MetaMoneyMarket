@@ -1,5 +1,5 @@
-import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faGithub, faTwitter} from '@fortawesome/free-brands-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import React, {HTMLAttributes} from 'react';
 import styled from 'styled-components';
 
@@ -34,11 +34,14 @@ const ContentWrapper: React.FC<Props> = (props: Props) => {
     <ContentWrapperComponent {...restProps}>
       <ContentCenterStyled>{children}</ContentCenterStyled>
       <Footer>
-        <a href='https://twitter.com/metamoneymarket'><FontAwesomeIcon icon={faTwitter} /></a>
+        <a href="https://twitter.com/metamoneymarket">
+          <FontAwesomeIcon icon={faTwitter} />
+        </a>
         &nbsp;&nbsp;
-        <a href='https://github.com/Altoros/sovereign'><FontAwesomeIcon icon={faGithub} /></a>
-        &nbsp;&nbsp;
-        Data provided by <a href="https://nomics.com/">Nomics</a>
+        <a href="https://github.com/Altoros/sovereign">
+          <FontAwesomeIcon icon={faGithub} />
+        </a>
+        &nbsp;&nbsp; Data provided by <a href="https://nomics.com/">Nomics</a>
       </Footer>
     </ContentWrapperComponent>
   );

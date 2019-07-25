@@ -24,7 +24,7 @@ const Card: React.FC<Props> = (props: Props) => {
 
   return (
     <CardBase {...restProps}>
-      {img ? <img src={img} style={{maxWidth: '100%', padding: '1rem'}} alt={title || ''}/> : null}
+      {img ? <img src={img} style={{maxWidth: '100%', padding: '1rem'}} alt={title || ''} /> : null}
       {title ? <CardTitle>{title}</CardTitle> : null}
       {children}
     </CardBase>
