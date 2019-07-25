@@ -65,7 +65,7 @@ const InfoBlocks = styled.div`
   grid-template-columns: 1fr;
   row-gap: 15px;
 
-  @media (min-width: ${themeBreakPoints.xxl}) {
+  @media (min-width: ${themeBreakPoints.lg}) {
     column-gap: 15px;
     grid-template-columns: 1fr 1fr 1fr;
   }
