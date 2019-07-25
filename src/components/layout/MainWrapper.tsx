@@ -1,4 +1,5 @@
 import React, {HTMLAttributes} from 'react';
+import {withRouter} from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../header';
 import ContentWrapper from './ContentWrapper';
@@ -7,6 +8,7 @@ import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  history: any;
 }
 
 const MainWrapperComponent = styled.div`
@@ -16,15 +18,17 @@ const MainWrapperComponent = styled.div`
   height: 100%;
 `;
 
-const MainWrapper: React.FC<Props> = (props: Props) => {
-  const {children, ...restProps} = props;
+class BasicMainWrapper extends React.Component<Props> {
+  public render() {
+    const {children, ...restProps} = this.props;
 
-  return (
-    <MainWrapperComponent {...restProps}>
-      <Header />
-      <ContentWrapper>{children}</ContentWrapper>
-    </MainWrapperComponent>
-  );
-};
+    return (
+      <MainWrapperComponent {...restProps}>
+        <Header redirect={path => this.props.history.push(path)} />
+        <ContentWrapper>{children}</ContentWrapper>
+      </MainWrapperComponent>
+    );
+  }
+}
 
-export default MainWrapper;
+export const MainWrapper = withRouter(BasicMainWrapper as any);

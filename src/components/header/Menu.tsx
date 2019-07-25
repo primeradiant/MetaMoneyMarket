@@ -7,7 +7,9 @@ import {LoginModal} from '../login';
 
 import {themeColors, themeDimensions} from '../../util/constants';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  redirect: (path: string) => void;
+}
 
 interface State {
   modalIsOpen: boolean;
@@ -62,7 +64,10 @@ const Menu: React.FC<Props> = props => {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const logout = () => context.unsetConnector();
+  const logout = () => {
+    context.unsetConnector();
+    props.redirect('/');
+  };
 
   return (
     <>
@@ -73,7 +78,7 @@ const Menu: React.FC<Props> = props => {
         {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
         {context.account && <MenuItem onClick={logout}>Logout</MenuItem>}
       </MenuContainer>
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={props.redirect} />
     </>
   );
 };

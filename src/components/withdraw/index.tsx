@@ -38,12 +38,26 @@ const LoadingStyled = styled(Loading)`
   width: 100%;
 `;
 
+const ModalNote = styled.p`
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.42;
+  margin: 0 0 15px;
+`;
+
+const ModalNoteError = styled.div`
+  color: lightcoral;
+  font-weight: 700;
+`;
+
 const WithdrawModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
-  const [amount, setAmount] = useState(new BN(0));
+  const [amount, setAmount] = useState<Maybe<BN>>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [maxEnabled, setMaxEnabled] = useState(false);
+  const [error, setError] = useState<Maybe<Error>>(null);
 
   const onMax = () => {
     setMaxEnabled(true);
@@ -64,31 +78,40 @@ const WithdrawModal: React.FC<Props> = props => {
   const sendWithdraw = async () => {
     if (context.account && metaMoneyMarket) {
       setIsLoading(true);
-      const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
-      const tokenShare = await IERC20.at(tokenShareAddress);
+      setError(null);
+      try {
+        const tokenShareAddress = await metaMoneyMarket.getTokenShare(market.address);
+        const tokenShare = await IERC20.at(tokenShareAddress);
 
-      const allowance: BN = await tokenShare.allowance(context.account, metaMoneyMarket.address);
+        const allowance: BN = await tokenShare.allowance(context.account, metaMoneyMarket.address);
 
-      let amountToBurn: BN;
-      if (maxEnabled) {
-        amountToBurn = await tokenShare.balanceOf(context.account);
-      } else {
-        const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
-        const tokenSupply = exchangeRate[0];
-        const tokenShareSupply = exchangeRate[1];
-        amountToBurn = amount.mul(tokenShareSupply).divRound(tokenSupply);
-      }
+        let amountToBurn: BN;
+        if (maxEnabled) {
+          amountToBurn = await tokenShare.balanceOf(context.account);
+        } else {
+          const exchangeRate = await metaMoneyMarket.getExchangeRate(market.address);
+          const tokenSupply = exchangeRate[0];
+          const tokenShareSupply = exchangeRate[1];
+          amountToBurn = (amount || new BN(0)).mul(tokenShareSupply).divRound(tokenSupply);
+        }
 
-      if (allowance.lt(amountToBurn)) {
-        await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
-      }
+        if (allowance.lt(amountToBurn)) {
+          await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+        }
 
-      await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {from: context.account, gas: '1000000'});
+        await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {
+          from: context.account,
+          gas: '1000000',
+        });
 
-      fetchMetaMoneyMarketData(contracts, context.account);
-      setIsLoading(false);
-      if (onRequestClose) {
-        onRequestClose();
+        fetchMetaMoneyMarketData(contracts, context.account);
+        if (onRequestClose) {
+          onRequestClose();
+        }
+      } catch (e) {
+        setError(e);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -119,8 +142,12 @@ const WithdrawModal: React.FC<Props> = props => {
           setAmount(value);
         }}
       />
-      {isLoading ? <LoadingStyled /> : null}
-      <ButtonStyled disabled={isLoading} onClick={sendWithdraw}>
+      {isLoading ? (
+        <LoadingStyled />
+      ) : (
+        <ModalNote>{error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}</ModalNote>
+      )}
+      <ButtonStyled disabled={isLoading || !amount} onClick={sendWithdraw}>
         Withdraw
       </ButtonStyled>
     </Modal>

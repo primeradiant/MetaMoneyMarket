@@ -46,6 +46,11 @@ const ModalNoteStrong = styled.span`
   font-weight: 700;
 `;
 
+const ModalNoteError = styled.div`
+  color: lightcoral;
+  font-weight: 700;
+`;
+
 const ModalSubtitle = styled.h3`
   color: #000;
   font-size: 16px;
@@ -62,9 +67,10 @@ const LoadingStyled = styled(Loading)`
 const DepositModal: React.FC<Props> = props => {
   const {onRequestClose, market, ...restProps} = props;
 
-  const [amount, setAmount] = useState(new BN(0));
+  const [amount, setAmount] = useState<Maybe<BN>>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [maxEnabled, setMaxEnabled] = useState(false);
+  const [error, setError] = useState<Maybe<Error>>(null);
 
   const onMax = () => {
     setMaxEnabled(true);
@@ -85,23 +91,29 @@ const DepositModal: React.FC<Props> = props => {
   const sendDeposit = async () => {
     if (context.account && metaMoneyMarket) {
       setIsLoading(true);
-      const token = await IERC20.at(market.address);
+      setError(null);
+      try {
+        const token = await IERC20.at(market.address);
 
-      const allowance: BN = await token.allowance(context.account, metaMoneyMarket.address);
-      const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount;
+        const allowance: BN = await token.allowance(context.account, metaMoneyMarket.address);
+        const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount || new BN(0);
 
-      if (allowance.lt(amountToDeposit)) {
-        await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
-      }
+        if (allowance.lt(amountToDeposit)) {
+          await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+        }
 
-      await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {
-        from: context.account,
-        gas: '1000000',
-      });
-      fetchMetaMoneyMarketData(contracts, context.account);
-      setIsLoading(false);
-      if (onRequestClose) {
-        onRequestClose();
+        await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {
+          from: context.account,
+          gas: '1000000',
+        });
+        fetchMetaMoneyMarketData(contracts, context.account);
+        if (onRequestClose) {
+          onRequestClose();
+        }
+      } catch (e) {
+        setError(e);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -141,9 +153,10 @@ const DepositModal: React.FC<Props> = props => {
         <ModalNote>
           <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then make
           the deposit.
+          {error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}
         </ModalNote>
       )}
-      <ButtonStyled disabled={isLoading} onClick={sendDeposit}>
+      <ButtonStyled disabled={isLoading || !amount} onClick={sendDeposit}>
         Deposit
       </ButtonStyled>
     </Modal>

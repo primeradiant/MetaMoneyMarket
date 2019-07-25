@@ -9,9 +9,13 @@ import Menu from './Menu';
 
 import {themeBreakPoints, themeColors, themeDimensions} from '../../util/constants';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  redirect: (path: string) => void;
+}
 
-const LogoWrapper = styled(NavLink)``;
+const LogoWrapper = styled(NavLink)`
+  text-decoration: none;
+`;
 
 const HeaderContainer = styled.div`
   background-color: ${themeColors.headerBackgroundColor};
@@ -52,7 +56,7 @@ const Header: React.FC<Props> = (props: Props) => {
           <Logo />
         </LogoWrapper>
         <HeaderEndContent>
-          <Menu />
+          <Menu redirect={props.redirect} />
           {context.active && context.account && <ConnectionStatus active={context.active} account={context.account} />}
         </HeaderEndContent>
       </HeaderContent>

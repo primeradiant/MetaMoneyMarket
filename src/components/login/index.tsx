@@ -13,7 +13,9 @@ import ModalTitle from '../modal-title';
 
 import {modalStyle, themeColors} from '../../util/constants';
 
-interface Props extends React.ComponentProps<typeof Modal> {}
+interface Props extends React.ComponentProps<typeof Modal> {
+  redirect: (path: string) => void;
+}
 
 type LoginMethod = 'metamask';
 
@@ -126,6 +128,7 @@ export const LoginModal: React.FC<Props> = props => {
 
     if (onRequestClose) {
       onRequestClose(e);
+      props.redirect('/my-account');
     }
   };
 

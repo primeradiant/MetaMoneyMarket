@@ -1,17 +1,19 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
 import styled from 'styled-components';
-import {useWeb3Context} from 'web3-react';
 
 import {ContractsContext} from '../../context/contracts';
-import Button from '../common/Button';
 import Card from '../common/card';
-import MyAccount from '../my-account';
+import AccountBalance from '../my-account/AccountBalance';
 
 import {LoginModal} from '../login';
 
 import {themeBreakPoints, themeColors} from '../../util/constants';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
+import {MailChimpForm} from './MailChimpForm';
+
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  history: any;
+}
 
 interface State {
   modalIsOpen: boolean;
@@ -35,41 +37,27 @@ const MainText = styled.h1`
   text-align: center;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-`;
-
-const BigButton = styled(Button)`
-  height: 45px;
-  font-size: 21px;
-`;
-
 const InfoText = styled.p`
   color: ${themeColors.secondaryTextColor};
   font-size: 20px;
   font-weight: 600;
   line-height: 1.35;
   margin: 0 auto 45px;
-`;
-
-const InfoTextMaxWidth = styled(InfoText)`
-  margin-bottom: 60px;
-  max-width: 780px;
+  max-width: 1000px;
   text-align: center;
 `;
 
-const MyAccountStyled = styled(MyAccount)`
+const AccountBalanceStyled = styled(AccountBalance)`
   margin: 0 0 55px;
 `;
 
 const HomeTitle = styled.h2`
   color: ${themeColors.tertiaryTextColor};
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.2;
   margin: 0 0 10px;
+  text-align: center;
 `;
 
 const InfoBlocks = styled.div`
@@ -101,58 +89,48 @@ const InfoBlockText = styled.div`
 `;
 
 const Landing: React.FC<Props> = (props: Props) => {
-  const context = useWeb3Context();
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
   const {marketsData} = useContext(ContractsContext);
 
   return (
     <>
-      <WelcomeText>Welcome to Sovereign!</WelcomeText>
-      <MainText>Your Personal Bank</MainText>
-      {!context.account && (
-        <ButtonContainer>
-          <BigButton onClick={openModal}>Start Now!</BigButton>
-        </ButtonContainer>
-      )}
-      <InfoTextMaxWidth>
-        Similique sunt in culpa qui officia deserunt mollitia animi. Similique sunt in culpa qui officia deserunt
-        mollitia animi similique sunt in culpa qui officia…
-      </InfoTextMaxWidth>
-      <MyAccountStyled marketsData={marketsData} />
-      <HomeTitle>
-        Why <strong>Sovereign?</strong>
-      </HomeTitle>
-      <InfoText>Similique sunt in culpa qui officia deserunt mollitia animi.</InfoText>
+      <MainText>Maximize your crypto gains</MainText>
+      <WelcomeText>Currently in alpha testing!</WelcomeText>
+
+      <MailChimpForm />
+
+      <AccountBalanceStyled marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
+
+      <HomeTitle>How it works?</HomeTitle>
+      <InfoText>
+        Instead of manually moving money around burning fees chasing the optimal interest rate. Deposit your tokens into
+        the MetaMoneyMarket, and the smart contract will automatically deposit into the highest yielding Money Market,
+        periodically rebalancing for you when rates change.
+      </InfoText>
+
       <InfoBlocks>
-        <Card title="Title 1">
+        <Card title="Best Rate">
           <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,{' '}
-            <a href="https://google.com">similique sunt in</a> culpa qui officia deserunt mollitia animi, id est laborum
-            et dolorum fuga.
+            By combining multiple markets into one, you get the best rate for a wider number of tokens than any
+            contract.
           </InfoBlockText>
         </Card>
-        <Card title="Title 2">
+        <Card title="Meta Tokens">
           <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
-            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            You will receive a Token which represents your balance on deposit. Which you can then use in other DeFi
+            Protocols.
           </InfoBlockText>
         </Card>
-        <Card title="Title 3">
+        <Card title="Auto Rebalance">
           <InfoBlockText>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, culpa qui
-            officia deserunt mollitia animi, id est laborum et dolorum fuga.
+            If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3% (no annual fee).
           </InfoBlockText>
         </Card>
       </InfoBlocks>
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
     </>
   );
 };

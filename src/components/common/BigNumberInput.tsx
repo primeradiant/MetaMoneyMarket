@@ -11,9 +11,9 @@ interface Props {
   placeholder?: string;
   max?: BN;
   min?: BN;
-  onChange: (newValue: BN) => void;
+  onChange: (newValue: BN | null) => void;
   step?: BN;
-  value: BN;
+  value: Maybe<BN>;
   valueFixedDecimals?: number;
 }
 
@@ -53,7 +53,9 @@ export class BigNumberInput extends React.Component<Props, State> {
   };
 
   public readonly state = {
-    currentValueStr: TokenAmount.format(this.props.value, this.props.decimals, this.props.valueFixedDecimals),
+    currentValueStr: this.props.value
+      ? TokenAmount.format(this.props.value, this.props.decimals, this.props.valueFixedDecimals)
+      : '',
   };
 
   private textInput: any;
@@ -92,13 +94,18 @@ export class BigNumberInput extends React.Component<Props, State> {
     const {decimals, onChange, min, max} = this.props;
     const newValueStr = e.currentTarget.value;
 
-    const newValue = TokenAmount.fromString(newValueStr || '0', decimals).amount;
-    const invalidValue = (min && newValue.lt(min)) || (max && newValue.gt(max));
-    if (invalidValue) {
-      return;
-    }
+    if (!newValueStr) {
+      onChange(null);
+    } else {
+      const newValue = TokenAmount.fromString(newValueStr || '0', decimals).amount;
+      const invalidValue = (min && newValue.lt(min)) || (max && newValue.gt(max));
 
-    onChange(newValue);
+      if (invalidValue) {
+        return;
+      }
+
+      onChange(newValue);
+    }
 
     this.setState({
       currentValueStr: newValueStr,
