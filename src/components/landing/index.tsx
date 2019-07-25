@@ -97,8 +97,9 @@ const Landing: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      <WelcomeText>Welcome to Sovereign!</WelcomeText>
+
       <MainText>Maximize your crypto gains</MainText>
+      <WelcomeText>Currently in alpha testing!</WelcomeText>
 
       <MailChimpForm />
 
@@ -126,7 +127,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         </Card>
         <Card title="Auto Rebalance">
           <InfoBlockText>
-            If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3%.
+            If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3% (no annual fee).
           </InfoBlockText>
         </Card>
       </InfoBlocks>
