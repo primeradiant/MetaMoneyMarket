@@ -19,6 +19,7 @@ const ContentWrapperComponent = styled.div`
 
 const ContentCenterStyled = styled(ContentCenter)`
   padding: 45px ${themeDimensions.horizontalPadding};
+  min-height: calc(100vh - 97px);
 `;
 
 const Footer = styled.div`
