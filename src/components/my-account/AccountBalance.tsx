@@ -23,8 +23,7 @@ interface State {
 }
 
 const Table = styled.table`
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin: 15px auto;
   max-width: 1100px;
 `;
 
@@ -47,11 +46,12 @@ const cellCSS = css`
   white-space: nowrap;
 `;
 
-const TH = styled.th<{textAlign?: string}>`
+const TH = styled.th<{textAlign?: string, width: string}>`
   ${cellCSS}
   color: #444;
   font-weight: 600;
   text-align: ${props => props.textAlign};
+  width: ${props => props.width}
 `;
 
 TH.defaultProps = {
@@ -147,22 +147,22 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Card {...restProps}>
+    <Card {...restProps} style={{ width: isLoggedIn ? '1100px' : '700px', margin: 'auto' }}>
       <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
       <TableOverflow>
         <Table>
           <THead>
             <TR>
-              <TH textAlign="left">Asset</TH>
-              <TH>Price</TH>
-              <TH>Interest Rate</TH>
+              <TH textAlign="left" width='20%'>Asset</TH>
+              <TH width='15%'>Price</TH>
+              <TH width='15%'>Interest Rate</TH>
               {isLoggedIn ? (
                 <>
-                  <TH>Wallet Balance</TH>
-                  <TH>Deposit Balance</TH>
+                  <TH width='15%'>Wallet Balance</TH>
+                  <TH width='15%'>Deposit Balance</TH>
                 </>
               ) : null}
-              <TH>&nbsp;</TH>
+              <TH width='20%'>&nbsp;</TH>
             </TR>
           </THead>
           <TBody>
