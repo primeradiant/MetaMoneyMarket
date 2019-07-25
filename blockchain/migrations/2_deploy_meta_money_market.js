@@ -5,7 +5,39 @@ const MetaMoneyMarket = artifacts.require('MetaMoneyMarket');
 const MoneyMarketMock = artifacts.require('MoneyMarketMock');
 const MoneyMarketMockAdapter = artifacts.require('MoneyMarketMockAdapter');
 const TestToken = artifacts.require('TestToken');
-const IERC20 = artifacts.require('IERC20');
+
+const rinkebyConfig = {
+  tokens: [
+    {
+      name: 'dai',
+      tokenAddress: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea',
+      cTokenAddress: '0x6d7f0754ffeb405d23c51ce938289d4835be3b14'
+    }
+  ]
+};
+
+const kovanConfig = {
+  soloAddress: '0x4EC3570cADaAEE08Ae384779B0f3A45EF85289DE',
+  tokens: [
+    {
+      name: 'dai',
+      tokenAddress: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2',
+      marketId: 1
+    }
+  ]
+};
+
+const mainnetConfig = {
+  soloAddress: '0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e',
+  tokens: [
+    {
+      name: 'dai',
+      tokenAddress: '0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359',
+      cTokenAddress: '0xf5dce57282a584d2746faf1593d3121fcac444dc',
+      marketId: 1
+    }
+  ]
+};
 
 module.exports = async function(deployer, network, accounts) {
   let moneyMarkets = [];
@@ -37,76 +69,95 @@ module.exports = async function(deployer, network, accounts) {
     await moneyMarketAdapter1.transferOwnership(metaMoneyMarket.address);
     await moneyMarketAdapter2.transferOwnership(metaMoneyMarket.address);
   } else if (network === 'rinkeby') {
-    const daiAddress = '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea';
-    const cDaiAddress = '0x6d7f0754ffeb405d23c51ce938289d4835be3b14';
-    const dai = await IERC20.at(daiAddress);
-
     // deploy money market mock
     await deployer.deploy(MoneyMarketMock, 1);
     const moneyMarketMock = await MoneyMarketMock.deployed();
     await deployer.deploy(MoneyMarketMockAdapter, moneyMarketMock.address);
     const moneyMarketAdapter = await MoneyMarketMockAdapter.deployed();
 
-    // deploy compound and add dai->cDai mapping
+    // deploy compound
     await deployer.deploy(CompoundAdapter);
     const compoundAdapter = await CompoundAdapter.deployed();
-    await compoundAdapter.mapTokenToCToken(daiAddress, cDaiAddress);
 
     // deploy MetaMoneyMarket
     moneyMarkets = [moneyMarketAdapter.address, compoundAdapter.address];
     await deployer.deploy(MetaMoneyMarket, moneyMarkets);
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
+    console.log('configuring tokens');
+    for (const {name, tokenAddress, cTokenAddress} of rinkebyConfig.tokens) {
+      if (cTokenAddress !== undefined) {
+        console.log(`configuring mmm and adapters for ${name}`);
+        await compoundAdapter.mapTokenToCToken(tokenAddress, cTokenAddress);
+        await metaMoneyMarket.addMarket(tokenAddress);
+        await moneyMarketMock.addMarket(tokenAddress);
+      }
+    }
+
     // transfer ownership of adapters to the MMM contract
     console.log('transferring adapters ownership to the MMM contract');
     await moneyMarketAdapter.transferOwnership(metaMoneyMarket.address);
     await compoundAdapter.transferOwnership(metaMoneyMarket.address);
-
-    console.log('adding rinkeby dai market');
-    await metaMoneyMarket.addMarket(daiAddress);
-    await moneyMarketMock.addMarket(daiAddress);
-
-    console.log('approving MMM contract to move the dai of the user');
-    await dai.approve(
-      metaMoneyMarket.address,
-      '115792089237316195423570985008687907853269984665640564039456584007913129639935'
-    );
   } else if (network === 'kovan') {
-    const daiAddress = '0xC4375B7De8af5a38a93548eb8453a498222C4fF2';
-    const daiMarketId = 1;
-    const dai = await IERC20.at(daiAddress);
-
     // deploy money market mock
     await deployer.deploy(MoneyMarketMock, 1);
     const moneyMarketMock = await MoneyMarketMock.deployed();
     await deployer.deploy(MoneyMarketMockAdapter, moneyMarketMock.address);
     const moneyMarketAdapter = await MoneyMarketMockAdapter.deployed();
 
-    // deploy dydx adapter and map dai to market id
-    await deployer.deploy(
-      DYDXAdapter,
-      '0x4EC3570cADaAEE08Ae384779B0f3A45EF85289DE'
-    );
+    // deploy dydx adapter
+    await deployer.deploy(DYDXAdapter, kovanConfig.soloAddress);
     const dydxAdapter = await DYDXAdapter.deployed();
-    await dydxAdapter.mapTokenToMarketId(daiAddress, daiMarketId);
 
     // deploy MetaMoneyMarket
     moneyMarkets = [moneyMarketAdapter.address, dydxAdapter.address];
     await deployer.deploy(MetaMoneyMarket, moneyMarkets);
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
+    console.log('configuring tokens');
+    for (const {name, tokenAddress, marketId} of kovanConfig.tokens) {
+      if (marketId !== undefined) {
+        console.log(`configuring mmm and adapters for ${name}`);
+        await dydxAdapter.mapTokenToMarketId(tokenAddress, marketId);
+        await metaMoneyMarket.addMarket(tokenAddress);
+        await moneyMarketMock.addMarket(tokenAddress);
+      }
+    }
+
     console.log('transferring adapters ownership to the MMM contract');
     await moneyMarketAdapter.transferOwnership(metaMoneyMarket.address);
     await dydxAdapter.transferOwnership(metaMoneyMarket.address);
+  } else if (network === 'mainnet') {
+    // deploy compound
+    await deployer.deploy(CompoundAdapter);
+    const compoundAdapter = await CompoundAdapter.deployed();
 
-    console.log('adding kovan dai market');
-    await metaMoneyMarket.addMarket(daiAddress);
-    await moneyMarketMock.addMarket(daiAddress);
+    // deploy dydx adapter
+    await deployer.deploy(DYDXAdapter, mainnetConfig.soloAddress);
+    const dydxAdapter = await DYDXAdapter.deployed();
 
-    console.log('approving MMM contract to move the dai of the user');
-    await dai.approve(
-      metaMoneyMarket.address,
-      '115792089237316195423570985008687907853269984665640564039456584007913129639935'
-    );
+    // deploy MetaMoneyMarket
+    moneyMarkets = [compoundAdapter.address, dydxAdapter.address];
+    await deployer.deploy(MetaMoneyMarket, moneyMarkets);
+    const metaMoneyMarket = await MetaMoneyMarket.deployed();
+
+    console.log('configuring tokens');
+    for (const {
+      name,
+      tokenAddress,
+      cTokenAddress,
+      marketId
+    } of mainnetConfig.tokens) {
+      if (cTokenAddress !== undefined && marketId !== undefined) {
+        console.log(`configuring mmm and adapters for ${name}`);
+        await compoundAdapter.mapTokenToCToken(tokenAddress, cTokenAddress);
+        await dydxAdapter.mapTokenToMarketId(tokenAddress, marketId);
+        await metaMoneyMarket.addMarket(tokenAddress);
+      }
+    }
+
+    console.log('transferring adapters ownership to the MMM contract');
+    await compoundAdapter.transferOwnership(metaMoneyMarket.address);
+    await dydxAdapter.transferOwnership(metaMoneyMarket.address);
   }
 };
