@@ -19,7 +19,7 @@ const MainWrapperComponent = styled.div`
 `;
 
 class BasicMainWrapper extends React.Component<Props> {
-  render() {
+  public render() {
     const {children, ...restProps} = this.props;
 
     return (
