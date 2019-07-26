@@ -46,12 +46,12 @@ const cellCSS = css`
   white-space: nowrap;
 `;
 
-const TH = styled.th<{textAlign?: string, width: string}>`
+const TH = styled.th<{textAlign?: string; width: string}>`
   ${cellCSS}
   color: #444;
   font-weight: 600;
   text-align: ${props => props.textAlign};
-  width: ${props => props.width}
+  width: ${props => props.width};
 `;
 
 TH.defaultProps = {
@@ -147,22 +147,24 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Card {...restProps} style={{ width: isLoggedIn ? '1100px' : '700px', margin: 'auto' }}>
+    <Card {...restProps} style={{width: isLoggedIn ? '1100px' : '700px', margin: 'auto'}}>
       <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
       <TableOverflow>
         <Table>
           <THead>
             <TR>
-              <TH textAlign="left" width='20%'>Asset</TH>
-              <TH width='15%'>Price</TH>
-              <TH width='15%'>Interest Rate</TH>
+              <TH textAlign="left" width="20%">
+                Asset
+              </TH>
+              <TH width="15%">Price</TH>
+              <TH width="15%">Interest Rate</TH>
               {isLoggedIn ? (
                 <>
-                  <TH width='15%'>Wallet Balance</TH>
-                  <TH width='15%'>Deposit Balance</TH>
+                  <TH width="15%">Wallet Balance</TH>
+                  <TH width="15%">Deposit Balance</TH>
                 </>
               ) : null}
-              <TH width='20%'>&nbsp;</TH>
+              <TH width="20%">&nbsp;</TH>
             </TR>
           </THead>
           <TBody>
