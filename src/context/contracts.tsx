@@ -1,6 +1,5 @@
 import BN from 'bn.js';
 import find from 'lodash.find';
-import uniqBy from 'lodash.uniqby';
 import React, {useCallback, useEffect, useState} from 'react';
 import * as contract from 'truffle-contract';
 import {useWeb3Context} from 'web3-react';
@@ -9,6 +8,7 @@ import IERC20Artifact from '../artifacts/ERC20Detailed.json';
 import MetaMoneyContractArtifact from '../artifacts/MetaMoneyMarket.json';
 import {getPrice} from '../services/nomics';
 import TokenAmount from '../util/token-amount';
+import {getSymbol} from '../util/get-symbol';
 
 interface Contracts {
   metaMoneyMarket: MetaMoneyMarketContract;
@@ -39,7 +39,7 @@ interface MetaMoneyMarketContract {
 }
 
 function mergeMarkets(markets1: Markets, markets2: Markets): Markets {
-  const symbols = uniqBy(markets1.concat(markets2), 'symbol').map(x => x.symbol);
+  const symbols = markets2.map(x => x.symbol);
 
   return symbols.map(symbol => {
     const m1 = find(markets1, {symbol});
@@ -94,6 +94,12 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
         try {
           symbol = await metaMoneyMarket.getMarketSymbol(address);
         } catch (e) {
+          if (context.networkId) {
+            const knownSymbol = getSymbol(context.networkId, address);
+            if (knownSymbol) {
+              symbol = knownSymbol;
+            }
+          }
           console.error(`Could not get symbol for token at address ${address}`);
         }
 
