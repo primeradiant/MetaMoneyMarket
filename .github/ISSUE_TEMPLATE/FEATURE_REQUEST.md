@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for the Sovereign project
+about: Suggest an idea for the MetaMoneyMarket project
 ---
 
 ### Motivation
