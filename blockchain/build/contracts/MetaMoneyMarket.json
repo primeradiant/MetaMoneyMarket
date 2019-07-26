@@ -26725,6 +26725,31 @@
     "version": "0.5.8+commit.23d335f2.Emscripten.clang"
   },
   "networks": {
+    "1": {
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event",
+          "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+        }
+      },
+      "links": {},
+      "address": "0x7B06e26658074b549546F77D090B309aABc48aA0",
+      "transactionHash": "0x9f5be83e54c7371e64f16af3a9b2e7f6d7c0eb4bd74a7b1a52f38768deb861ed"
+    },
     "4": {
       "events": {
         "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
@@ -26827,7 +26852,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-26T11:55:21.216Z",
+  "updatedAt": "2019-07-26T12:40:46.435Z",
   "devdoc": {
     "details": "MetaMoneyMarket is a contract for managing deposits. It chooses between a number of underlying contracts and selects the one with the highest rate. The addresses of the money markets are specified on deployment.",
     "methods": {

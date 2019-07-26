@@ -12505,7 +12505,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-26T11:55:21.239Z",
+  "updatedAt": "2019-07-26T12:40:46.458Z",
   "devdoc": {
     "methods": {
       "isOwner()": {
