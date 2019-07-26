@@ -14,6 +14,13 @@ cd soverign
 yarn
 ```
 
+Then create a `.env` file. You can copy the `.env.example` file and replace the
+example values with proper ones. The environment variables are:
+
+- `REACT_APP_NOMICS_API_KEY`: An API key for [Nomics](https://nomics.com)
+- `REACT_APP_RPC_URL`: A RPC URL that will be used to show some information
+  until the user connects its wallet.
+
 ### Test locally
 
 Start a ganache instance with network id 50:
