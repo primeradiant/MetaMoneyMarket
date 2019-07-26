@@ -114,7 +114,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
           console.error(`Could not get price for token at address ${address}`);
         }
 
-        let decimals = 18;
+        let decimals = 0;
         try {
           decimals = (await token.decimals()).toNumber();
         } catch (e) {

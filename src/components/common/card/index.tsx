@@ -8,6 +8,7 @@ import CardBase from './CardBase';
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   title?: string;
+  img?: string;
 }
 
 const CardTitle = styled.h1`
@@ -19,10 +20,11 @@ const CardTitle = styled.h1`
 `;
 
 const Card: React.FC<Props> = (props: Props) => {
-  const {title, children, ...restProps} = props;
+  const {title, children, img, ...restProps} = props;
 
   return (
     <CardBase {...restProps}>
+      {img ? <img src={img} style={{maxWidth: '100%', padding: '1rem'}} alt={title || ''} /> : null}
       {title ? <CardTitle>{title}</CardTitle> : null}
       {children}
     </CardBase>

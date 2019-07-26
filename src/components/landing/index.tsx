@@ -56,7 +56,7 @@ const HomeTitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
   line-height: 1.2;
-  margin: 0 0 10px;
+  margin: 50px 0 10px;
   text-align: center;
 `;
 
@@ -65,7 +65,7 @@ const InfoBlocks = styled.div`
   grid-template-columns: 1fr;
   row-gap: 15px;
 
-  @media (min-width: ${themeBreakPoints.xxl}) {
+  @media (min-width: ${themeBreakPoints.lg}) {
     column-gap: 15px;
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -112,19 +112,19 @@ const Landing: React.FC<Props> = (props: Props) => {
       </InfoText>
 
       <InfoBlocks>
-        <Card title="Best Rate">
+        <Card title="Best Rate" img="/img/best-rate.jpg">
           <InfoBlockText>
             By combining multiple markets into one, you get the best rate for a wider number of tokens than any
             contract.
           </InfoBlockText>
         </Card>
-        <Card title="Meta Tokens">
+        <Card title="Meta Tokens" img="/img/meta-tokens.jpg">
           <InfoBlockText>
             You will receive a Token which represents your balance on deposit. Which you can then use in other DeFi
             Protocols.
           </InfoBlockText>
         </Card>
-        <Card title="Auto Rebalance">
+        <Card title="Auto Rebalance" img="/img/auto-rebalance.jpg">
           <InfoBlockText>
             If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3% (no annual fee).
           </InfoBlockText>
