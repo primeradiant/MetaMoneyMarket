@@ -119,6 +119,9 @@ contract MetaMoneyMarket is Ownable, Claimable {
     tokenShare.burnFrom(msg.sender, tokenShareAmount);
 
     for (uint256 i = 0; i < moneyMarkets.length && tokensToTransfer > 0; i++) {
+      if (!moneyMarkets[i].supportsToken(tokenAddress)) {
+        continue;
+      }
       uint256 supply = moneyMarkets[i].getSupply(tokenAddress);
       if (supply == 0) {
         continue;
@@ -131,6 +134,8 @@ contract MetaMoneyMarket is Ownable, Claimable {
         tokensToTransfer -= supply;
       }
     }
+
+    require(tokensToTransfer == 0, "MetaMoneyMarket.withdraw: Not all tokens could be withdrawn");
   }
 
   /**
@@ -183,12 +188,18 @@ contract MetaMoneyMarket is Ownable, Claimable {
     require(percentages.length + 1 == moneyMarkets.length);
 
     for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      if (!moneyMarkets[i].supportsToken(tokenAddress)) {
+        continue;
+      }
       moneyMarkets[i].withdrawAll(tokenAddress, address(this));
     }
 
     uint256 totalSupply = token.balanceOf(address(this));
 
     for (uint256 i = 0; i < percentages.length; i++) {
+      if (!moneyMarkets[i].supportsToken(tokenAddress)) {
+        continue;
+      }
       uint256 amountToDeposit = totalSupply * percentages[i] / 10000;
       if (amountToDeposit == 0) {
         continue;
@@ -197,12 +208,14 @@ contract MetaMoneyMarket is Ownable, Claimable {
     }
 
     uint256 remainingTokens = token.balanceOf(address(this));
-    if (remainingTokens > 0) {
+    if (moneyMarkets[moneyMarkets.length - 1].supportsToken(tokenAddress) && remainingTokens > 0) {
       moneyMarkets[moneyMarkets.length - 1].deposit(
         tokenAddress,
         remainingTokens
       );
     }
+
+    require(token.balanceOf(address(this)) == 0, "MetaMoneyMarket.rebalance: Not all tokens could be rebalanced");
   }
 
   function claimTokens(address tokenAddress, address recipient)
@@ -249,6 +262,9 @@ contract MetaMoneyMarket is Ownable, Claimable {
   {
     uint256 tokenSupply = 0;
     for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      if (!moneyMarkets[i].supportsToken(tokenAddress)) {
+        continue;
+      }
       tokenSupply += moneyMarkets[i].getSupply(tokenAddress);
     }
 
@@ -270,6 +286,9 @@ contract MetaMoneyMarket is Ownable, Claimable {
   {
     uint256 tokenSupply = 0;
     for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      if (!moneyMarkets[i].supportsToken(tokenAddress)) {
+        continue;
+      }
       tokenSupply += moneyMarkets[i].getSupplyView(tokenAddress);
     }
 
@@ -341,15 +360,20 @@ contract MetaMoneyMarket is Ownable, Claimable {
     checkMarketSupported(tokenAddress)
     returns (IMoneyMarketAdapter bestMoneyMarket, uint256 bestRate)
   {
-    bestMoneyMarket = moneyMarkets[0];
-    bestRate = moneyMarkets[0].getRate(tokenAddress);
-    for (uint256 i = 1; i < moneyMarkets.length; i++) {
+    bestMoneyMarket = IMoneyMarketAdapter(address(0));
+    bestRate = 0;
+    for (uint256 i = 0; i < moneyMarkets.length; i++) {
+      if (!moneyMarkets[i].supportsToken(tokenAddress)) {
+        continue;
+      }
       uint256 rate = moneyMarkets[i].getRate(tokenAddress);
       if (rate > bestRate) {
         bestRate = rate;
         bestMoneyMarket = moneyMarkets[i];
       }
     }
+
+    require(address(bestMoneyMarket) != address(0));
   }
 
   function getBestInterestRate(address tokenAddress)

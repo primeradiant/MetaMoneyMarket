@@ -49,8 +49,8 @@ function mergeMarkets(markets1: Markets, markets2: Markets): Markets {
       return {
         ...m1,
         ...m2,
-        depositBalance: m1.depositBalance || m2.depositBalance,
-        walletBalance: m1.walletBalance || m2.walletBalance,
+        depositBalance: m2.depositBalance || m1.depositBalance,
+        walletBalance: m2.walletBalance || m1.walletBalance,
       };
     } else if (m1) {
       return m1;
