@@ -99,12 +99,11 @@ const DepositModal: React.FC<Props> = props => {
         const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount || new BN(0);
 
         if (allowance.lt(amountToDeposit)) {
-          await token.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+          await token.approve(metaMoneyMarket.address, '-1', {from: context.account});
         }
 
         await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {
-          from: context.account,
-          gas: '1000000',
+          from: context.account
         });
         fetchMetaMoneyMarketData(contracts, context.account);
         if (onRequestClose) {

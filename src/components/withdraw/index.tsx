@@ -96,12 +96,11 @@ const WithdrawModal: React.FC<Props> = props => {
         }
 
         if (allowance.lt(amountToBurn)) {
-          await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account, gas: '1000000'});
+          await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account});
         }
 
         await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {
-          from: context.account,
-          gas: '1000000',
+          from: context.account
         });
 
         fetchMetaMoneyMarketData(contracts, context.account);
