@@ -78,4 +78,8 @@ contract MoneyMarketMockAdapter is Ownable, IMoneyMarketAdapter, Claimable {
   function getSupplyView(address tokenAddress) external view returns (uint256) {
     return moneyMarket.getSupply(tokenAddress);
   }
+
+  function supportsToken(address tokenAddress) external view returns (bool) {
+    return moneyMarket.isMarketSupported(tokenAddress);
+  }
 }

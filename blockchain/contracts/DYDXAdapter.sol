@@ -70,13 +70,17 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
 
   modifier checkMarketSupported(address tokenAddress) {
     require(
-      isMarketSupported(tokenAddress),
+      _supportsToken(tokenAddress),
       "Unknown market id for the given token address"
     );
     _;
   }
 
-  function isMarketSupported(address tokenAddress) public view returns (bool) {
+  function supportsToken(address tokenAddress) external view returns (bool) {
+    return _supportsToken(tokenAddress);
+  }
+
+  function _supportsToken(address tokenAddress) internal view returns (bool) {
     return tokenToMarketId[tokenAddress].exists;
   }
 

@@ -18,6 +18,11 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   // map a token address to a cToken address
   mapping(address => address) public tokenToCToken;
 
+  modifier checkTokenSupported(address tokenAddress) {
+    require(_supportsToken(tokenAddress), "Token not supported");
+    _;
+  }
+
   function mapTokenToCToken(address tokenAddress, address cTokenAddress)
     external
     onlyOwner
@@ -35,14 +40,11 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   function deposit(address tokenAddress, uint256 tokenAmount)
     external
     onlyOwner
+    checkTokenSupported(tokenAddress)
   {
     // get cToken
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
-    require(
-      cTokenAddress != address(0),
-      "CompoundAdapter.deposit: Unknown cToken for given token address"
-    );
     CToken cToken = CToken(cTokenAddress);
 
     // transfer tokens from MMM
@@ -65,13 +67,9 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     address tokenAddress,
     address recipient,
     uint256 tokenAmount
-  ) external onlyOwner {
+  ) external onlyOwner checkTokenSupported(tokenAddress) {
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
-    require(
-      cTokenAddress != address(0),
-      "CompoundAdapter.withdraw: Unknown cToken for given token address"
-    );
     CToken cToken = CToken(cTokenAddress);
 
     uint256 result = cToken.redeemUnderlying(tokenAmount);
@@ -85,6 +83,7 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   function withdrawAll(address tokenAddress, address recipient)
     external
     onlyOwner
+    checkTokenSupported(tokenAddress)
   {
     IERC20 token = IERC20(tokenAddress);
     address cTokenAddress = tokenToCToken[tokenAddress];
@@ -125,5 +124,15 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     uint256 exchangeRate = cToken.exchangeRateStored();
     uint256 balance = cToken.balanceOf(address(this));
     return balance * exchangeRate / 10 ** 18;
+  }
+
+  function supportsToken(address tokenAddress) external view returns (bool) {
+    return _supportsToken(tokenAddress);
+  }
+
+  function _supportsToken(address tokenAddress) internal view returns (bool) {
+    address cTokenAddress = tokenToCToken[tokenAddress];
+
+    return cTokenAddress != address(0);
   }
 }
