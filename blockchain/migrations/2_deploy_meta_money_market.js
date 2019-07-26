@@ -35,6 +35,12 @@ const mainnetConfig = {
       tokenAddress: '0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359',
       cTokenAddress: '0xf5dce57282a584d2746faf1593d3121fcac444dc',
       marketId: 1
+    },
+    {
+      name: 'usdc',
+      tokenAddress: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      cTokenAddress: '0x39AA39c021dfbaE8faC545936693aC917d5E7563',
+      marketId: 2
     }
   ]
 };
@@ -156,8 +162,8 @@ module.exports = async function(deployer, network, accounts) {
       }
     }
 
-    console.log('transferring adapters ownership to the MMM contract');
-    await compoundAdapter.transferOwnership(metaMoneyMarket.address);
-    await dydxAdapter.transferOwnership(metaMoneyMarket.address);
+    // console.log('transferring adapters ownership to the MMM contract');
+    // await compoundAdapter.transferOwnership(metaMoneyMarket.address);
+    // await dydxAdapter.transferOwnership(metaMoneyMarket.address);
   }
 };

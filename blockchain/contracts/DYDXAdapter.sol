@@ -33,8 +33,17 @@ contract SoloMargin {
     AssetReference ref;
     uint256 value;
   }
+  struct Index {
+    uint96 borrow;
+    uint96 supply;
+    uint32 lastUpdate;
+  }
   struct Rate {
     uint256 value;
+  }
+  struct TotalPar {
+    uint128 borrow;
+    uint128 supply;
   }
   struct Wei {
     bool sign; // true if positive
@@ -45,6 +54,18 @@ contract SoloMargin {
     public
     view
     returns (Rate memory);
+
+    function getMarketTotalPar(
+        uint256 marketId
+    )
+        public
+        view
+        returns (TotalPar memory);
+    function getMarketCurrentIndex(uint256 marketId)
+        public
+        view
+        returns (Index memory);
+
 
   function getAccountWei(AccountInfo memory account, uint256 marketId)
     public
@@ -104,9 +125,13 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   {
     uint256 marketId = tokenToMarketId[tokenAddress].id;
 
-    uint256 ratePerSecond = soloMargin.getMarketInterestRate(marketId).value;
+    SoloMargin.TotalPar memory totalPar = soloMargin.getMarketTotalPar(marketId);
+    SoloMargin.Index memory index = soloMargin.getMarketCurrentIndex(marketId);
+    uint256 borrowRatePerSecond = soloMargin.getMarketInterestRate(marketId).value;
 
-    return ratePerSecond * 15;
+    uint256 supplyRatePerSecond = (90000 * totalPar.borrow * index.borrow * borrowRatePerSecond) / (100000 * totalPar.supply * index.supply);
+
+    return supplyRatePerSecond * 15;
   }
 
   function deposit(address tokenAddress, uint256 tokenAmount)

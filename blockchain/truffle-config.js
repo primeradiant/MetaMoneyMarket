@@ -29,7 +29,8 @@ module.exports = {
     },
     mainnet: {
       network_id: '1',
-      provider: () => new PrivateKeyProvider(mainnetPrivateKey, mainnetRpcUrl)
+      provider: () => new PrivateKeyProvider(mainnetPrivateKey, mainnetRpcUrl),
+      gasPrice: '3000000000'
     }
   },
 
