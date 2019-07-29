@@ -2,14 +2,14 @@
 
 _An open source ethereum protocol that sits on top of multiple money markets, depositing funds into the highest rate, and rebalancing when it makes sense, to help you earn max interest_
 
-[![CircleCI](https://circleci.com/gh/Altoros/sovereign.svg?style=svg&circle-token=c896805e7605d1f3fbc799cc83e4b76a86a7514d)](https://circleci.com/gh/Altoros/sovereign)
+[![CircleCI](https://circleci.com/gh/primeradiant/MetaMoneyMarket/tree/master.svg?style=svg)](https://circleci.com/gh/primeradiant/MetaMoneyMarket/tree/master)
 
 ## Setup
 
 Clone the repository and install its dependencies:
 
 ```
-git clone git@github.com:Altoros/sovereign.git
+git clone git@github.com:primeradiant/metamoneymarket.git
 cd soverign
 yarn
 ```
