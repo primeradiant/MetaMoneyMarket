@@ -35,14 +35,14 @@ const ContentWrapper: React.FC<Props> = (props: Props) => {
     <ContentWrapperComponent {...restProps}>
       <ContentCenterStyled>{children}</ContentCenterStyled>
       <Footer>
-        <a href="https://twitter.com/metamoneymarket">
+        <a href="https://twitter.com/metamoneymarket" target="_blank">
           <FontAwesomeIcon icon={faTwitter} />
         </a>
         &nbsp;&nbsp;
-        <a href="https://github.com/Altoros/sovereign">
+        <a href="https://github.com/Altoros/sovereign" target="_blank">
           <FontAwesomeIcon icon={faGithub} />
         </a>
-        &nbsp;&nbsp; Data provided by <a href="https://nomics.com/">Nomics</a>
+        &nbsp;&nbsp; Data provided by <a href="https://nomics.com/" target="_blank">Nomics</a>
       </Footer>
     </ContentWrapperComponent>
   );
