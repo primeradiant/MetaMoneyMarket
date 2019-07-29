@@ -1,5 +1,6 @@
 pragma solidity 0.5.8;
 
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
@@ -15,6 +16,8 @@ import "./TokenShare.sol";
  * The addresses of the money markets are specified on deployment.
  */
 contract MetaMoneyMarket is Ownable, Claimable {
+  using SafeMath for uint256;
+
   // list of adapters for the underlying money markets
   IMoneyMarketAdapter[] public moneyMarkets;
 

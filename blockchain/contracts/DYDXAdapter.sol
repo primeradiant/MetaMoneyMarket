@@ -1,6 +1,7 @@
 pragma solidity 0.5.8;
 pragma experimental ABIEncoderV2;
 
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 
@@ -8,6 +9,10 @@ import "./Claimable.sol";
 import "./IMoneyMarketAdapter.sol";
 
 contract SoloMargin {
+  using SafeMath for uint96;
+  using SafeMath for uint128;
+  using SafeMath for uint256;
+
   enum ActionType {Deposit, Withdraw}
   enum AssetDenomination {Wei, Par}
 
@@ -129,7 +134,7 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     SoloMargin.Index memory index = soloMargin.getMarketCurrentIndex(marketId);
     uint256 borrowRatePerSecond = soloMargin.getMarketInterestRate(marketId).value;
 
-    uint256 supplyRatePerSecond = (90000 * totalPar.borrow * index.borrow * borrowRatePerSecond) / (100000 * totalPar.supply * index.supply);
+    uint256 supplyRatePerSecond = (90000 * uint256(totalPar.borrow) * uint256(index.borrow) * borrowRatePerSecond) / (100000 * uint256(totalPar.supply) * uint256(index.supply));
 
     return supplyRatePerSecond * 15;
   }
