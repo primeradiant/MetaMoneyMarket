@@ -60,17 +60,14 @@ contract SoloMargin {
     view
     returns (Rate memory);
 
-    function getMarketTotalPar(
-        uint256 marketId
-    )
-        public
-        view
-        returns (TotalPar memory);
-    function getMarketCurrentIndex(uint256 marketId)
-        public
-        view
-        returns (Index memory);
-
+  function getMarketTotalPar(uint256 marketId)
+    public
+    view
+    returns (TotalPar memory);
+  function getMarketCurrentIndex(uint256 marketId)
+    public
+    view
+    returns (Index memory);
 
   function getAccountWei(AccountInfo memory account, uint256 marketId)
     public
@@ -130,11 +127,19 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
   {
     uint256 marketId = tokenToMarketId[tokenAddress].id;
 
-    SoloMargin.TotalPar memory totalPar = soloMargin.getMarketTotalPar(marketId);
+    SoloMargin.TotalPar memory totalPar = soloMargin.getMarketTotalPar(
+      marketId
+    );
     SoloMargin.Index memory index = soloMargin.getMarketCurrentIndex(marketId);
-    uint256 borrowRatePerSecond = soloMargin.getMarketInterestRate(marketId).value;
+    uint256 borrowRatePerSecond = soloMargin
+      .getMarketInterestRate(marketId)
+      .value;
 
-    uint256 supplyRatePerSecond = (90000 * uint256(totalPar.borrow) * uint256(index.borrow) * borrowRatePerSecond) / (100000 * uint256(totalPar.supply) * uint256(index.supply));
+    uint256 supplyRatePerSecond = (
+      90000 * uint256(totalPar.borrow) * uint256(
+        index.borrow
+      ) * borrowRatePerSecond
+    ) / (100000 * uint256(totalPar.supply) * uint256(index.supply));
 
     return supplyRatePerSecond * 15;
   }

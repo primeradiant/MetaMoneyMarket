@@ -100,7 +100,7 @@ const WithdrawModal: React.FC<Props> = props => {
         }
 
         await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {
-          from: context.account
+          from: context.account,
         });
 
         fetchMetaMoneyMarketData(contracts, context.account);

@@ -7,8 +7,8 @@ import {useWeb3Context} from 'web3-react';
 import IERC20Artifact from '../artifacts/ERC20Detailed.json';
 import MetaMoneyContractArtifact from '../artifacts/MetaMoneyMarket.json';
 import {getPrice} from '../services/nomics';
-import TokenAmount from '../util/token-amount';
 import {getSymbol} from '../util/get-symbol';
+import TokenAmount from '../util/token-amount';
 
 interface Contracts {
   metaMoneyMarket: MetaMoneyMarketContract;

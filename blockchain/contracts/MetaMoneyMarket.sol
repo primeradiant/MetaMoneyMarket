@@ -138,7 +138,10 @@ contract MetaMoneyMarket is Ownable, Claimable {
       }
     }
 
-    require(tokensToTransfer == 0, "MetaMoneyMarket.withdraw: Not all tokens could be withdrawn");
+    require(
+      tokensToTransfer == 0,
+      "MetaMoneyMarket.withdraw: Not all tokens could be withdrawn"
+    );
   }
 
   /**
@@ -211,14 +214,21 @@ contract MetaMoneyMarket is Ownable, Claimable {
     }
 
     uint256 remainingTokens = token.balanceOf(address(this));
-    if (moneyMarkets[moneyMarkets.length - 1].supportsToken(tokenAddress) && remainingTokens > 0) {
+    if (
+      moneyMarkets[moneyMarkets.length - 1].supportsToken(
+        tokenAddress
+      ) && remainingTokens > 0
+    ) {
       moneyMarkets[moneyMarkets.length - 1].deposit(
         tokenAddress,
         remainingTokens
       );
     }
 
-    require(token.balanceOf(address(this)) == 0, "MetaMoneyMarket.rebalance: Not all tokens could be rebalanced");
+    require(
+      token.balanceOf(address(this)) == 0,
+      "MetaMoneyMarket.rebalance: Not all tokens could be rebalanced"
+    );
   }
 
   function claimTokens(address tokenAddress, address recipient)
