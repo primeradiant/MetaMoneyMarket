@@ -2,7 +2,7 @@
 
 _An open source ethereum protocol that sits on top of multiple money markets, depositing funds into the highest rate, and rebalancing when it makes sense, to help you earn max interest_
 
-[![CircleCI](https://circleci.com/gh/primeradiant/MetaMoneyMarket/tree/master.svg?style=svg)](https://circleci.com/gh/primeradiant/MetaMoneyMarket/tree/master)
+[![CircleCI](https://circleci.com/gh/primeradiant/MetaMoneyMarket/tree/master.svg?style=svg)](https://circleci.com/gh/primeradiant/MetaMoneyMarket/tree/master) [![Netlify Status](https://api.netlify.com/api/v1/badges/36540c07-b05d-475b-a945-2924650c0318/deploy-status)](https://app.netlify.com/sites/cocky-clarke-f760cb/deploys)
 
 ## Setup
 
