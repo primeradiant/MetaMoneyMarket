@@ -10,7 +10,7 @@ Clone the repository and install its dependencies:
 
 ```
 git clone git@github.com:primeradiant/metamoneymarket.git
-cd soverign
+cd metamoneymarket
 yarn
 ```
 
