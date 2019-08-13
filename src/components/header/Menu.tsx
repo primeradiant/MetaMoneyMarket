@@ -72,8 +72,8 @@ const Menu: React.FC<Props> = props => {
   return (
     <>
       <MenuContainer {...restProps}>
-        <MenuItemLink activeClassName="active" to="/help">
-          Help
+        <MenuItemLink activeClassName="active" to="https://github.com/primeradiant/MetaMoneyMarket">
+          Developers
         </MenuItemLink>
         {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
         {context.account && <MenuItem onClick={logout}>Logout</MenuItem>}
