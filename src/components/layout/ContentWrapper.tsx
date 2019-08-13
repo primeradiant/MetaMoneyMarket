@@ -39,7 +39,7 @@ const ContentWrapper: React.FC<Props> = (props: Props) => {
           <FontAwesomeIcon icon={faTwitter} />
         </a>
         &nbsp;&nbsp;
-        <a href="https://github.com/Altoros/sovereign">
+        <a href="https://github.com/primeradiant/MetaMoneyMarket">
           <FontAwesomeIcon icon={faGithub} />
         </a>
         &nbsp;&nbsp; Data provided by <a href="https://nomics.com/">Nomics</a>
