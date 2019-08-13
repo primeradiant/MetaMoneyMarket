@@ -10,9 +10,9 @@ const TermsAndConditions: React.FC<Props> = (props: Props) => {
 
   return <TermsContainer {...restProps}>
     <h2>Terms and conditions</h2>
-<p>Please Do Not Deposit Funds except to test this smart contract./p> 
-    <p>
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+<p>Please Do Not Deposit Funds except to test this smart contract.</p> 
+
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
