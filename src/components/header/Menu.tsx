@@ -72,9 +72,7 @@ const Menu: React.FC<Props> = props => {
   return (
     <>
       <MenuContainer {...restProps}>
-        
-        <MenuItem activeClassName="active" tag="a" href="https://github.com/primeradiant/MetaMoneyMarket" value="Developers" text="Developers" />
- 
+       
         {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
         {context.account && <MenuItem onClick={logout}>Logout</MenuItem>}
       </MenuContainer>
