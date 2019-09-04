@@ -1,9 +1,9 @@
 import React, {HTMLAttributes, useState} from 'react';
 import styled, {css} from 'styled-components';
+import {Card} from 'rebass';
 import {useWeb3Context} from 'web3-react';
 
 import ButtonLine from '../common/ButtonLine';
-import Card from '../common/card';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import DepositModal from '../deposit';
 import {LoginModal} from '../login';
@@ -147,7 +147,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Card {...restProps} style={{width: isLoggedIn ? '1100px' : '700px', margin: 'auto'}}>
+    <Card {...restProps} sx={{width: isLoggedIn ? 1100 : 700, margin: 'auto'}}>
       <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
       <TableOverflow>
         <Table>

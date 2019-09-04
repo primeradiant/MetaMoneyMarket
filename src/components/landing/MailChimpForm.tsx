@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Button } from "rebass";
 
 export const MailChimpForm = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +32,7 @@ export const MailChimpForm = () => {
             <input type="text" name="b_62a77ff46a9469711efebfd67_1b6a93db6d" tabIndex={-1} value="" />
           </div>
           <div className="clear">
-            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" className="button" />
+            <Button as="input" type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" />
           </div>
         </div>
       </form>
