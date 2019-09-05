@@ -1,6 +1,9 @@
 export const preset = {
   colors: {
-    text: '#000',
+    text: {
+      light: '#fff',
+      dark: '#000',
+    },
     background: '#fff',
     primary: '#0A6054',
     muted: '#E7EFEE',
@@ -8,7 +11,8 @@ export const preset = {
     positive: '#52E0A4',
   },
   fonts: {
-    body: 'system-ui, sans-serif',
+    body:
+      '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol',
     heading: 'Lexend Deca, sans-serif',
     monospace: 'Menlo, monospace',
   },
@@ -17,14 +21,17 @@ export const preset = {
     body: 400,
     heading: 700,
     link: 500,
+    semibold: 600,
     bold: 700,
   },
   lineHeights: {
     body: 1.5,
     heading: 1.25,
+    solid: 1,
   },
   space: [0, 4, 8, 16, 32, 64, 96, 128, 256, 512],
   sizes: {
+    icon: 24,
     avatar: 48,
   },
   radii: {
@@ -40,6 +47,15 @@ export const preset = {
       fontFamily: 'heading',
       lineHeight: 'heading',
       fontWeight: 'heading',
+    },
+    h1: {
+      fontSize: [5, 6],
+    },
+    h2: {
+      fontSize: [4, 5],
+    },
+    h3: {
+      fontSize: [3, 4],
     },
     caps: {
       textTransform: 'uppercase',
@@ -57,11 +73,12 @@ export const preset = {
       mx: 'auto',
     },
     hero: {
-      py: 7,
+      py: [6, 7],
     },
     section: {
-      py: 6,
+      py: [5, 6],
     },
+
     avatar: {
       width: 'avatar',
       height: 'avatar',
@@ -82,10 +99,14 @@ export const preset = {
     },
     footer: {
       wrapper: {
-        py: 7,
+        py: [6, 7],
+      },
+      icon: {
+        width: 'icon',
+        height: 'icon',
       },
       logo: {
-        height: 88,
+        height: [72, 88],
         verticalAlign: 'middle',
       },
     },
@@ -117,14 +138,19 @@ export const preset = {
   },
   buttons: {
     primary: {
-      fontSize: 2,
-      fontWeight: 'bold',
+      fontSize: 3,
+      py: '14px',
+      px: '18px',
+      lineHeight: 'solid',
+      fontWeight: 'semibold',
       color: 'background',
       bg: 'primary',
       borderRadius: 'default',
     },
     text: {
       variant: 'buttons.primary',
+      py: '10px',
+      px: '18px',
       color: 'primary',
       bg: 'transparent',
     },
@@ -134,7 +160,8 @@ export const preset = {
       fontFamily: 'body',
       fontWeight: 'body',
       lineHeight: 'body',
-      color: 'text',
+      fontSize: [2, 18],
+      color: 'text.dark',
     },
   },
 };

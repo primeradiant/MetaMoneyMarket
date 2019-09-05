@@ -40,9 +40,13 @@ const Landing: React.FC<Props> = (props: Props) => {
     <Wrapper>
       <Section variant="hero">
         <Container>
-          <Heading as="h1">Maximize your crypto gains</Heading>
+          <Heading as="h1" variant="h1" mb={4}>
+            Your money, maximized
+          </Heading>
 
-          <Text>Currently in alpha testing!</Text>
+          <Text as="p" fontSize="4" mb={4} sx={{maxWidth: 600}}>
+            Simplify your approach to savings and reliably increase your returns with Meta Money Market.
+          </Text>
 
           <Button>Join early access</Button>
           {/* <MailChimpForm /> */}
@@ -53,8 +57,10 @@ const Landing: React.FC<Props> = (props: Props) => {
         <Container>
           <Image src="https://placehold.it/160x160" variant="icon" />
 
-          <Heading as="h2">Mission</Heading>
-          <Text as="p">
+          <Heading as="h2" variant="h2" color="text.light">
+            Mission
+          </Heading>
+          <Text as="p" color="text.light">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum amet sed fuga laborum minus error deleniti
             ullam atque earum. Accusantium eum esse cumque laboriosam. Rem aperiam perferendis harum officia magni?
           </Text>
@@ -63,29 +69,17 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section>
         <Container>
-          <Image src="https://placehold.it/160x160" variant="icon" />
-
-          <Heading as="h2">How it works?</Heading>
-          <Text as="p">
-            Instead of manually moving money around burning fees chasing the optimal interest rate. Deposit your tokens
-            into the MetaMoneyMarket, and the smart contract will automatically deposit into the highest yielding Money
-            Market, periodically rebalancing for you when rates change.
-          </Text>
-
-          <AccountBalance marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
-        </Container>
-      </Section>
-
-      <Section bg="primary">
-        <Container>
           <Box>
             <Image src="https://placehold.it/160x160" variant="icon" />
-            <Heading as="h2">Benefits</Heading>
+            <Heading as="h2" variant="h2">
+              Benefits
+            </Heading>
             <Text as="p">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum amet sed fuga laborum minus error deleniti
               ullam atque earum. Accusantium eum esse cumque laboriosam. Rem aperiam perferendis harum officia magni?
             </Text>
           </Box>
+
           <Flex>
             <Card>
               <Text fontWeight="bold">Best Rate</Text>
@@ -109,6 +103,23 @@ const Landing: React.FC<Props> = (props: Props) => {
               </Text>
             </Card>
           </Flex>
+        </Container>
+      </Section>
+
+      <Section bg="primary">
+        <Container>
+          <Image src="https://placehold.it/160x160" variant="icon" />
+
+          <Heading as="h2" variant="h2" color="text.light">
+            How it works?
+          </Heading>
+          <Text as="p" color="text.light">
+            Instead of manually moving money around burning fees chasing the optimal interest rate. Deposit your tokens
+            into the MetaMoneyMarket, and the smart contract will automatically deposit into the highest yielding Money
+            Market, periodically rebalancing for you when rates change.
+          </Text>
+
+          <AccountBalance marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
         </Container>
       </Section>
 

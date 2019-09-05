@@ -1,6 +1,24 @@
 import React from 'react';
 import {Box, Flex, Image, Text, Link} from 'rebass';
 import Container from '../Container';
+import {GitHub, Twitter} from '../Icons/';
+
+import lockup from '../../../assets/images/mmm-lockup.svg';
+
+const Lockup: React.FC = props => <Image src={lockup} variant="footer.logo" {...props} />;
+
+const socialMediaAccounts = [
+  {
+    name: 'Twitter',
+    link: 'https://twitter.com/metamoneymarket',
+    icon: <Twitter />,
+  },
+  {
+    name: 'GitHub',
+    link: 'https://github.com/primeradiant/MetaMoneyMarket',
+    icon: <GitHub />,
+  },
+];
 
 const Footer: React.FC = props => {
   return (
@@ -8,11 +26,11 @@ const Footer: React.FC = props => {
       <Box as="footer" variant="footer.wrapper" {...props}>
         <Container>
           <Flex justifyContent="space-between" alignItems="center">
-            <Image src="https://placehold.it/380x176/0A6054/0A6054" variant="footer.logo" />
+            <Lockup />
             <Flex>
-              {[1, 2].map((el, i) => (
-                <Link href="#!" sx={{ml: 3}}>
-                  <Box key={i} sx={{height: 32, width: 32, bg: 'muted'}} />
+              {socialMediaAccounts.map((el, i) => (
+                <Link key={i} href={el.link} sx={{ml: 3}}>
+                  <Box variant="footer.icon">{el.icon}</Box>
                 </Link>
               ))}
             </Flex>
