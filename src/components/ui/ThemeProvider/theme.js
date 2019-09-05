@@ -48,6 +48,10 @@ export const preset = {
       lineHeight: 'heading',
       fontWeight: 'heading',
     },
+    subheading: {
+      fontSize: 4,
+      maxWidth: 600
+    },
     h1: {
       fontSize: [5, 6],
     },
@@ -61,6 +65,9 @@ export const preset = {
       textTransform: 'uppercase',
       letterSpacing: '0.1em',
     },
+    paragraph: {
+      maxWidth: "55ch"
+    }
   },
   variants: {
     icon: {
