@@ -1,5 +1,5 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
-import {Heading, Text, Flex, Card, Box, Image} from 'rebass';
+import {Heading, Text, Flex, Link, Card, Box, Image, Button} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
 import AccountBalance from '../my-account/AccountBalance';
@@ -7,6 +7,9 @@ import ThemeProvider from '../ui/ThemeProvider';
 import Container from '../ui/Container';
 import {MailChimpForm} from './MailChimpForm';
 import Section from '../ui/Section';
+import Root from '../ui/Root/';
+import Navigation from '../ui/Navigation/';
+import Footer from '../ui/Footer/';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
@@ -16,6 +19,16 @@ interface State {
   modalIsOpen: boolean;
 }
 
+const Wrapper: React.FC = ({children}) => (
+  <ThemeProvider>
+    <Root>
+      <Navigation />
+      {children}
+      <Footer />
+    </Root>
+  </ThemeProvider>
+);
+
 const Landing: React.FC<Props> = (props: Props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -24,16 +37,20 @@ const Landing: React.FC<Props> = (props: Props) => {
   const {marketsData} = useContext(ContractsContext);
 
   return (
-    <ThemeProvider>
-      <Container>
-        <Section variant="hero">
+    <Wrapper>
+      <Section variant="hero">
+        <Container>
           <Heading as="h1">Maximize your crypto gains</Heading>
 
           <Text>Currently in alpha testing!</Text>
-          <MailChimpForm />
-        </Section>
 
-        <Section>
+          <Button>Join early access</Button>
+          {/* <MailChimpForm /> */}
+        </Container>
+      </Section>
+
+      <Section bg="primary">
+        <Container>
           <Image src="https://placehold.it/160x160" variant="icon" />
 
           <Heading as="h2">Mission</Heading>
@@ -41,9 +58,11 @@ const Landing: React.FC<Props> = (props: Props) => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum amet sed fuga laborum minus error deleniti
             ullam atque earum. Accusantium eum esse cumque laboriosam. Rem aperiam perferendis harum officia magni?
           </Text>
-        </Section>
+        </Container>
+      </Section>
 
-        <Section>
+      <Section>
+        <Container>
           <Image src="https://placehold.it/160x160" variant="icon" />
 
           <Heading as="h2">How it works?</Heading>
@@ -54,9 +73,11 @@ const Landing: React.FC<Props> = (props: Props) => {
           </Text>
 
           <AccountBalance marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
-        </Section>
+        </Container>
+      </Section>
 
-        <Section>
+      <Section bg="primary">
+        <Container>
           <Box>
             <Image src="https://placehold.it/160x160" variant="icon" />
             <Heading as="h2">Benefits</Heading>
@@ -88,11 +109,11 @@ const Landing: React.FC<Props> = (props: Props) => {
               </Text>
             </Card>
           </Flex>
-        </Section>
-      </Container>
+        </Container>
+      </Section>
 
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
-    </ThemeProvider>
+    </Wrapper>
   );
 };
 

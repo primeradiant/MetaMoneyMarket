@@ -2,26 +2,28 @@ export const preset = {
   colors: {
     text: '#000',
     background: '#fff',
-    primary: '#00857C',
-    muted: '#f6f6f9',
-    gray: '#dddddf',
+    primary: '#0A6054',
+    muted: '#E7EFEE',
+    negative: '#E05252',
+    positive: '#52E0A4',
   },
   fonts: {
     body: 'system-ui, sans-serif',
-    heading: 'inherit',
+    heading: 'Lexend Deca, sans-serif',
     monospace: 'Menlo, monospace',
   },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
   fontWeights: {
     body: 400,
     heading: 700,
+    link: 500,
     bold: 700,
   },
   lineHeights: {
     body: 1.5,
     heading: 1.25,
   },
-  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  space: [0, 4, 8, 16, 32, 64, 96, 128, 256, 512],
   sizes: {
     avatar: 48,
   },
@@ -55,7 +57,7 @@ export const preset = {
       mx: 'auto',
     },
     hero: {
-      py: 7
+      py: 7,
     },
     section: {
       py: 6,
@@ -72,16 +74,44 @@ export const preset = {
     },
     link: {
       color: 'primary',
-    },
-    nav: {
-      fontSize: 1,
-      fontWeight: 'bold',
-      display: 'inline-block',
-      p: 2,
-      color: 'inherit',
+      fontWeight: 'link',
       textDecoration: 'none',
       ':hover,:focus,.active': {
-        color: 'primary',
+        textDecoration: 'underline',
+      },
+    },
+    footer: {
+      wrapper: {
+        py: 7,
+      },
+      logo: {
+        height: 88,
+        verticalAlign: 'middle',
+      },
+    },
+    nav: {
+      logo: {
+        width: [32, 40],
+        height: [32, 40],
+        verticalAlign: 'middle',
+      },
+      wrapper: {
+        pt: [16, 32],
+        pb: [16 - 2, 32 - 2],
+        borderBottomWidth: 2,
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'muted',
+      },
+      link: {
+        fontSize: 1,
+        fontWeight: 'bold',
+        display: 'inline-block',
+        p: 2,
+        color: 'inherit',
+        textDecoration: 'none',
+        ':hover,:focus,.active': {
+          color: 'primary',
+        },
       },
     },
   },
@@ -93,18 +123,18 @@ export const preset = {
       bg: 'primary',
       borderRadius: 'default',
     },
-    outline: {
+    text: {
       variant: 'buttons.primary',
       color: 'primary',
       bg: 'transparent',
-      boxShadow: 'inset 0 0 2px',
-    }
+    },
   },
   styles: {
     root: {
       fontFamily: 'body',
       fontWeight: 'body',
       lineHeight: 'body',
+      color: 'text',
     },
   },
 };
