@@ -7,6 +7,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "@rebass/forms": "^4.0.5",
     "emotion-theming": "^10.0.17",
     "ethers": "^4.0.32",
     "lodash.find": "^4.6.0",

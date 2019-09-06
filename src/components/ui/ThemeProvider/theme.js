@@ -19,7 +19,8 @@ export const preset = {
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
   fontWeights: {
     body: 400,
-    heading: 700,
+    heading: "normal",
+    medium: 500,
     semibold: 600,
     bold: 700,
   },
@@ -145,6 +146,7 @@ export const preset = {
   },
   buttons: {
     primary: {
+      cursor: "pointer",
       fontSize: 3,
       py: '14px',
       px: '18px',
@@ -154,6 +156,12 @@ export const preset = {
       bg: 'primary',
       borderRadius: 'default',
     },
+    small: {
+      variant: 'buttons.primary',
+      py: '12px',
+      px: 3,
+      fontSize: 2,
+    },
     text: {
       variant: 'buttons.primary',
       py: '10px',
@@ -161,6 +169,21 @@ export const preset = {
       color: 'primary',
       bg: 'transparent',
     },
+  },
+  forms: {
+    input: {
+      color: 'text.dark',
+      borderColor: 'primary',
+      backgroundColor: "background",
+      borderWidth: 2,
+      px: 3,
+      fontWeight: "medium"
+    },
+    select: {},
+    textarea: {},
+    label: {},
+    radio: {},
+    checkbox: {},
   },
   styles: {
     root: {

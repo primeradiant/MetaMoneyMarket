@@ -53,8 +53,7 @@ const Landing: React.FC<Props> = (props: Props) => {
             Simplify your approach to savings and reliably increase your returns with Meta Money Market.
           </Text>
 
-          <Button>Join early access</Button>
-          {/* <MailChimpForm /> */}
+          <Button as="a" href="#sign-up">Join early access</Button>
         </Container>
       </Section>
 
@@ -131,6 +130,19 @@ const Landing: React.FC<Props> = (props: Props) => {
           </Box>
         </Container>
       </Section>
+
+      <Box as="section" py={[4, 5]} bg="muted" id="sign-up">
+        <Container>
+          <Box mb={4}>
+            <Heading color="primary" fontSize={[4, 5]} as="p" sx={{maxWidth: 480}}>
+              Be the first to know about our new features and progress.
+            </Heading>
+          </Box>
+          <Box sx={{maxWidth: 480}}>
+            <MailChimpForm />
+          </Box>
+        </Container>
+      </Box>
 
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
     </Wrapper>

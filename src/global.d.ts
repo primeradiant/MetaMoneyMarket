@@ -1,4 +1,5 @@
 declare module 'truffle-contract';
+declare module '@rebass/forms';
 
 declare type BN = import('bn.js');
 

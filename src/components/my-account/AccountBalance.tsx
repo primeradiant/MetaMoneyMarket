@@ -147,7 +147,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Card {...restProps} sx={{width: isLoggedIn ? 1100 : 700, margin: 'auto'}}>
+    <Card {...restProps} sx={isLoggedIn ? {width: 1100, margin: 'auto'} : {}}>
       <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
       <TableOverflow>
         <Table>
