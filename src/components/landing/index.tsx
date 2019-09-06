@@ -59,48 +59,44 @@ const Landing: React.FC<Props> = (props: Props) => {
           <Image src="https://placehold.it/160x160" variant="icon" />
 
           <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
-            Mission
+            Make the most of your crypto
           </Heading>
           <Text as="p" color="text.light" variant="paragraph">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum amet sed fuga laborum minus error deleniti
-            ullam atque earum. Accusantium eum esse cumque laboriosam. Rem aperiam perferendis harum officia magni?
+            At Meta Money Market, we’re aiming to revolutionize banking, to ensure that you always get the most from
+            your money. We allow you to get the strongest rates when moving your money on chain - without any hassle and
+            without risk.
           </Text>
         </Container>
       </Section>
 
       <Section>
         <Container>
-          <Box mb={4}>
-            <Image src="https://placehold.it/160x160" variant="icon" />
-            <Heading as="h2" variant="h2" mt={4} mb={3}>
-              Benefits
-            </Heading>
-            <Text as="p" variant="paragraph">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum amet sed fuga laborum minus error deleniti
-              ullam atque earum. Accusantium eum esse cumque laboriosam. Rem aperiam perferendis harum officia magni?
-            </Text>
-          </Box>
-
           <ThreeColumnGrid>
             <Card mb={[4, 0]}>
-              <Text fontWeight="bold">Best Rate</Text>
+              <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
+              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>Best Rate</Text>
               <Text as="p">
-                By combining multiple markets into one, you get the best rate for a wider number of tokens than any
-                contract.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat alias non eos labore cumque vel
+                quibusdam? Placeat recusandae provident nihil assumenda. Voluptatem debitis molestias, ut asperiores
+                natus ipsa tenetur enim?
               </Text>
             </Card>
             <Card mb={[4, 0]}>
-              <Text fontWeight="bold">Meta Tokens</Text>
+              <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
+              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>Meta Tokens</Text>
               <Text as="p">
-                You will receive a Token which represents your balance on deposit. Which you can then use in other DeFi
-                Protocols.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum deleniti repellat necessitatibus saepe
+                vero accusamus cum mollitia dolorem aperiam temporibus odit nihil explicabo ipsam non neque ipsa,
+                incidunt similique omnis.
               </Text>
             </Card>
             <Card mb={[4, 0]}>
-              <Text fontWeight="bold">Auto Rebalance</Text>
+              <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
+              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>Auto Rebalance</Text>
               <Text as="p">
-                If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3% (no annual
-                fee).
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit illum porro voluptas, laudantium, quia,
+                commodi nulla rem soluta aliquam iure quod. Nostrum, fugiat aspernatur quis vero officia blanditiis
+                sint! Ex?
               </Text>
             </Card>
           </ThreeColumnGrid>

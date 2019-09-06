@@ -20,7 +20,6 @@ export const preset = {
   fontWeights: {
     body: 400,
     heading: 700,
-    link: 500,
     semibold: 600,
     bold: 700,
   },
@@ -50,7 +49,7 @@ export const preset = {
     },
     subheading: {
       fontSize: 4,
-      maxWidth: 600
+      maxWidth: 600,
     },
     h1: {
       fontSize: [5, 6],
@@ -66,8 +65,8 @@ export const preset = {
       letterSpacing: '0.1em',
     },
     paragraph: {
-      maxWidth: "55ch"
-    }
+      maxWidth: '55ch',
+    },
   },
   variants: {
     icon: {
@@ -85,20 +84,21 @@ export const preset = {
     section: {
       py: [5, 6],
     },
-
     avatar: {
       width: 'avatar',
       height: 'avatar',
       borderRadius: 'circle',
     },
     card: {
-      p: 3,
+      p: 32 - 2,
       bg: 'background',
-      boxShadow: 'card',
+      borderColor: 'muted',
+      borderWidth: 2,
+      borderStyle: 'solid',
     },
     link: {
       color: 'primary',
-      fontWeight: 'link',
+      fontWeight: 'semibold',
       textDecoration: 'none',
       ':hover,:focus,.active': {
         textDecoration: 'underline',
