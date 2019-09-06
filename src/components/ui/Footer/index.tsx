@@ -39,7 +39,7 @@ const Footer: React.FC = props => {
             <Lockup />
             <Flex>
               {socialMediaAccounts.map((el, i) => (
-                <Link key={i} href={el.link} sx={{ml: 3}}>
+                <Link key={i} target="_blank" href={el.link} sx={{ml: 3}}>
                   <Box variant="footer.icon">{el.icon}</Box>
                 </Link>
               ))}
