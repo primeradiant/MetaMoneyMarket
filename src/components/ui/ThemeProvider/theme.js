@@ -49,7 +49,7 @@ export const preset = {
       fontWeight: 'heading',
     },
     subheading: {
-      fontSize: 4,
+      fontSize: [3, 4],
       maxWidth: 600,
     },
     h1: {
@@ -72,19 +72,19 @@ export const preset = {
   variants: {
     icon: {
       section: {
-        height: 80,
-        width: 80,
+        height: [72, 88],
+        width: [72, 88],
         verticalAlign: 'middle',
       },
       card: {
-        height: 64,
-        width: 64,
+        height: [48, 56],
+        width: [48, 56],
         verticalAlign: 'middle',
       },
     },
     container: {
-      px: 3,
-      maxWidth: 1136 + 16 * 2,
+      px: 24,
+      maxWidth: 1136 + 24 * 2,
       mx: 'auto',
     },
     hero: {
@@ -99,7 +99,7 @@ export const preset = {
       borderRadius: 'circle',
     },
     card: {
-      p: 32 - 2,
+      p: [24 - 2, 32 - 2],
       bg: 'background',
       borderColor: 'muted',
       borderWidth: 2,

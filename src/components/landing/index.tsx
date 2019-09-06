@@ -1,11 +1,12 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
-import {Box, Button, Card, Heading, Image, Text} from 'rebass';
+import {Box, Button, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
 import AccountBalance from '../my-account/AccountBalance';
 import Container from '../ui/Container';
 import Footer from '../ui/Footer/';
 import {ThreeColumnGrid} from '../ui/Grid';
+import {Rates, Rocket, Savings, Simplicity} from '../ui/Icons';
 import Navigation from '../ui/Navigation/';
 import Root from '../ui/Root/';
 import Section from '../ui/Section';
@@ -61,12 +62,12 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section bg="primary">
         <Container>
-          <Image src="https://placehold.it/160x160/fff/fff" variant="icon.section" />
+          <Box as={Rocket} variant="icon.section" />
 
-          <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
+          <Heading as="h2" variant="h2" mt={4} my={3} color="text.light">
             Make the most of your crypto
           </Heading>
-          <Text as="p" color="text.light" variant="paragraph">
+          <Text as="p" mb={[14, 24]} color="text.light" variant="paragraph">
             At MetaMoneyMarket, we’re aiming to revolutionize banking, to ensure that you always get the most from your
             money. We allow you to get the strongest rates when moving your money on chain - without any hassle.
           </Text>
@@ -77,8 +78,8 @@ const Landing: React.FC<Props> = (props: Props) => {
         <Container>
           <ThreeColumnGrid>
             <Card mb={[4, 0]}>
-              <Image src="https://placehold.it/128x128/0A6054/0A6054" variant="icon.card" />
-              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
+              <Box as={Rates} variant="icon.card" />
+              <Text fontWeight="bold" fontSize={3} my={3}>
                 Always the best rates
               </Text>
               <Text as="p">
@@ -87,8 +88,8 @@ const Landing: React.FC<Props> = (props: Props) => {
               </Text>
             </Card>
             <Card mb={[4, 0]}>
-              <Image src="https://placehold.it/128x128/0A6054/0A6054" variant="icon.card" />
-              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
+              <Box as={Simplicity} variant="icon.card" />
+              <Text fontWeight="bold" fontSize={3} my={3}>
                 Assured simplicity
               </Text>
               <Text as="p">
@@ -96,9 +97,9 @@ const Landing: React.FC<Props> = (props: Props) => {
                 funds when rates change.
               </Text>
             </Card>
-            <Card mb={[4, 0]}>
-              <Image src="https://placehold.it/128x128/0A6054/0A6054" variant="icon.card" />
-              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
+            <Card>
+              <Box as={Savings} variant="icon.card" />
+              <Text fontWeight="bold" fontSize={3} my={3}>
                 Guaranteed savings
               </Text>
               <Text as="p">
@@ -112,20 +113,25 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section bg="primary">
         <Container>
-          <Image src="https://placehold.it/160x160/fff/fff" variant="icon.section" />
+          <ThreeColumnGrid>
+            <Box mb={[4, 0]}>
+              <Text as="p" color="text.light" variant="paragraph">
+                Simply deposit DAI into MetaMoneyMarket and receive a corresponding token share in our pool. The tool
+                will automatically move DAI across decentralized finance protocols to ensure you the best interest rate
+                and grow the value of your token share.
+              </Text>
+            </Box>
 
-          <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
-            How it works?
-          </Heading>
-          <Text as="p" color="text.light" variant="paragraph">
-            Simply deposit DAI into MetaMoneyMarket and receive a corresponding token share in our pool. The tool will
-            automatically move DAI across decentralized finance protocols to ensure you the best interest rate and grow
-            the value of your token share.
-          </Text>
-
-          <Box mt={4} sx={{maxWidth: 864}}>
-            <AccountBalance marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
-          </Box>
+            <Box sx={{gridColumnEnd: 'span 2'}}>
+              <Box sx={{maxWidth: 864}}>
+                <AccountBalance
+                  marketsData={marketsData}
+                  isLoggedIn={false}
+                  redirect={path => props.history.push(path)}
+                />
+              </Box>
+            </Box>
+          </ThreeColumnGrid>
         </Container>
       </Section>
 
