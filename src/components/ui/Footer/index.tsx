@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Flex, Image, Text, Link} from 'rebass';
 import Container from '../Container';
-import {GitHub, Twitter} from '../Icons/';
+import {GitHub, Twitter, Telegram, Medium} from '../Icons/';
 
 import lockup from '../../../assets/images/mmm-lockup.svg';
 
@@ -17,6 +17,16 @@ const socialMediaAccounts = [
     name: 'GitHub',
     link: 'https://github.com/primeradiant/MetaMoneyMarket',
     icon: <GitHub />,
+  },
+  {
+    name: 'Medium',
+    link: 'https://medium.com/primeradiant',
+    icon: <Medium />,
+  },
+  {
+    name: 'Telegram',
+    link: 'https://t.me/joinchat/BhTqaRU6',
+    icon: <Telegram />,
   },
 ];
 
