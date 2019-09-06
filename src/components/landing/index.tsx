@@ -16,14 +16,18 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
 }
 
+interface WrapperProps extends HTMLAttributes<HTMLDivElement> {
+  redirect: (path: string) => void;
+}
+
 interface State {
   modalIsOpen: boolean;
 }
 
-const Wrapper: React.FC = ({children}) => (
+const Wrapper: React.FC<WrapperProps> = ({children, redirect}) => (
   <ThemeProvider>
     <Root>
-      <Navigation />
+      <Navigation redirect={redirect} />
       {children}
       <Footer />
     </Root>
@@ -38,7 +42,7 @@ const Landing: React.FC<Props> = (props: Props) => {
   const {marketsData} = useContext(ContractsContext);
 
   return (
-    <Wrapper>
+    <Wrapper redirect={path => props.history.push(path)}>
       <Section variant="hero">
         <Container>
           <Heading as="h1" variant="h1" mb={4}>
@@ -56,7 +60,7 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section bg="primary">
         <Container>
-          <Image src="https://placehold.it/160x160" variant="icon" />
+          <Image src="https://placehold.it/160x160/fff/fff" variant="icon" />
 
           <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
             Make the most of your crypto
@@ -74,7 +78,9 @@ const Landing: React.FC<Props> = (props: Props) => {
           <ThreeColumnGrid>
             <Card mb={[4, 0]}>
               <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
-              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>Best Rate</Text>
+              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
+                Best Rate
+              </Text>
               <Text as="p">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat alias non eos labore cumque vel
                 quibusdam? Placeat recusandae provident nihil assumenda. Voluptatem debitis molestias, ut asperiores
@@ -83,7 +89,9 @@ const Landing: React.FC<Props> = (props: Props) => {
             </Card>
             <Card mb={[4, 0]}>
               <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
-              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>Meta Tokens</Text>
+              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
+                Meta Tokens
+              </Text>
               <Text as="p">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum deleniti repellat necessitatibus saepe
                 vero accusamus cum mollitia dolorem aperiam temporibus odit nihil explicabo ipsam non neque ipsa,
@@ -92,7 +100,9 @@ const Landing: React.FC<Props> = (props: Props) => {
             </Card>
             <Card mb={[4, 0]}>
               <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
-              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>Auto Rebalance</Text>
+              <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
+                Auto Rebalance
+              </Text>
               <Text as="p">
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit illum porro voluptas, laudantium, quia,
                 commodi nulla rem soluta aliquam iure quod. Nostrum, fugiat aspernatur quis vero officia blanditiis
@@ -105,7 +115,7 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section bg="primary">
         <Container>
-          <Image src="https://placehold.it/160x160" variant="icon" />
+          <Image src="https://placehold.it/160x160/fff/fff" variant="icon" />
 
           <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
             How it works?
