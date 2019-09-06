@@ -19,7 +19,7 @@ export const preset = {
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
   fontWeights: {
     body: 400,
-    heading: "normal",
+    heading: 'normal',
     medium: 500,
     semibold: 600,
     bold: 700,
@@ -71,8 +71,16 @@ export const preset = {
   },
   variants: {
     icon: {
-      height: 80,
-      width: 80,
+      section: {
+        height: 80,
+        width: 80,
+        verticalAlign: 'middle',
+      },
+      card: {
+        height: 64,
+        width: 64,
+        verticalAlign: 'middle',
+      },
     },
     container: {
       px: 3,
@@ -143,10 +151,32 @@ export const preset = {
         },
       },
     },
+    table: {
+      width: '100%',
+      fontSize: 2,
+    },
+    tbody: {},
+    thead: {},
+    th: {
+      variant: 'variants.td',
+      fontWeight: 'medium',
+    },
+    tr: {
+      ':last-child > td': {
+        border: 'none',
+      },
+    },
+    td: {
+      textAlign: 'left',
+      borderBottom: '2px solid',
+      borderColor: 'muted',
+      py: 10,
+      px: 12,
+    },
   },
   buttons: {
     primary: {
-      cursor: "pointer",
+      cursor: 'pointer',
       fontSize: 3,
       py: '14px',
       px: '18px',
@@ -174,10 +204,10 @@ export const preset = {
     input: {
       color: 'text.dark',
       borderColor: 'primary',
-      backgroundColor: "background",
+      backgroundColor: 'background',
       borderWidth: 2,
       px: 3,
-      fontWeight: "medium"
+      fontWeight: 'medium',
     },
     select: {},
     textarea: {},

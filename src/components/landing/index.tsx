@@ -1,16 +1,16 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
-import {Heading, Text, Flex, Link, Card, Box, Image, Button} from 'rebass';
+import {Box, Button, Card, Heading, Image, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
 import AccountBalance from '../my-account/AccountBalance';
-import ThemeProvider from '../ui/ThemeProvider';
 import Container from '../ui/Container';
-import {MailChimpForm} from './MailChimpForm';
-import Section from '../ui/Section';
-import Root from '../ui/Root/';
+import Footer from '../ui/Footer/';
 import {ThreeColumnGrid} from '../ui/Grid';
 import Navigation from '../ui/Navigation/';
-import Footer from '../ui/Footer/';
+import Root from '../ui/Root/';
+import Section from '../ui/Section';
+import ThemeProvider from '../ui/ThemeProvider';
+import {MailChimpForm} from './MailChimpForm';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
@@ -50,24 +50,25 @@ const Landing: React.FC<Props> = (props: Props) => {
           </Heading>
 
           <Text as="p" mb={4} variant="subheading">
-            Simplify your approach to savings and reliably increase your returns with Meta Money Market.
+            Simplify your approach to savings and reliably increase your returns with MetaMoneyMarket.
           </Text>
 
-          <Button as="a" href="#sign-up">Join early access</Button>
+          <Button as="a" href="#sign-up">
+            Join early access
+          </Button>
         </Container>
       </Section>
 
       <Section bg="primary">
         <Container>
-          <Image src="https://placehold.it/160x160/fff/fff" variant="icon" />
+          <Image src="https://placehold.it/160x160/fff/fff" variant="icon.section" />
 
           <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
             Make the most of your crypto
           </Heading>
           <Text as="p" color="text.light" variant="paragraph">
-            At Meta Money Market, we’re aiming to revolutionize banking, to ensure that you always get the most from
-            your money. We allow you to get the strongest rates when moving your money on chain - without any hassle and
-            without risk.
+            At MetaMoneyMarket, we’re aiming to revolutionize banking, to ensure that you always get the most from your
+            money. We allow you to get the strongest rates when moving your money on chain - without any hassle.
           </Text>
         </Container>
       </Section>
@@ -76,36 +77,33 @@ const Landing: React.FC<Props> = (props: Props) => {
         <Container>
           <ThreeColumnGrid>
             <Card mb={[4, 0]}>
-              <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
+              <Image src="https://placehold.it/128x128/0A6054/0A6054" variant="icon.card" />
               <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
-                Best Rate
+                Always the best rates
               </Text>
               <Text as="p">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat alias non eos labore cumque vel
-                quibusdam? Placeat recusandae provident nihil assumenda. Voluptatem debitis molestias, ut asperiores
-                natus ipsa tenetur enim?
+                We combine multiple markets to give you interest rates that beat the best traditional offerings across
+                the top tokens and platforms.
               </Text>
             </Card>
             <Card mb={[4, 0]}>
-              <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
+              <Image src="https://placehold.it/128x128/0A6054/0A6054" variant="icon.card" />
               <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
-                Meta Tokens
+                Assured simplicity
               </Text>
               <Text as="p">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum deleniti repellat necessitatibus saepe
-                vero accusamus cum mollitia dolorem aperiam temporibus odit nihil explicabo ipsam non neque ipsa,
-                incidunt similique omnis.
+                There’s no need to worry about finding the best option - our tool will automatically rebalance your
+                funds when rates change.
               </Text>
             </Card>
             <Card mb={[4, 0]}>
-              <Image src="https://placehold.it/128x128/0A6054/0A6054" sx={{height: 64, width: 64}} />
+              <Image src="https://placehold.it/128x128/0A6054/0A6054" variant="icon.card" />
               <Text fontWeight="bold" fontSize={3} mt={4} mb={3}>
-                Auto Rebalance
+                Guaranteed savings
               </Text>
               <Text as="p">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit illum porro voluptas, laudantium, quia,
-                commodi nulla rem soluta aliquam iure quod. Nostrum, fugiat aspernatur quis vero officia blanditiis
-                sint! Ex?
+                Auto-rebalancing assures an interest increase of approximately 10%, with no hefty losses due to
+                traditional balancing fees.
               </Text>
             </Card>
           </ThreeColumnGrid>
@@ -114,18 +112,18 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section bg="primary">
         <Container>
-          <Image src="https://placehold.it/160x160/fff/fff" variant="icon" />
+          <Image src="https://placehold.it/160x160/fff/fff" variant="icon.section" />
 
           <Heading as="h2" variant="h2" mt={4} mb={3} color="text.light">
             How it works?
           </Heading>
           <Text as="p" color="text.light" variant="paragraph">
-            Instead of manually moving money around burning fees chasing the optimal interest rate. Deposit your tokens
-            into the MetaMoneyMarket, and the smart contract will automatically deposit into the highest yielding Money
-            Market, periodically rebalancing for you when rates change.
+            Simply deposit DAI into MetaMoneyMarket and receive a corresponding token share in our pool. The tool will
+            automatically move DAI across decentralized finance protocols to ensure you the best interest rate and grow
+            the value of your token share.
           </Text>
 
-          <Box mt={4}>
+          <Box mt={4} sx={{maxWidth: 864}}>
             <AccountBalance marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
           </Box>
         </Container>

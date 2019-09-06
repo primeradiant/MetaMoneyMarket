@@ -1,5 +1,5 @@
 import React, {HTMLAttributes, useState} from 'react';
-import {NavLink} from 'react-router-dom';
+// import {NavLink} from 'react-router-dom';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 
@@ -51,9 +51,9 @@ const MenuItem = styled.div`
   ${MenuItemCSS}
 `;
 
-const MenuItemLink = styled(NavLink)`
-  ${MenuItemCSS}
-`;
+// const MenuItemLink = styled(NavLink)`
+//   ${MenuItemCSS}
+// `;
 
 const Menu: React.FC<Props> = props => {
   const {...restProps} = props;
@@ -72,7 +72,6 @@ const Menu: React.FC<Props> = props => {
   return (
     <>
       <MenuContainer {...restProps}>
-       
         {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
         {context.account && <MenuItem onClick={logout}>Logout</MenuItem>}
       </MenuContainer>
