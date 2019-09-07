@@ -113,6 +113,11 @@ const Landing: React.FC<Props> = (props: Props) => {
 
       <Section bg="primary">
         <Container>
+          <Box mb={3}>
+            <Heading as="h2" variant="h2" color="text.light">
+              How it works
+            </Heading>
+          </Box>
           <ThreeColumnGrid>
             <Box mb={[4, 0]}>
               <Text as="p" color="text.light" variant="paragraph">
