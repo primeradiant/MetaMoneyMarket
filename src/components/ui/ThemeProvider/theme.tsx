@@ -1,4 +1,4 @@
-export const preset = {
+export default {
   colors: {
     text: {
       light: '#fff',
@@ -225,5 +225,3 @@ export const preset = {
     },
   },
 };
-
-export default preset;

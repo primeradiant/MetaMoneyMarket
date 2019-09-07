@@ -1,11 +1,11 @@
 import React from 'react';
-import {Box, Flex, Image, Text, Link} from 'rebass';
+import {Box, Flex, Image, ImageProps, Text, Link} from 'rebass';
 import Container from '../Container';
 import {GitHub, Twitter, Telegram, Medium} from '../Icons/';
 
 import lockup from '../../../assets/images/mmm-lockup.svg';
 
-const Lockup: React.FC = props => <Image src={lockup} variant="footer.logo" {...props} />;
+const Lockup: React.FC<ImageProps> = props => <Image src={lockup} variant="footer.logo" {...props} />;
 
 const socialMediaAccounts = [
   {
@@ -30,37 +30,35 @@ const socialMediaAccounts = [
   },
 ];
 
-const Footer: React.FC = props => {
-  return (
-    <>
-      <Box as="footer" variant="footer.wrapper" {...props}>
-        <Container>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Lockup />
-            <Flex>
-              {socialMediaAccounts.map((el, i) => (
-                <Link key={i} target="_blank" href={el.link} sx={{ml: 3}}>
-                  <Box variant="footer.icon">{el.icon}</Box>
-                </Link>
-              ))}
-            </Flex>
+const Footer = () => (
+  <>
+    <Box as="footer" variant="footer.wrapper">
+      <Container>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Lockup />
+          <Flex>
+            {socialMediaAccounts.map((el, i) => (
+              <Link key={i} target="_blank" href={el.link} sx={{ml: 3}}>
+                <Box variant="footer.icon">{el.icon}</Box>
+              </Link>
+            ))}
           </Flex>
-        </Container>
-      </Box>
+        </Flex>
+      </Container>
+    </Box>
 
-      {/* Subfooter */}
-      <Box bg="muted" py="3">
-        <Container>
-          <Text fontSize="1">
-            Data provided by{' '}
-            <Link href="https://nomics.com/" target="_blank">
-              Nomics
-            </Link>
-          </Text>
-        </Container>
-      </Box>
-    </>
-  );
-};
+    {/* Subfooter */}
+    <Box bg="muted" py="3">
+      <Container>
+        <Text fontSize="1">
+          Data provided by{' '}
+          <Link href="https://nomics.com/" target="_blank">
+            Nomics
+          </Link>
+        </Text>
+      </Container>
+    </Box>
+  </>
+);
 
 export default Footer;

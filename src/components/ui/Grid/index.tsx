@@ -1,7 +1,7 @@
 import React from 'react';
-import {Box} from 'rebass';
+import {Box, BoxProps} from 'rebass';
 
-const ThreeColumnGrid = props => (
+const ThreeColumnGrid: React.FC<BoxProps> = props => (
   <Box
     sx={{
       display: ['block', 'grid'],

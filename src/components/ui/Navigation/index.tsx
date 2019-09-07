@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import {Box, Button, Flex, Image} from 'rebass';
+import {Box, Button, Flex, Image, ImageProps} from 'rebass';
 import {useWeb3Context} from 'web3-react';
 import {LoginModal} from '../../login';
 import Container from '../Container';
 
 import brandmark from '../../../assets/images/mmm-brandmark.svg';
 
-const Brandmark: React.FC = props => <Image src={brandmark} variant="nav.logo" {...props} />;
+const Brandmark: React.FC<ImageProps> = props => <Image src={brandmark} variant="nav.logo" {...props} />;
 
 interface NavigationProps extends React.HTMLAttributes<HTMLDivElement> {
   redirect: (path: string) => void;
