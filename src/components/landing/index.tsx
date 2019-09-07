@@ -1,92 +1,39 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
-import styled from 'styled-components';
-
+import {Box, Button, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
-import Card from '../common/card';
-import AccountBalance from '../my-account/AccountBalance';
-
 import {LoginModal} from '../login';
-
-import {themeBreakPoints, themeColors} from '../../util/constants';
-
+import AccountBalance from '../my-account/AccountBalance';
+import Container from '../ui/Container';
+import Footer from '../ui/Footer/';
+import {ThreeColumnGrid} from '../ui/Grid';
+import {Rates, Rocket, Savings, Simplicity} from '../ui/Icons';
+import Navigation from '../ui/Navigation/';
+import Root from '../ui/Root/';
+import Section from '../ui/Section';
+import ThemeProvider from '../ui/ThemeProvider';
 import {MailChimpForm} from './MailChimpForm';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
 }
 
+interface WrapperProps extends HTMLAttributes<HTMLDivElement> {
+  redirect: (path: string) => void;
+}
+
 interface State {
   modalIsOpen: boolean;
 }
 
-const WelcomeText = styled.h2`
-  color: ${themeColors.baseTextColor};
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.2;
-  margin: 0 0 10px;
-  text-align: center;
-`;
-
-const MainText = styled.h1`
-  color: ${themeColors.baseTextColor};
-  font-size: 46px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0 0 35px;
-  text-align: center;
-`;
-
-const InfoText = styled.p`
-  color: ${themeColors.secondaryTextColor};
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.35;
-  margin: 0 auto 45px;
-  max-width: 1000px;
-  text-align: center;
-`;
-
-const AccountBalanceStyled = styled(AccountBalance)`
-  margin: 0 0 55px;
-`;
-
-const HomeTitle = styled.h2`
-  color: ${themeColors.tertiaryTextColor};
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-  margin: 50px 0 10px;
-  text-align: center;
-`;
-
-const InfoBlocks = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 15px;
-
-  @media (min-width: ${themeBreakPoints.lg}) {
-    column-gap: 15px;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-`;
-
-const InfoBlockText = styled.div`
-  color: ${themeColors.secondaryTextColor};
-  font-size: 16px;
-  font-weight: normal;
-  line-height: 1.38;
-  padding-top: 10px;
-
-  a {
-    color: ${themeColors.linkColor};
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-`;
+const Wrapper: React.FC<WrapperProps> = ({children, redirect}) => (
+  <ThemeProvider>
+    <Root>
+      <Navigation redirect={redirect} />
+      {children}
+      <Footer />
+    </Root>
+  </ThemeProvider>
+);
 
 const Landing: React.FC<Props> = (props: Props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -96,42 +43,113 @@ const Landing: React.FC<Props> = (props: Props) => {
   const {marketsData} = useContext(ContractsContext);
 
   return (
-    <>
-      <MainText>Maximize your crypto gains</MainText>
-      <WelcomeText>Currently in alpha testing!</WelcomeText>
+    <Wrapper redirect={path => props.history.push(path)}>
+      <Section variant="hero">
+        <Container>
+          <Heading as="h1" variant="h1" mb={4}>
+            Your money, maximized
+          </Heading>
 
-      <MailChimpForm />
+          <Text as="p" mb={4} variant="subheading">
+            Simplify your approach to savings and reliably increase your returns with MetaMoneyMarket.
+          </Text>
 
-      <AccountBalanceStyled marketsData={marketsData} isLoggedIn={false} redirect={path => props.history.push(path)} />
+          <Button as="a" href="#sign-up">
+            Join early access
+          </Button>
+        </Container>
+      </Section>
 
-      <HomeTitle>How it works?</HomeTitle>
-      <InfoText>
-        Instead of manually moving money around burning fees chasing the optimal interest rate. Deposit your tokens into
-        the MetaMoneyMarket, and the smart contract will automatically deposit into the highest yielding Money Market,
-        periodically rebalancing for you when rates change.
-      </InfoText>
+      <Section bg="primary">
+        <Container>
+          <Box as={Rocket} variant="icon.section" />
 
-      <InfoBlocks>
-        <Card title="Best Rate" img="/img/best-rate.jpg">
-          <InfoBlockText>
-            By combining multiple markets into one, you get the best rate for a wider number of tokens than any
-            contract.
-          </InfoBlockText>
-        </Card>
-        <Card title="Meta Tokens" img="/img/meta-tokens.jpg">
-          <InfoBlockText>
-            You will receive a Token which represents your balance on deposit. Which you can then use in other DeFi
-            Protocols.
-          </InfoBlockText>
-        </Card>
-        <Card title="Auto Rebalance" img="/img/auto-rebalance.jpg">
-          <InfoBlockText>
-            If you rebalanced 1x a day for a year, you'd burn 43% of a $100 deposit. MMM is only ~0.3% (no annual fee).
-          </InfoBlockText>
-        </Card>
-      </InfoBlocks>
+          <Heading as="h2" variant="h2" mt={4} my={3} color="text.light">
+            Make the most of your crypto
+          </Heading>
+          <Text as="p" mb={[14, 24]} color="text.light" variant="paragraph">
+            At MetaMoneyMarket, we’re aiming to revolutionize banking, to ensure that you always get the most from your
+            money. We allow you to get the strongest rates when moving your money on chain - without any hassle.
+          </Text>
+        </Container>
+      </Section>
+
+      <Section>
+        <Container>
+          <ThreeColumnGrid>
+            <Card mb={[4, 0]}>
+              <Box as={Rates} variant="icon.card" />
+              <Text fontWeight="bold" fontSize={3} my={3}>
+                Always the best rates
+              </Text>
+              <Text as="p">
+                We combine multiple markets to give you interest rates that beat the best traditional offerings across
+                the top tokens and platforms.
+              </Text>
+            </Card>
+            <Card mb={[4, 0]}>
+              <Box as={Simplicity} variant="icon.card" />
+              <Text fontWeight="bold" fontSize={3} my={3}>
+                Assured simplicity
+              </Text>
+              <Text as="p">
+                There’s no need to worry about finding the best option - our tool will automatically rebalance your
+                funds when rates change.
+              </Text>
+            </Card>
+            <Card>
+              <Box as={Savings} variant="icon.card" />
+              <Text fontWeight="bold" fontSize={3} my={3}>
+                Guaranteed savings
+              </Text>
+              <Text as="p">
+                Auto-rebalancing assures an interest increase of approximately 10%, with no hefty losses due to
+                traditional balancing fees.
+              </Text>
+            </Card>
+          </ThreeColumnGrid>
+        </Container>
+      </Section>
+
+      <Section bg="primary">
+        <Container>
+          <ThreeColumnGrid>
+            <Box mb={[4, 0]}>
+              <Text as="p" color="text.light" variant="paragraph">
+                Simply deposit DAI into MetaMoneyMarket and receive a corresponding token share in our pool. The tool
+                will automatically move DAI across decentralized finance protocols to ensure you the best interest rate
+                and grow the value of your token share.
+              </Text>
+            </Box>
+
+            <Box sx={{gridColumnEnd: 'span 2'}}>
+              <Box sx={{maxWidth: 864}}>
+                <AccountBalance
+                  marketsData={marketsData}
+                  isLoggedIn={false}
+                  redirect={path => props.history.push(path)}
+                />
+              </Box>
+            </Box>
+          </ThreeColumnGrid>
+        </Container>
+      </Section>
+
+      <Box as="section" py={[4, 5]} bg="muted" id="sign-up">
+        <Container>
+          <Box mb={4}>
+            <Heading color="primary" fontSize={[4, 5]} as="p" sx={{maxWidth: 480}}>
+              Be the first to know about our new features and progress.
+            </Heading>
+          </Box>
+          <Box sx={{maxWidth: 480}}>
+            <MailChimpForm />
+          </Box>
+        </Container>
+      </Box>
+
       <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
-    </>
+    </Wrapper>
   );
 };
 

@@ -1,9 +1,9 @@
 import React, {HTMLAttributes, useState} from 'react';
 import styled, {css} from 'styled-components';
+import {Card, Box, BoxProps, Text, Flex, Button} from 'rebass';
 import {useWeb3Context} from 'web3-react';
 
 import ButtonLine from '../common/ButtonLine';
-import Card from '../common/card';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import DepositModal from '../deposit';
 import {LoginModal} from '../login';
@@ -34,6 +34,13 @@ const TR = styled.tr`
     }
   }
 `;
+
+const RebassTr: React.FC<BoxProps> = props => <Box as="tr" variant="tr" {...props} />;
+const RebassTd: React.FC<BoxProps> = props => <Box as="td" variant="td" {...props} />;
+const RebassTh: React.FC<BoxProps> = props => <Box as="th" variant="th" {...props} />;
+const RebassThead: React.FC<BoxProps> = props => <Box as="thead" variant="thead" {...props} />;
+const RebassTbody: React.FC<BoxProps> = props => <Box as="tbody" variant="tbody" {...props} />;
+const RebassTable: React.FC<BoxProps> = props => <Box as="table" variant="table" {...props} />;
 
 const THead = styled.thead``;
 const TBody = styled.tbody``;
@@ -115,6 +122,30 @@ const Title = styled.h1`
   line-height: 1.35;
 `;
 
+const TableLoading = () => (
+  <>
+    {Array(3)
+      .fill('')
+      .map((el, i) => (
+        <RebassTr key={i}>
+          {Array(4)
+            .fill('')
+            .map((el, i) => (
+              <RebassTd key={i}>
+                {i === 3 ? (
+                  <Flex justifyContent="flex-end">
+                    <Text color="muted">—</Text>
+                  </Flex>
+                ) : (
+                  <Text color="muted">—</Text>
+                )}
+              </RebassTd>
+            ))}
+        </RebassTr>
+      ))}
+  </>
+);
+
 const AccountBalance: React.FC<Props> = (props: Props) => {
   const {marketsData, isLoggedIn, ...restProps} = props;
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
@@ -147,70 +178,130 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Card {...restProps} style={{width: isLoggedIn ? '1100px' : '700px', margin: 'auto'}}>
-      <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
-      <TableOverflow>
-        <Table>
-          <THead>
-            <TR>
-              <TH textAlign="left" width="20%">
-                Asset
-              </TH>
-              <TH width="15%">Price</TH>
-              <TH width="15%">Interest Rate</TH>
-              {isLoggedIn ? (
-                <>
-                  <TH width="15%">Wallet Balance</TH>
-                  <TH width="15%">Deposit Balance</TH>
-                </>
-              ) : null}
-              <TH width="20%">&nbsp;</TH>
-            </TR>
-          </THead>
-          <TBody>
-            {marketsData.map((market, index) => {
-              const tokenData = getTokenDataBySymbol(market.symbol);
-              const image = tokenData ? tokenData.image : '';
-              return (
-                <TR key={index}>
-                  <TD textAlign="left">
-                    <TokenData>
-                      <TokenImage image={image} />
-                      <strong>{market.symbol}</strong>
-                    </TokenData>
-                  </TD>
-                  <TD>${market.price}</TD>
-                  <TD>
-                    {isLoggedIn ? null : 'Earn'} {market.interestRate}%
-                  </TD>
+    <>
+      {isLoggedIn ? (
+        <Card {...restProps} sx={isLoggedIn ? {width: 1100, margin: 'auto'} : {}}>
+          <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
+          <TableOverflow>
+            <Table>
+              <THead>
+                <TR>
+                  <TH textAlign="left" width="20%">
+                    Asset
+                  </TH>
+                  <TH width="15%">Price</TH>
+                  <TH width="15%">Interest Rate</TH>
                   {isLoggedIn ? (
                     <>
-                      <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
-                      <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
+                      <TH width="15%">Wallet Balance</TH>
+                      <TH width="15%">Deposit Balance</TH>
                     </>
                   ) : null}
-                  <TD>
-                    <ButtonsContainer>
+                  <TH width="20%">&nbsp;</TH>
+                </TR>
+              </THead>
+              <TBody>
+                {marketsData.length === 0 && (
+                  <>
+                    {Array(3)
+                      .fill('')
+                      .map((el, i) => (
+                        <TR key={i}>
+                          {Array(6)
+                            .fill('')
+                            .map((el, i) => (
+                              <TD key={i} textAlign="left">
+                                <span style={{color: '#d5d5d5'}}>—</span>
+                              </TD>
+                            ))}
+                        </TR>
+                      ))}
+                  </>
+                )}
+                {marketsData.map((market, index) => {
+                  const tokenData = getTokenDataBySymbol(market.symbol);
+                  const image = tokenData ? tokenData.image : '';
+                  return (
+                    <TR key={index}>
+                      <TD textAlign="left">
+                        <TokenData>
+                          <TokenImage image={image} />
+                          <strong>{market.symbol}</strong>
+                        </TokenData>
+                      </TD>
+                      <TD>${market.price}</TD>
+                      <TD>
+                        {isLoggedIn ? null : 'Earn'} {market.interestRate}%
+                      </TD>
                       {isLoggedIn ? (
                         <>
-                          <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
-                          <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>
+                          <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
+                          <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
                         </>
-                      ) : (
-                        <ButtonLine onClick={openLoginModal}>Start Earning</ButtonLine>
-                      )}
-                    </ButtonsContainer>
-                  </TD>
-                </TR>
-              );
-            })}
-          </TBody>
-        </Table>
-      </TableOverflow>
-      <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
-      <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
-      <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
-    </Card>
+                      ) : null}
+                      <TD>
+                        <ButtonsContainer>
+                          {isLoggedIn ? (
+                            <>
+                              <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
+                              <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>
+                            </>
+                          ) : (
+                            <ButtonLine onClick={openLoginModal}>Start Earning</ButtonLine>
+                          )}
+                        </ButtonsContainer>
+                      </TD>
+                    </TR>
+                  );
+                })}
+              </TBody>
+            </Table>
+          </TableOverflow>
+          <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
+          <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
+          <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
+        </Card>
+      ) : (
+        <Card p={['8px 14px', '16px 30px']} sx={{overflowX: 'auto'}}>
+          <RebassTable sx={{minWidth: 580, tableLayout: 'auto'}}>
+            <RebassThead>
+              <RebassTr>
+                <RebassTh width={0.2}>Asset</RebassTh>
+                <RebassTh width={0.15}>Price</RebassTh>
+                <RebassTh width={0.15}>Interest Rate</RebassTh>
+                <RebassTh width={0.2}>&nbsp;</RebassTh>
+              </RebassTr>
+            </RebassThead>
+            <RebassTbody>
+              {marketsData.length === 0 && <TableLoading />}
+              {marketsData.map((market, index) => {
+                const tokenData = getTokenDataBySymbol(market.symbol);
+                const image = tokenData ? tokenData.image : '';
+                return (
+                  <RebassTr key={index}>
+                    <RebassTd>
+                      <Flex alignItems="center" justifyContent="flex-start">
+                        <TokenImage image={image} />
+                        <strong>{market.symbol}</strong>
+                      </Flex>
+                    </RebassTd>
+                    <RebassTd>${market.price}</RebassTd>
+                    <RebassTd>Earn {market.interestRate}%</RebassTd>
+                    <RebassTd>
+                      <Flex justifyContent="flex-end">
+                        <Button  onClick={openLoginModal} variant="text" py={2} fontSize={2}>
+                          Start Earning
+                        </Button>
+                      </Flex>
+                    </RebassTd>
+                  </RebassTr>
+                );
+              })}
+            </RebassTbody>
+          </RebassTable>
+        </Card>
+      )}
+    </>
   );
 };
 
