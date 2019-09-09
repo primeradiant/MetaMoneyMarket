@@ -54,9 +54,9 @@ const Landing: React.FC<Props> = (props: Props) => {
             Simplify your approach to savings and reliably increase your returns with MetaMoneyMarket.
           </Text>
 
-          <Button as="a" href="#sign-up">
-            Join early access
-          </Button>
+          <Box sx={{maxWidth: 480}}>
+            <MailChimpForm buttonText="Join now" placeholderText="Sign up to get early access" />
+          </Box>
         </Container>
       </Section>
 
@@ -121,9 +121,9 @@ const Landing: React.FC<Props> = (props: Props) => {
           <ThreeColumnGrid>
             <Box mb={[4, 0]}>
               <Text as="p" color="text.light" variant="paragraph">
-                Simply deposit DAI into MetaMoneyMarket and receive a corresponding token share in our pool. The tool
-                will automatically move DAI across decentralized finance protocols to ensure you the best interest rate
-                and grow the value of your token share.
+                Simply deposit DAI and other currencies into MetaMoneyMarket and receive a corresponding token share in
+                our pool. The tool will automatically move your money across decentralized finance protocols to ensure
+                you the best interest rate and grow the value of your token share.
               </Text>
             </Box>
 

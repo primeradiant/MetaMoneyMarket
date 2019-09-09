@@ -8,10 +8,15 @@ const SpamBusting = () => (
   </div>
 );
 
-export const MailChimpForm: React.FC = props => {
+interface FormProps extends React.HTMLAttributes<HTMLDivElement> {
+  buttonText?: string;
+  placeholderText?: string;
+}
+
+export const MailChimpForm: React.FC<FormProps> = ({buttonText, placeholderText, ...rest}) => {
   const [email, setEmail] = useState('');
   return (
-    <Box id="mc_embed_signup" {...props}>
+    <Box id="mc_embed_signup" {...rest}>
       <Box
         as="form"
         action="https://gmail.us3.list-manage.com/subscribe/post?u=62a77ff46a9469711efebfd67&amp;id=1b6a93db6d"
@@ -27,7 +32,7 @@ export const MailChimpForm: React.FC = props => {
             onChange={(e: any) => setEmail(e.currentTarget.value)}
             name="EMAIL"
             id="mce-EMAIL"
-            placeholder="Sign up to get early access"
+            placeholder={placeholderText}
             required={true}
             sx={{
               '::placeholder': {
@@ -42,7 +47,7 @@ export const MailChimpForm: React.FC = props => {
               width={[1, 'unset']}
               as="input"
               type="submit"
-              value="Subscribe"
+              value={buttonText}
               name="subscribe"
               id="mc-embedded-subscribe"
             />
@@ -51,4 +56,9 @@ export const MailChimpForm: React.FC = props => {
       </Box>
     </Box>
   );
+};
+
+MailChimpForm.defaultProps = {
+  buttonText: 'Subscribe',
+  placeholderText: 'Sign up to get early access',
 };
