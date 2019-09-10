@@ -1,40 +1,64 @@
 import React, {useState} from 'react';
+import {Button, Flex, Box} from 'rebass';
+import {Input} from '@rebass/forms';
 
-export const MailChimpForm = () => {
+const SpamBusting = () => (
+  <div style={{position: 'absolute', left: '-5000px'}} aria-hidden="true">
+    <input type="text" name="b_62a77ff46a9469711efebfd67_1b6a93db6d" tabIndex={-1} defaultValue="" />
+  </div>
+);
+
+interface FormProps extends React.HTMLAttributes<HTMLDivElement> {
+  buttonText?: string;
+  placeholderText?: string;
+}
+
+export const MailChimpForm: React.FC<FormProps> = ({buttonText, placeholderText, ...rest}) => {
   const [email, setEmail] = useState('');
   return (
-    <div
-      id="mc_embed_signup"
-      style={{clear: 'left', font: '14px Helvetica,Arial,sans-serif', width: '100%', marginBottom: '2rem'}}
-    >
-      <form
+    <Box id="mc_embed_signup" {...rest}>
+      <Box
+        as="form"
         action="https://gmail.us3.list-manage.com/subscribe/post?u=62a77ff46a9469711efebfd67&amp;id=1b6a93db6d"
         method="post"
         id="mc-embedded-subscribe-form"
         name="mc-embedded-subscribe-form"
-        className="validate"
         target="_blank"
-        noValidate={true}
       >
-        <div id="mc_embed_signup_scroll">
-          <input
+        <Flex id="mc_embed_signup_scroll" flexDirection={['column', 'row']}>
+          <Input
             type="email"
             value={email}
-            onChange={e => setEmail(e.currentTarget.value)}
+            onChange={(e: any) => setEmail(e.currentTarget.value)}
             name="EMAIL"
-            className="email"
             id="mce-EMAIL"
-            placeholder="Sign up to get early access"
+            placeholder={placeholderText}
             required={true}
+            sx={{
+              '::placeholder': {
+                color: 'primary',
+                opacity: 0.92,
+              },
+            }}
           />
-          <div style={{position: 'absolute', left: '-5000px'}} aria-hidden="true">
-            <input type="text" name="b_62a77ff46a9469711efebfd67_1b6a93db6d" tabIndex={-1} value="" />
-          </div>
-          <div className="clear">
-            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" className="button" />
-          </div>
-        </div>
-      </form>
-    </div>
+          <SpamBusting />
+          <Box ml={[0, 3]} mt={[3, 0]}>
+            <Button
+              width={[1, 'unset']}
+              as="input"
+              type="submit"
+              value={buttonText}
+              name="subscribe"
+              id="mc-embedded-subscribe"
+            />
+          </Box>
+        </Flex>
+      </Box>
+    </Box>
   );
+};
+
+MailChimpForm.defaultProps = {
+  buttonText: 'Subscribe',
+  placeholderText: 'Sign up to get early access',
 };

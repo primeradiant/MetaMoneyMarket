@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import 'sanitize.css';
 import './assets/styles/index.css';
+import './assets/styles/fonts.css'
 
 ReactModal.setAppElement('#root');
 

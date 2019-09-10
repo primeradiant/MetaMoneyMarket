@@ -12,19 +12,38 @@ import {MainWrapper} from './layout/MainWrapper';
 import MyAccount from './my-account';
 import Terms from './terms';
 
+/**
+ * @NOTE This is a super hacky approach to having certain routes
+ *  have the original MainWrapper component and for the new
+ *  pages to be without the MainWrapper
+ */
+const WrappedMyAccount = (props: any) => (
+  <MainWrapper>
+    <MyAccount {...props} />
+  </MainWrapper>
+);
+const WrappedHelp = (props: any) => (
+  <MainWrapper>
+    <Help {...props} />
+  </MainWrapper>
+);
+const WrappedTerms = (props: any) => (
+  <MainWrapper>
+    <Terms {...props} />
+  </MainWrapper>
+);
+
 const App: React.FC = () => {
   return (
     <Web3Provider connectors={{MetaMask, Infura}} libraryName={'web3.js'} web3Api={Web3}>
       <ContractsProvider>
         <BrowserRouter>
-          <MainWrapper>
-            <Switch>
-              <Route exact={true} path={`/`} component={Landing} />
-              <Route exact={true} path={`/my-account`} component={MyAccount} />
-              <Route exact={true} path={`/help`} component={Help} />
-              <Route exact={true} path={`/terms`} component={Terms} />
-            </Switch>
-          </MainWrapper>
+          <Switch>
+            <Route exact={true} path={`/`} component={Landing} />
+            <Route exact={true} path={`/my-account`} component={WrappedMyAccount} />
+            <Route exact={true} path={`/help`} component={WrappedHelp} />
+            <Route exact={true} path={`/terms`} component={WrappedTerms} />
+          </Switch>
         </BrowserRouter>
       </ContractsProvider>
     </Web3Provider>
