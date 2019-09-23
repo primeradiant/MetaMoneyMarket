@@ -25,7 +25,7 @@ const socialMediaAccounts = [
   },
   {
     name: 'Telegram',
-    link: 'https://t.me/joinchat/BhTqaRU6',
+    link: 'https://t.me/joinchat/BhTqaRU6S32gP0U7NR8wbg',
     icon: <Telegram />,
   },
 ];
