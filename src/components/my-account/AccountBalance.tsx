@@ -299,6 +299,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
               })}
             </RebassTbody>
           </RebassTable>
+          <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
         </Card>
       )}
     </>
