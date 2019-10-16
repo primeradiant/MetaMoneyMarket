@@ -1,15 +1,17 @@
-import React, {HTMLAttributes, useState} from 'react';
-import styled, {css} from 'styled-components';
-import {Card, Box, BoxProps, Text, Flex, Button} from 'rebass';
-import {useWeb3Context} from 'web3-react';
+import React, { HTMLAttributes, useState } from 'react';
+import styled, { css } from 'styled-components';
+import { Card, Box, BoxProps, Text, Flex, Button } from 'rebass';
+import { useWeb3Context } from 'web3-react';
+
+import KyberLink from '../common/KyberLink';
 
 import ButtonLine from '../common/ButtonLine';
-import {getTokenDataBySymbol} from '../common/img/token-icons';
+import { getTokenDataBySymbol } from '../common/img/token-icons';
 import DepositModal from '../deposit';
-import {LoginModal} from '../login';
+import { LoginModal } from '../login';
 import WithdrawModal from '../withdraw';
 
-import {themeColors} from '../../util/constants';
+import { themeColors } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   isLoggedIn: boolean;
@@ -53,7 +55,7 @@ const cellCSS = css`
   white-space: nowrap;
 `;
 
-const TH = styled.th<{textAlign?: string; width: string}>`
+const TH = styled.th<{ textAlign?: string; width: string }>`
   ${cellCSS}
   color: #444;
   font-weight: 600;
@@ -65,7 +67,7 @@ TH.defaultProps = {
   textAlign: 'right',
 };
 
-const TD = styled.td<{textAlign?: string}>`
+const TD = styled.td<{ textAlign?: string }>`
   ${cellCSS}
   color: ${themeColors.tertiaryTextColor};
   font-feature-settings: 'tnum' 1;
@@ -103,7 +105,7 @@ const TokenData = styled.div`
   justify-content: flex-start;
 `;
 
-const TokenImage = styled.div<{image: any}>`
+const TokenImage = styled.div<{ image: any }>`
   background-image: url('${props => props.image}');
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -146,8 +148,18 @@ const TableLoading = () => (
   </>
 );
 
+const GetToken = styled(KyberLink)`
+  color: ${themeColors.primaryColor};
+  min-width: 55px;
+`;
+
+const GetTokens = styled(KyberLink)`
+  margin-left: 20px;
+  padding: 12px;
+`;
+
 const AccountBalance: React.FC<Props> = (props: Props) => {
-  const {marketsData, isLoggedIn, ...restProps} = props;
+  const { marketsData, isLoggedIn, ...restProps } = props;
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [loginModalIsOpen, setModalIsOpen] = useState(false);
@@ -180,8 +192,19 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
   return (
     <>
       {isLoggedIn ? (
-        <Card {...restProps} sx={isLoggedIn ? {width: 1100, margin: 'auto'} : {}}>
-          <Title>{isLoggedIn ? 'My Account' : 'Current Rates'}</Title>
+        <Card {...restProps} sx={isLoggedIn ? { width: 1100, margin: 'auto' } : {}}>
+          <Title>
+            {isLoggedIn ? (
+              <span>
+                My Account{' '}
+                <GetTokens tokenSymbol="DAI" className="kyber-widget-button theme-emerald theme-supported">
+                  Get Tokens
+                </GetTokens>
+              </span>
+            ) : (
+              'Current Rates'
+            )}
+          </Title>
           <TableOverflow>
             <Table>
               <THead>
@@ -211,7 +234,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                             .fill('')
                             .map((el, i) => (
                               <TD key={i} textAlign="left">
-                                <span style={{color: '#d5d5d5'}}>—</span>
+                                <span style={{ color: '#d5d5d5' }}>—</span>
                               </TD>
                             ))}
                         </TR>
@@ -221,6 +244,8 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                 {marketsData.map((market, index) => {
                   const tokenData = getTokenDataBySymbol(market.symbol);
                   const image = tokenData ? tokenData.image : '';
+                  const hasBalance = market.walletBalance && !market.walletBalance.amount.isZero();
+
                   return (
                     <TR key={index}>
                       <TD textAlign="left">
@@ -243,8 +268,14 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                         <ButtonsContainer>
                           {isLoggedIn ? (
                             <>
-                              <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
-                              <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>
+                              {hasBalance ? (
+                                <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
+                              ) : (
+                                <ButtonLine>
+                                  <GetToken tokenSymbol={market.symbol}>Get {market.symbol}</GetToken>
+                                </ButtonLine>
+                              )}
+                              <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
                             </>
                           ) : (
                             <ButtonLine onClick={openLoginModal}>Start Earning</ButtonLine>
@@ -262,8 +293,8 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
           <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
         </Card>
       ) : (
-        <Card p={['8px 14px', '16px 30px']} sx={{overflowX: 'auto'}}>
-          <RebassTable sx={{minWidth: 580, tableLayout: 'auto'}}>
+        <Card p={['8px 14px', '16px 30px']} sx={{ overflowX: 'auto' }}>
+          <RebassTable sx={{ minWidth: 580, tableLayout: 'auto' }}>
             <RebassThead>
               <RebassTr>
                 <RebassTh width={0.2}>Asset</RebassTh>
@@ -289,7 +320,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                     <RebassTd>Earn {market.interestRate}%</RebassTd>
                     <RebassTd>
                       <Flex justifyContent="flex-end">
-                        <Button  onClick={openLoginModal} variant="text" py={2} fontSize={2}>
+                        <Button onClick={openLoginModal} variant="text" py={2} fontSize={2}>
                           Start Earning
                         </Button>
                       </Flex>
