@@ -12430,7 +12430,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-29T18:09:30.504Z",
+  "updatedAt": "2019-10-17T18:37:41.624Z",
   "devdoc": {
     "methods": {
       "isOwner()": {

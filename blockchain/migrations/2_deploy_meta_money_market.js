@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const CompoundAdapter = artifacts.require('CompoundAdapter');
 const DYDXAdapter = artifacts.require('DYDXAdapter');
+const FulcrumAdapter = artifacts.require('FulcrumAdapter');
+
 const MetaMoneyMarket = artifacts.require('MetaMoneyMarket');
 const MoneyMarketMock = artifacts.require('MoneyMarketMock');
 const MoneyMarketMockAdapter = artifacts.require('MoneyMarketMockAdapter');
@@ -22,7 +24,8 @@ const kovanConfig = {
     {
       name: 'dai',
       tokenAddress: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2',
-      marketId: 1
+      marketId: 1,
+      iTokenAddress: '0xA1e58F3B1927743393b25f261471E1f2D3D9f0F6'
     }
   ]
 };
@@ -105,33 +108,32 @@ module.exports = async function(deployer, network, accounts) {
     await moneyMarketAdapter.transferOwnership(metaMoneyMarket.address);
     await compoundAdapter.transferOwnership(metaMoneyMarket.address);
   } else if (network === 'kovan') {
-    // deploy money market mock
-    await deployer.deploy(MoneyMarketMock, 1);
-    const moneyMarketMock = await MoneyMarketMock.deployed();
-    await deployer.deploy(MoneyMarketMockAdapter, moneyMarketMock.address);
-    const moneyMarketAdapter = await MoneyMarketMockAdapter.deployed();
+
+    // deploy Fulcrum adapter
+    await deployer.deploy(FulcrumAdapter);
+    const fulcrumAdapter = await FulcrumAdapter.deployed();
 
     // deploy dydx adapter
     await deployer.deploy(DYDXAdapter, kovanConfig.soloAddress);
     const dydxAdapter = await DYDXAdapter.deployed();
 
     // deploy MetaMoneyMarket
-    moneyMarkets = [moneyMarketAdapter.address, dydxAdapter.address];
+    moneyMarkets = [fulcrumAdapter.address, dydxAdapter.address];
     await deployer.deploy(MetaMoneyMarket, moneyMarkets);
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
     console.log('configuring tokens');
-    for (const {name, tokenAddress, marketId} of kovanConfig.tokens) {
+    for (const { name, tokenAddress, marketId, iTokenAddress } of kovanConfig.tokens) {
       if (marketId !== undefined) {
         console.log(`configuring mmm and adapters for ${name}`);
+        await fulcrumAdapter.mapTokenToIToken(tokenAddress, iTokenAddress);
         await dydxAdapter.mapTokenToMarketId(tokenAddress, marketId);
         await metaMoneyMarket.addMarket(tokenAddress);
-        await moneyMarketMock.addMarket(tokenAddress);
       }
     }
 
     console.log('transferring adapters ownership to the MMM contract');
-    await moneyMarketAdapter.transferOwnership(metaMoneyMarket.address);
+    await fulcrumAdapter.transferOwnership(metaMoneyMarket.address);
     await dydxAdapter.transferOwnership(metaMoneyMarket.address);
   } else if (network === 'mainnet') {
     // deploy compound
