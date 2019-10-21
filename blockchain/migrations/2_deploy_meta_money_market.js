@@ -177,8 +177,12 @@ module.exports = async function(deployer, network, accounts) {
     await deployer.deploy(DYDXAdapter, mainnetConfig.soloAddress);
     const dydxAdapter = await DYDXAdapter.deployed();
 
+    // deploy Fulcrum adapter
+    await deployer.deploy(FulcrumAdapter);
+    const fulcrumAdapter = await FulcrumAdapter.deployed();
+
     // deploy MetaMoneyMarket
-    moneyMarkets = [compoundAdapter.address, dydxAdapter.address];
+    moneyMarkets = [compoundAdapter.address, dydxAdapter.address, fulcrumAdapter.address];
     await deployer.deploy(MetaMoneyMarket, moneyMarkets);
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
@@ -187,12 +191,25 @@ module.exports = async function(deployer, network, accounts) {
       name,
       tokenAddress,
       cTokenAddress,
+      iTokenAddress,
       marketId
     } of mainnetConfig.tokens) {
-      if (cTokenAddress !== undefined && marketId !== undefined) {
-        console.log(`configuring mmm and adapters for ${name}`);
+      if (cTokenAddress !== undefined) {
+        console.log(`configuring compound for ${name}`);
         await compoundAdapter.mapTokenToCToken(tokenAddress, cTokenAddress);
+      }
+      if (marketId !== undefined) {
+        console.log(`configuring dydx for ${name}`);
         await dydxAdapter.mapTokenToMarketId(tokenAddress, marketId);
+      }
+      if (iTokenAddress !== undefined) {
+        console.log(`configuring fulcrum for ${name}`);
+        await fulcrumAdapter.mapTokenToIToken(tokenAddress, iTokenAddress);
+      }
+
+      // add market to mmm if some adapter supports this token
+      if (cTokenAddress !== undefined || iTokenAddress !== undefined || marketId !== undefined) {
+        console.log(`configuring mmm for ${name}`);
         await metaMoneyMarket.addMarket(tokenAddress);
       }
     }

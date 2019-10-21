@@ -26823,8 +26823,8 @@
         }
       },
       "links": {},
-      "address": "0x58C5AD890Fd9b25145f05f5AfEE11Cb5B8f616De",
-      "transactionHash": "0xb85ec7caa77ff30b7188b052a01caf3adf6f51bb66db466c2aad494ffe0c6f42"
+      "address": "0x7F23570339d4Fe66004076392E340e4AA0bdA496",
+      "transactionHash": "0x99c0b2bf1eed763a6b3f305524d27f2445d6224efd4c437ecd8fb584122fb5b9"
     },
     "42": {
       "events": {
@@ -26853,7 +26853,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-10-17T18:37:41.602Z",
+  "updatedAt": "2019-10-21T20:26:44.160Z",
   "devdoc": {
     "details": "MetaMoneyMarket is a contract for managing deposits. It chooses between a number of underlying contracts and selects the one with the highest rate. The addresses of the money markets are specified on deployment.",
     "methods": {

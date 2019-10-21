@@ -19227,10 +19227,29 @@
   },
   "networks": {
     "1": {
-      "events": {},
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event",
+          "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+        }
+      },
       "links": {},
-      "address": "0x16d0D3cB2b3697aBcA5331C51b72895f9913eA83",
-      "transactionHash": "0x7d9770e50307f49aee0826e839d38e59c242a2c6fcafea5e7b7af46ec7fc6efc"
+      "address": "0xA50318550B90952A91F89787cb6f81B29979E4a4",
+      "transactionHash": "0xd19199b48447b9a16a6fc87897bcda64e59843670f906923ae8c30e362e77e10"
     },
     "42": {
       "events": {
@@ -19259,7 +19278,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-10-17T18:37:41.566Z",
+  "updatedAt": "2019-10-21T20:26:44.114Z",
   "devdoc": {
     "methods": {
       "isOwner()": {
