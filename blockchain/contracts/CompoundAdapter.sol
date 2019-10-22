@@ -11,7 +11,7 @@ contract CToken is IERC20 {
   function mint(uint mintAmount) external returns (uint);
   function redeemUnderlying(uint redeemAmount) external returns (uint);
   function balanceOfUnderlying(address owner) external returns (uint);
-  function exchangeRateStored() public view returns (uint);
+  function exchangeRateStored() external view returns (uint);
 }
 
 contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
