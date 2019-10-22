@@ -380,7 +380,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
         continue;
       }
       uint256 rate = moneyMarkets[i].getRate(tokenAddress);
-      if (rate > bestRate) {
+      if (rate >= bestRate) {
         bestRate = rate;
         bestMoneyMarket = moneyMarkets[i];
       }
