@@ -114,12 +114,22 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     address cTokenAddress = tokenToCToken[tokenAddress];
     CToken cToken = CToken(cTokenAddress);
 
+    // hack for preventing a rounding issue in `redeemUnderlying`
+    if (cToken.balanceOf(addressThis) <= 10) {
+      return 0;
+    }
+
     return cToken.balanceOfUnderlying(address(this));
   }
 
   function getSupplyView(address tokenAddress) external view returns (uint256) {
     address cTokenAddress = tokenToCToken[tokenAddress];
     CToken cToken = CToken(cTokenAddress);
+
+    // hack for preventing a rounding issue in `redeemUnderlying`
+    if (cToken.balanceOf(addressThis) <= 10) {
+      return 0;
+    }
 
     uint256 exchangeRate = cToken.exchangeRateStored();
     uint256 balance = cToken.balanceOf(address(this));
