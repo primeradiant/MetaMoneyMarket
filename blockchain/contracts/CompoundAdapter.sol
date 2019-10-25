@@ -115,7 +115,7 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     CToken cToken = CToken(cTokenAddress);
 
     // hack for preventing a rounding issue in `redeemUnderlying`
-    if (cToken.balanceOf(addressThis) <= 10) {
+    if (cToken.balanceOf(address(this)) <= 10) {
       return 0;
     }
 
@@ -127,7 +127,7 @@ contract CompoundAdapter is IMoneyMarketAdapter, Ownable, Claimable {
     CToken cToken = CToken(cTokenAddress);
 
     // hack for preventing a rounding issue in `redeemUnderlying`
-    if (cToken.balanceOf(addressThis) <= 10) {
+    if (cToken.balanceOf(address(this)) <= 10) {
       return 0;
     }
 
