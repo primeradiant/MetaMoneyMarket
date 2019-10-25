@@ -155,7 +155,7 @@ const DepositModal: React.FC<Props> = props => {
           {error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}
         </ModalNote>
       )}
-      <ButtonStyled disabled={isLoading || !amount} onClick={sendDeposit}>
+      <ButtonStyled disabled={isLoading || !amount || amount.isZero()} onClick={sendDeposit}>
         Deposit
       </ButtonStyled>
     </Modal>
