@@ -70,7 +70,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
     uint256 tokenShareSupply = tokenShare.totalSupply();
     uint256 tokenSupply = totalSupply(tokenAddress);
 
-    uint256 tokenSharesToMint = tokenSupply > 0
+    uint256 tokenSharesToMint = (tokenSupply > 0 && tokenShareSupply > 0)
       ? tokenShareSupply * tokenAmount / tokenSupply
       : tokenAmount;
 
