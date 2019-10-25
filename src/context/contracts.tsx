@@ -90,10 +90,6 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
 
       for (let i = 0; i < count; i++) {
         const address = await metaMoneyMarket.supportedMarketsList(i);
-        // KNC and LINK are not working
-        if (address === '0xdd974D5C2e2928deA5F71b9825b8b646686BD200' || address === '0x514910771AF9Ca656af840dff83E8264EcF986CA') {
-          continue;
-        }
 
         let symbol = 'UNKNOWN';
         try {
