@@ -74,8 +74,10 @@ contract SoloMargin {
     view
     returns (Wei memory);
 
-  function operate(AccountInfo[] calldata accounts, ActionArgs[] calldata actions)
-    external;
+  function operate(
+    AccountInfo[] calldata accounts,
+    ActionArgs[] calldata actions
+  ) external;
 }
 
 contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {

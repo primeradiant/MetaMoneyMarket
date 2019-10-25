@@ -289,7 +289,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                     <RebassTd>Earn {market.interestRate}%</RebassTd>
                     <RebassTd>
                       <Flex justifyContent="flex-end">
-                        <Button  onClick={openLoginModal} variant="text" py={2} fontSize={2}>
+                        <Button onClick={openLoginModal} variant="text" py={2} fontSize={2}>
                           Start Earning
                         </Button>
                       </Flex>

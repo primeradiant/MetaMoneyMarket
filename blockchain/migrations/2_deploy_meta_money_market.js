@@ -141,7 +141,6 @@ module.exports = async function(deployer, network, accounts) {
     await moneyMarketAdapter.transferOwnership(metaMoneyMarket.address);
     await compoundAdapter.transferOwnership(metaMoneyMarket.address);
   } else if (network === 'kovan') {
-
     // deploy Fulcrum adapter
     await deployer.deploy(FulcrumAdapter);
     const fulcrumAdapter = await FulcrumAdapter.deployed();
@@ -156,7 +155,12 @@ module.exports = async function(deployer, network, accounts) {
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
     console.log('configuring tokens');
-    for (const { name, tokenAddress, marketId, iTokenAddress } of kovanConfig.tokens) {
+    for (const {
+      name,
+      tokenAddress,
+      marketId,
+      iTokenAddress
+    } of kovanConfig.tokens) {
       if (marketId !== undefined) {
         console.log(`configuring mmm and adapters for ${name}`);
         await fulcrumAdapter.mapTokenToIToken(tokenAddress, iTokenAddress);
@@ -182,7 +186,11 @@ module.exports = async function(deployer, network, accounts) {
     const fulcrumAdapter = await FulcrumAdapter.deployed();
 
     // deploy MetaMoneyMarket
-    moneyMarkets = [compoundAdapter.address, dydxAdapter.address, fulcrumAdapter.address];
+    moneyMarkets = [
+      compoundAdapter.address,
+      dydxAdapter.address,
+      fulcrumAdapter.address
+    ];
     await deployer.deploy(MetaMoneyMarket, moneyMarkets);
     const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
@@ -208,7 +216,11 @@ module.exports = async function(deployer, network, accounts) {
       }
 
       // add market to mmm if some adapter supports this token
-      if (cTokenAddress !== undefined || iTokenAddress !== undefined || marketId !== undefined) {
+      if (
+        cTokenAddress !== undefined ||
+        iTokenAddress !== undefined ||
+        marketId !== undefined
+      ) {
         console.log(`configuring mmm for ${name}`);
         await metaMoneyMarket.addMarket(tokenAddress);
       }
