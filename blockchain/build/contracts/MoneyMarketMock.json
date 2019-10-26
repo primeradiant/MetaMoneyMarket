@@ -12429,8 +12429,8 @@
       "transactionHash": "0xcf1b7346397ebea94a76c6a992f8e0686441a0f6d0038be02c38905011a7c84c"
     }
   },
-  "schemaVersion": "3.0.11",
-  "updatedAt": "2019-10-21T20:26:44.194Z",
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-26T00:28:40.945Z",
   "devdoc": {
     "methods": {
       "isOwner()": {

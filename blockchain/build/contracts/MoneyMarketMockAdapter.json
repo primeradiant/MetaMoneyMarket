@@ -8201,8 +8201,8 @@
       "transactionHash": "0xf3905c66e646d961c9306acc8b450e49a8e46dffa440cb9fda838e1f762bc309"
     }
   },
-  "schemaVersion": "3.0.11",
-  "updatedAt": "2019-10-21T20:26:44.206Z",
+  "schemaVersion": "3.0.16",
+  "updatedAt": "2019-10-26T00:28:40.953Z",
   "devdoc": {
     "methods": {
       "isOwner()": {
