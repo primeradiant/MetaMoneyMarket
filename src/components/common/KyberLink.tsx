@@ -8,7 +8,7 @@ interface Props extends React.HTMLAttributes<HTMLAnchorElement> {
 const KyberLink = ({ tokenSymbol, children, ...restProps }: Props) => {
   return (
     <a
-      href={`https://widget.kyber.network/v0.7.2/?type=swap&mode=pop&lang=en&defaultPair=ETH_${tokenSymbol}&callback=https%3A%2F%2Fkyberpay-sample.knstats.com%2Fcallback&paramForwarding=true&network=mainnet&theme=theme-emerald`}
+      href={`https://widget.kyber.network/v0.7.2/?type=swap&mode=popup&lang=en&defaultPair=ETH_${tokenSymbol}&callback=https%3A%2F%2Fkyberpay-sample.knstats.com%2Fcallback&paramForwarding=true&network=mainnet&theme=theme-emerald`}
       target="_blank"
       rel='noopener noreferrer'
       {...restProps}
