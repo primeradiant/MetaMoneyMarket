@@ -11,7 +11,7 @@ import DepositModal from '../deposit';
 import { LoginModal } from '../login';
 import WithdrawModal from '../withdraw';
 
-import { themeColors } from '../../util/constants';
+import { themeColors, themeDimensions } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   isLoggedIn: boolean;
@@ -155,7 +155,32 @@ const GetToken = styled(KyberLink)`
 
 const GetTokens = styled(KyberLink)`
   margin-left: 20px;
-  padding: 12px;
+  align-items: center;
+  background-color: #fff;
+  border-radius: ${themeDimensions.commonBorderRadius};
+  border: 1px solid ${themeColors.primaryColor};
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.05);
+  color: ${themeColors.primaryColor};
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  height: 23px;
+  justify-content: center;
+  outline: none;
+  text-align: center;
+  transition: box-shadow 0.15s ease-out;
+  white-space: nowrap;
+  line-height: 0;
+
+  &:hover {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  &[disabled] {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const AccountBalance: React.FC<Props> = (props: Props) => {
