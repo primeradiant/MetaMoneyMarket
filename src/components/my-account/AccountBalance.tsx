@@ -198,7 +198,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
               <span>
                 My Account{' '}
                 <GetTokens tokenSymbol="DAI" className="kyber-widget-button theme-emerald theme-supported">
-                  Get Tokens
+                  Swap Tokens
                 </GetTokens>
               </span>
             ) : (
@@ -272,7 +272,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
                                 <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
                               ) : (
                                 <ButtonLine>
-                                  <GetToken tokenSymbol={market.symbol}>Get {market.symbol}</GetToken>
+                                  <GetToken tokenSymbol={market.symbol}>Swap {market.symbol}</GetToken>
                                 </ButtonLine>
                               )}
                               <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
