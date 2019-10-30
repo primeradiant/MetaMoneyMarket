@@ -99,7 +99,7 @@ contract MoneyMarketMock is Ownable {
       "Market is already supported"
     );
 
-    TokenShare tokenShare = new TokenShare();
+    TokenShare tokenShare = new TokenShare(18);
 
     supportedMarkets[tokenAddress].isSupported = true;
     supportedMarkets[tokenAddress].tokenShare = tokenShare;
