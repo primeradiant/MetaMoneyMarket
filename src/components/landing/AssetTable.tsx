@@ -1,10 +1,10 @@
 import React, {HTMLAttributes, useState} from 'react';
-import {Box, BoxProps, Button, Card, Flex, Text} from 'rebass';
+import {Button, Card, Flex, Text} from 'rebass';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import {LoginModal} from '../login';
-import {RebassTr, RebassTd, RebassTh, RebassThead, RebassTbody, RebassTable} from '../ui/Table';
+import {RebassTable, RebassTbody, RebassTd, RebassTh, RebassThead, RebassTr} from '../ui/Table';
 
 const TableLoading = () => (
   <>
