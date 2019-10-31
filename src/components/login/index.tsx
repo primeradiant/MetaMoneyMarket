@@ -12,12 +12,13 @@ import RadioInput from '../common/RadioInput';
 import ModalTitle from '../modal-title';
 
 import {modalStyle, themeColors} from '../../util/constants';
+import WalletConnect from '../common/img/WalletConnect';
 
 interface Props extends React.ComponentProps<typeof Modal> {
   redirect: (path: string) => void;
 }
 
-type LoginMethod = 'metamask';
+type LoginMethod = 'METAMASK' | 'WALLETCONNECT';
 
 const LoginItems = styled.div`
   margin-bottom: 45px;
@@ -116,13 +117,13 @@ export const LoginModal: React.FC<Props> = props => {
   const {onRequestClose, ...restProps} = props;
   const context = useWeb3Context();
 
-  const [loginMethod, setLoginMethod] = useState<LoginMethod>('metamask');
+  const [loginMethod, setLoginMethod] = useState<LoginMethod>('METAMASK');
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   const toggleTerms = () => setTermsAccepted(!termsAccepted);
 
   const login: React.MouseEventHandler<HTMLButtonElement> = e => {
-    if (loginMethod === 'metamask') {
+    if (loginMethod === 'METAMASK') {
       context.setFirstValidConnector(['MetaMask']);
     }
 
@@ -150,7 +151,19 @@ export const LoginModal: React.FC<Props> = props => {
             <RadioInput checked={false} />
           </RadioInputWrapper>
         </LoginItem>
-        <LoginItem onClick={() => setLoginMethod('metamask')}>
+        <LoginItem onClick={() => setLoginMethod('WALLETCONNECT')}>
+          <LoginItemIcon>
+            <WalletConnect />
+          </LoginItemIcon>
+          <LoginItemText>
+            <LoginItemTitle>WalletConnect</LoginItemTitle>
+            <LoginItemDescription>Connect using your mobile wallet.</LoginItemDescription>
+          </LoginItemText>
+          <RadioInputWrapper>
+            <RadioInput checked={loginMethod === 'WALLETCONNECT'} />
+          </RadioInputWrapper>
+        </LoginItem>
+        <LoginItem onClick={() => setLoginMethod('METAMASK')}>
           <LoginItemIcon>
             <Metamask />
           </LoginItemIcon>
@@ -159,7 +172,7 @@ export const LoginModal: React.FC<Props> = props => {
             <LoginItemDescription>Use this popular browser extension wallet.</LoginItemDescription>
           </LoginItemText>
           <RadioInputWrapper>
-            <RadioInput checked={loginMethod === 'metamask'} />
+            <RadioInput checked={loginMethod === 'METAMASK'} />
           </RadioInputWrapper>
         </LoginItem>
       </LoginItems>
