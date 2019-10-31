@@ -1,11 +1,11 @@
 import React, {HTMLAttributes, useState} from 'react';
 import {Button, Card, Flex, Text} from 'rebass';
-import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import {useHistory} from 'react-router-dom';
 import {LoginModal} from '../login';
 import {RebassTable, RebassTbody, RebassTd, RebassTh, RebassThead, RebassTr} from '../ui/Table';
+import TokenIcon from '../ui/TokenIcon';
 
 const TableLoading = () => (
   <>
@@ -30,18 +30,6 @@ const TableLoading = () => (
       ))}
   </>
 );
-
-const TokenImage = styled.div<{image: any}>`
-  background-image: url('${props => props.image}');
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  flex-grow: 0;
-  flex-shrink: 0;
-  height: 25px;
-  margin-right: 15px;
-  width: 25px;
-`;
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
@@ -85,7 +73,7 @@ const AssetTable: React.FC<Props> = (props: Props) => {
               <RebassTr key={index}>
                 <RebassTd>
                   <Flex alignItems="center" justifyContent="flex-start">
-                    <TokenImage image={image} />
+                    <TokenIcon mr={3} image={image} />
                     <strong>{market.symbol}</strong>
                   </Flex>
                 </RebassTd>

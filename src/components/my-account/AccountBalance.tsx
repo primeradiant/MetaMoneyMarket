@@ -1,10 +1,9 @@
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
 import React, {HTMLAttributes, useState} from 'react';
-import {Heading} from 'rebass';
+import {Heading, Button} from 'rebass';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {themeColors} from '../../util/constants';
-import ButtonLine from '../common/ButtonLine';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import KyberLink from '../common/KyberLink';
 import DepositModal from '../deposit';
@@ -12,6 +11,7 @@ import {LoginModal} from '../login';
 import Container from '../ui/Container';
 import Section from '../ui/Section';
 import WithdrawModal from '../withdraw';
+import TokenIcon from '../ui/TokenIcon';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
@@ -94,18 +94,6 @@ const TokenData = styled.div`
   align-items: center;
   display: flex;
   justify-content: flex-start;
-`;
-
-const TokenImage = styled.div<{image: any}>`
-  background-image: url('${props => props.image}');
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  flex-grow: 0;
-  flex-shrink: 0;
-  height: 25px;
-  margin-right: 15px;
-  width: 25px;
 `;
 
 const TableLoading = () => (
@@ -195,13 +183,12 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
                 {marketsData.map((market, index) => {
                   const tokenData = getTokenDataBySymbol(market.symbol);
                   const image = tokenData ? tokenData.image : '';
-                  const hasBalance = market.walletBalance && !market.walletBalance.amount.isZero();
 
                   return (
                     <TR key={index}>
                       <TD textAlign="left">
                         <TokenData>
-                          <TokenImage image={image} />
+                          <TokenIcon mr={3} image={image} />
                           <strong>{market.symbol}</strong>
                         </TokenData>
                       </TD>
@@ -211,14 +198,8 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
                       <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
                       <TD>
                         <ButtonsContainer>
-                          {hasBalance ? (
-                            <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
-                          ) : (
-                            <ButtonLine>
-                              <KyberLink tokenSymbol={market.symbol}>Swap {market.symbol}</KyberLink>
-                            </ButtonLine>
-                          )}
-                          <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
+                          <Button onClick={() => deposit(market)}>Deposit</Button>
+                          <Button onClick={() => withdraw(market)}>Withdraw</Button>{' '}
                         </ButtonsContainer>
                       </TD>
                     </TR>

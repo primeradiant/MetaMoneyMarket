@@ -81,6 +81,13 @@ export default {
         width: [48, 56],
         verticalAlign: 'middle',
       },
+      token: {
+        height: 24,
+        width: 24,
+        backgroundPosition: '50% 50%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
+      },
     },
     container: {
       px: 24,
