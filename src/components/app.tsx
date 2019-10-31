@@ -4,7 +4,7 @@ import * as Web3 from 'web3';
 import Web3Provider from 'web3-react';
 
 import {ContractsProvider} from '../context/contracts';
-import {Infura, MetaMask} from '../web3/connectors';
+import {Infura, MetaMask, WalletConnect} from '../web3/connectors';
 
 import Help from './help';
 import Landing from './landing';
@@ -35,7 +35,7 @@ const WrappedTerms = (props: any) => (
 
 const App: React.FC = () => {
   return (
-    <Web3Provider connectors={{MetaMask, Infura}} libraryName={'web3.js'} web3Api={Web3}>
+    <Web3Provider connectors={{MetaMask, Infura, WalletConnect}} libraryName={'web3.js'} web3Api={Web3}>
       <ContractsProvider>
         <BrowserRouter>
           <Switch>
