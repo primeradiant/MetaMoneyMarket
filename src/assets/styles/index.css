@@ -1,19 +1,18 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
+  margin: 0;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  background-color: #fff;
-  color: #000;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 15px;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-/**
- * KYBER WIDGET STYLES
- */
 
 #kyber-widget {
   position: absolute;

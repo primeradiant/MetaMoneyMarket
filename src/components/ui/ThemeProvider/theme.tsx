@@ -14,7 +14,7 @@ export default {
     body:
       '-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol',
     heading: 'Lexend Deca, sans-serif',
-    monospace: 'Menlo, monospace',
+    monospace: 'source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace',
   },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
   fontWeights: {
