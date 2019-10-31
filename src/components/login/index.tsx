@@ -3,16 +3,14 @@ import Modal from 'react-modal';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
-
+import {modalStyle, themeColors} from '../../util/constants';
 import Button from '../common/Button';
 import CheckboxInput from '../common/CheckboxInput';
 import Metamask from '../common/img/Metamask';
 import SMS from '../common/img/SMS';
+import WalletConnect from '../common/img/WalletConnect';
 import RadioInput from '../common/RadioInput';
 import ModalTitle from '../modal-title';
-
-import {modalStyle, themeColors} from '../../util/constants';
-import WalletConnect from '../common/img/WalletConnect';
 
 interface Props extends React.ComponentProps<typeof Modal> {
   redirect: (path: string) => void;
@@ -124,7 +122,11 @@ export const LoginModal: React.FC<Props> = props => {
 
   const login: React.MouseEventHandler<HTMLButtonElement> = e => {
     if (loginMethod === 'METAMASK') {
-      context.setFirstValidConnector(['MetaMask']);
+      context.setConnector('MetaMask');
+    }
+
+    if (loginMethod === 'WALLETCONNECT') {
+      context.setConnector('WalletConnect');
     }
 
     if (onRequestClose) {
