@@ -12,7 +12,6 @@ import {LoginModal} from '../login';
 import WithdrawModal from '../withdraw';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  isLoggedIn: boolean;
   marketsData: Markets;
 }
 
@@ -168,7 +167,7 @@ const TableLoading = () => (
 );
 
 const AccountBalance: React.FC<Props> = (props: Props) => {
-  const {marketsData, isLoggedIn, ...restProps} = props;
+  const {marketsData, ...restProps} = props;
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [loginModalIsOpen, setModalIsOpen] = useState(false);

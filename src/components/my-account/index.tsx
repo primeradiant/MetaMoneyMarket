@@ -9,11 +9,7 @@ interface State {
 const MyAccount: React.FC<HTMLAttributes<HTMLDivElement>> = props => {
   const {marketsData} = useContext(ContractsContext);
 
-  return (
-    <>
-      <AccountBalance marketsData={marketsData} isLoggedIn={true} />
-    </>
-  );
+  return <AccountBalance marketsData={marketsData} />;
 };
 
 export default MyAccount;
