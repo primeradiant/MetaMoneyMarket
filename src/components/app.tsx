@@ -1,11 +1,9 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import * as Web3 from 'web3';
 import Web3Provider from 'web3-react';
-
 import {ContractsProvider} from '../context/contracts';
 import {Infura, MetaMask, WalletConnect} from '../web3/connectors';
-
 import Help from './help';
 import Landing from './landing';
 import {MainWrapper} from './layout/MainWrapper';
@@ -27,14 +25,22 @@ const App: React.FC = () => {
   return (
     <Web3Provider connectors={{MetaMask, Infura, WalletConnect}} libraryName={'web3.js'} web3Api={Web3}>
       <ContractsProvider>
-        <BrowserRouter>
+        <Router>
           <Switch>
-            <Route exact={true} path={`/`} component={Landing} />
-            <Route exact={true} path={`/my-account`} component={WrappedMyAccount} />
-            <Route exact={true} path={`/help`} component={Help} />
-            <Route exact={true} path={`/terms`} component={Terms} />
+            <Route exact path="/">
+              <Landing />
+            </Route>
+            <Route exact path="/my-account">
+              <WrappedMyAccount />
+            </Route>
+            <Route exact path="/help">
+              <Help />
+            </Route>
+            <Route exact path="/terms">
+              <Terms />
+            </Route>
           </Switch>
-        </BrowserRouter>
+        </Router>
       </ContractsProvider>
     </Web3Provider>
   );

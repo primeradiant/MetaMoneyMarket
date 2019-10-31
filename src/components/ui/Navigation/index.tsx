@@ -1,22 +1,24 @@
 import React, {useState} from 'react';
-import {NavLink} from 'react-router-dom';
+import {useHistory} from 'react-router';
+import {Link} from 'react-router-dom';
 import {Box, Button, Flex, Image, ImageProps} from 'rebass';
 import {useWeb3Context} from 'web3-react';
+import brandmark from '../../../assets/images/mmm-brandmark.svg';
 import {LoginModal} from '../../login';
 import Container from '../Container';
-
-import brandmark from '../../../assets/images/mmm-brandmark.svg';
 
 const Brandmark: React.FC<ImageProps> = props => <Image src={brandmark} variant="nav.logo" {...props} />;
 
 const Navigation: React.FC = () => {
   const context = useWeb3Context();
+  const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
   const logout = () => {
     context.unsetConnector();
+    history.push('/');
   };
 
   return (
@@ -24,9 +26,9 @@ const Navigation: React.FC = () => {
       <Box variant="nav.wrapper">
         <Container>
           <Flex justifyContent="space-between" alignItems="center">
-            <NavLink to="/">
+            <Link to="/">
               <Brandmark />
-            </NavLink>
+            </Link>
             <Flex alignItems="center">
               {!context.account && (
                 <Button onClick={openModal} variant="text">
