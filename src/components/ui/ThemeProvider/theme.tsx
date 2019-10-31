@@ -222,6 +222,9 @@ export default {
       lineHeight: 'body',
       fontSize: [2, 18],
       color: 'text.dark',
+      display: 'flex',
+      minHeight: '100vh',
+      flexDirection: 'column',
     },
   },
 };

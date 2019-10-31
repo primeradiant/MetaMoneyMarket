@@ -3,13 +3,10 @@ import {Box, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
 import Container from '../ui/Container';
-import Footer from '../ui/Footer';
 import {ThreeColumnGrid} from '../ui/Grid';
 import {Rates, Rocket, Savings, Simplicity} from '../ui/Icons';
-import Navigation from '../ui/Navigation';
-import Root from '../ui/Root';
 import Section from '../ui/Section';
-import ThemeProvider from '../ui/ThemeProvider';
+import Wrapper from '../ui/Wrapper';
 import AssetTable from './AssetTable';
 import {MailChimpForm} from './MailChimpForm';
 
@@ -17,23 +14,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
 }
 
-interface WrapperProps extends HTMLAttributes<HTMLDivElement> {
-  redirect: (path: string) => void;
-}
-
 interface State {
   modalIsOpen: boolean;
 }
-
-const Wrapper: React.FC<WrapperProps> = ({children, redirect}) => (
-  <ThemeProvider>
-    <Root>
-      <Navigation redirect={redirect} />
-      {children}
-      <Footer />
-    </Root>
-  </ThemeProvider>
-);
 
 const Landing: React.FC<Props> = (props: Props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);

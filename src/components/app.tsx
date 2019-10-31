@@ -22,11 +22,7 @@ const WrappedMyAccount = (props: any) => (
     <MyAccount {...props} />
   </MainWrapper>
 );
-const WrappedHelp = (props: any) => (
-  <MainWrapper>
-    <Help {...props} />
-  </MainWrapper>
-);
+
 const WrappedTerms = (props: any) => (
   <MainWrapper>
     <Terms {...props} />
@@ -41,7 +37,7 @@ const App: React.FC = () => {
           <Switch>
             <Route exact={true} path={`/`} component={Landing} />
             <Route exact={true} path={`/my-account`} component={WrappedMyAccount} />
-            <Route exact={true} path={`/help`} component={WrappedHelp} />
+            <Route exact={true} path={`/help`} component={Help} />
             <Route exact={true} path={`/terms`} component={WrappedTerms} />
           </Switch>
         </BrowserRouter>

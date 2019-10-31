@@ -1,14 +1,29 @@
 import React, {HTMLAttributes} from 'react';
-import styled from 'styled-components';
+import {Heading, Text} from 'rebass';
+import Container from '../ui/Container';
+import Section from '../ui/Section';
+import Wrapper from '../ui/Wrapper';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {}
-
-const HelpContainer = styled.div``;
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  history: any;
+}
 
 const Help: React.FC<Props> = (props: Props) => {
-  const {...restProps} = props;
+  return (
+    <Wrapper redirect={path => props.history.push(path)}>
+      <Section variant="hero">
+        <Container>
+          <Heading as="h1" variant="h1" mb={4}>
+            Help
+          </Heading>
 
-  return <HelpContainer {...restProps}>Help.</HelpContainer>;
+          <Text as="p" mb={4} variant="subheading">
+            Frequently asked questions and resources for getting started earning with MetaMoneyMarket.
+          </Text>
+        </Container>
+      </Section>
+    </Wrapper>
+  );
 };
 
 export default Help;
