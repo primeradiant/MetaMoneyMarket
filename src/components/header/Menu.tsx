@@ -6,10 +6,7 @@ import {useWeb3Context} from 'web3-react';
 import {LoginModal} from '../login';
 
 import {themeColors, themeDimensions} from '../../util/constants';
-
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  redirect: (path: string) => void;
-}
+import {useHistory} from 'react-router';
 
 interface State {
   modalIsOpen: boolean;
@@ -55,9 +52,10 @@ const MenuItem = styled.div`
 //   ${MenuItemCSS}
 // `;
 
-const Menu: React.FC<Props> = props => {
+const Menu: React.FC<HTMLAttributes<HTMLDivElement>> = props => {
   const {...restProps} = props;
   const context = useWeb3Context();
+  const history = useHistory();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -66,7 +64,7 @@ const Menu: React.FC<Props> = props => {
 
   const logout = () => {
     context.unsetConnector();
-    props.redirect('/');
+    history.push('/');
   };
 
   return (
@@ -75,7 +73,7 @@ const Menu: React.FC<Props> = props => {
         {!context.account && <MenuItem onClick={openModal}>Login</MenuItem>}
         {context.account && <MenuItem onClick={logout}>Logout</MenuItem>}
       </MenuContainer>
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={props.redirect} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </>
   );
 };

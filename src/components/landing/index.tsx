@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Box, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
@@ -10,15 +10,11 @@ import Wrapper from '../ui/Wrapper';
 import AssetTable from './AssetTable';
 import {MailChimpForm} from './MailChimpForm';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  history: any;
-}
-
 interface State {
   modalIsOpen: boolean;
 }
 
-const Landing: React.FC<Props> = (props: Props) => {
+const Landing: React.FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const closeModal = () => setModalIsOpen(false);
@@ -26,7 +22,7 @@ const Landing: React.FC<Props> = (props: Props) => {
   const {marketsData} = useContext(ContractsContext);
 
   return (
-    <Wrapper redirect={path => props.history.push(path)}>
+    <Wrapper>
       <Section variant="hero">
         <Container>
           <Heading as="h1" variant="h1" mb={4}>
@@ -112,7 +108,7 @@ const Landing: React.FC<Props> = (props: Props) => {
 
             <Box sx={{gridColumnEnd: 'span 2'}}>
               <Box sx={{maxWidth: 864}}>
-                <AssetTable marketsData={marketsData} redirect={path => props.history.push(path)} />
+                <AssetTable marketsData={marketsData} />
               </Box>
             </Box>
           </ThreeColumnGrid>
@@ -132,7 +128,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         </Container>
       </Box>
 
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </Wrapper>
   );
 };

@@ -1,16 +1,12 @@
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
 import { Heading, Text } from 'rebass';
-import Wrapper from '../ui/Wrapper';
-import Section from '../ui/Section';
 import Container from '../ui/Container';
+import Section from '../ui/Section';
+import Wrapper from '../ui/Wrapper';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  history: any;
-}
-
-const TermsAndConditions: React.FC<Props> = (props: Props) => {
+const TermsAndConditions = () => {
   return (
-    <Wrapper redirect={path => props.history.push(path)}>
+    <Wrapper>
       <Section>
         <Container>
           <Heading as="h1" variant="h1" mb={4}>

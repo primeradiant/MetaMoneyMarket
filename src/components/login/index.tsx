@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
+import {useHistory} from 'react-router-dom';
 import {modalStyle, themeColors} from '../../util/constants';
 import Button from '../common/Button';
 import CheckboxInput from '../common/CheckboxInput';
@@ -11,10 +12,6 @@ import SMS from '../common/img/SMS';
 import WalletConnect from '../common/img/WalletConnect';
 import RadioInput from '../common/RadioInput';
 import ModalTitle from '../modal-title';
-
-interface Props extends React.ComponentProps<typeof Modal> {
-  redirect: (path: string) => void;
-}
 
 type LoginMethod = 'METAMASK' | 'WALLETCONNECT';
 
@@ -111,9 +108,10 @@ const TermsAndConditionsText = styled.span`
   }
 `;
 
-export const LoginModal: React.FC<Props> = props => {
+export const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props => {
   const {onRequestClose, ...restProps} = props;
   const context = useWeb3Context();
+  const history = useHistory();
 
   const [loginMethod, setLoginMethod] = useState<LoginMethod>('METAMASK');
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -131,7 +129,7 @@ export const LoginModal: React.FC<Props> = props => {
 
     if (onRequestClose) {
       onRequestClose(e);
-      props.redirect('/my-account');
+      history.push('/my-account');
     }
   };
 

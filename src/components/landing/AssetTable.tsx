@@ -3,6 +3,7 @@ import {Button, Card, Flex, Text} from 'rebass';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
+import {useHistory} from 'react-router-dom';
 import {LoginModal} from '../login';
 import {RebassTable, RebassTbody, RebassTd, RebassTh, RebassThead, RebassTr} from '../ui/Table';
 
@@ -44,7 +45,6 @@ const TokenImage = styled.div<{image: any}>`
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
-  redirect: (path: string) => void;
 }
 
 const AssetTable: React.FC<Props> = (props: Props) => {
@@ -52,11 +52,13 @@ const AssetTable: React.FC<Props> = (props: Props) => {
 
   const context = useWeb3Context();
 
+  const {history} = useHistory();
+
   const [loginModalIsOpen, setModalIsOpen] = useState(false);
 
   const openLoginModal = () => {
     if (context.account) {
-      props.redirect('/my-account');
+      history.push('/my-account');
     }
     setModalIsOpen(true);
   };
@@ -101,7 +103,7 @@ const AssetTable: React.FC<Props> = (props: Props) => {
           })}
         </RebassTbody>
       </RebassTable>
-      <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
+      <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} />
     </Card>
   );
 };

@@ -9,11 +9,7 @@ import brandmark from '../../../assets/images/mmm-brandmark.svg';
 
 const Brandmark: React.FC<ImageProps> = props => <Image src={brandmark} variant="nav.logo" {...props} />;
 
-interface NavigationProps extends React.HTMLAttributes<HTMLDivElement> {
-  redirect: (path: string) => void;
-}
-
-const Navigation: React.FC<NavigationProps> = props => {
+const Navigation: React.FC = () => {
   const context = useWeb3Context();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -25,7 +21,7 @@ const Navigation: React.FC<NavigationProps> = props => {
 
   return (
     <>
-      <Box variant="nav.wrapper" {...props}>
+      <Box variant="nav.wrapper">
         <Container>
           <Flex justifyContent="space-between" alignItems="center">
             <NavLink to="/">
@@ -46,7 +42,7 @@ const Navigation: React.FC<NavigationProps> = props => {
           </Flex>
         </Container>
       </Box>
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={props.redirect} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </>
   );
 };

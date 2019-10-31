@@ -1,3 +1,4 @@
+import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
 import React, {HTMLAttributes, useState} from 'react';
 import {Card} from 'rebass';
 import styled, {css} from 'styled-components';
@@ -13,7 +14,6 @@ import WithdrawModal from '../withdraw';
 interface Props extends HTMLAttributes<HTMLDivElement> {
   isLoggedIn: boolean;
   marketsData: Markets;
-  redirect: (path: string) => void;
 }
 
 interface State {
@@ -176,16 +176,26 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
 
   const context = useWeb3Context();
 
+  console.log(context);
+
+  if (context.error) {
+    console.error('Error!');
+  }
+
+  if (context.active && context.connectorName === 'WalletConnect') {
+    if (!context.account) {
+      WalletConnectQRCodeModal.open(context.connector.walletConnector.uri, () => {});
+    } else {
+      try {
+        WalletConnectQRCodeModal.close();
+      } catch {}
+    }
+  }
+
   const openDepositModal = () => setDepositModalIsOpen(true);
   const closeDepositModal = () => setDepositModalIsOpen(false);
   const openWithdrawModal = () => setWithdrawModalIsOpen(true);
   const closeWithdrawModal = () => setWithdrawModalIsOpen(false);
-  const openLoginModal = () => {
-    if (context.account) {
-      props.redirect('/my-account');
-    }
-    setModalIsOpen(true);
-  };
   const closeLoginModal = () => setModalIsOpen(false);
 
   const deposit = (market: Market) => {
@@ -262,7 +272,7 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
         </TableOverflow>
         <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
         <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
-        <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
+        <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} />
       </Card>
     </>
   );

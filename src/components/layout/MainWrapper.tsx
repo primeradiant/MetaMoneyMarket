@@ -8,7 +8,6 @@ import {themeColors} from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  history: any;
 }
 
 const MainWrapperComponent = styled.div`
@@ -24,7 +23,7 @@ class BasicMainWrapper extends React.Component<Props> {
 
     return (
       <MainWrapperComponent {...restProps}>
-        <Header redirect={path => this.props.history.push(path)} />
+        <Header />
         <ContentWrapper>{children}</ContentWrapper>
       </MainWrapperComponent>
     );

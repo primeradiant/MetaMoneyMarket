@@ -9,10 +9,6 @@ import Menu from './Menu';
 
 import {themeBreakPoints, themeColors, themeDimensions} from '../../util/constants';
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  redirect: (path: string) => void;
-}
-
 const LogoWrapper = styled(NavLink)`
   text-decoration: none;
 `;
@@ -45,7 +41,7 @@ const HeaderEndContent = styled.div`
   display: flex;
 `;
 
-const Header: React.FC<Props> = (props: Props) => {
+const Header: React.FC<HTMLAttributes<HTMLDivElement>> = props => {
   const {...restProps} = props;
   const context = useWeb3Context();
 
@@ -56,7 +52,7 @@ const Header: React.FC<Props> = (props: Props) => {
           <Logo />
         </LogoWrapper>
         <HeaderEndContent>
-          <Menu redirect={props.redirect} />
+          <Menu />
           {context.active && context.account && <ConnectionStatus active={context.active} account={context.account} />}
         </HeaderEndContent>
       </HeaderContent>
