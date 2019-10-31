@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
 import Modal from 'react-modal';
-import {NavLink} from 'react-router-dom';
 import styled from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {useHistory} from 'react-router-dom';
-import {modalStyle, themeColors} from '../../util/constants';
+import {modalStyle} from '../../util/constants';
 import Button from '../common/Button';
-import CheckboxInput from '../common/CheckboxInput';
 import Metamask from '../common/img/Metamask';
-import SMS from '../common/img/SMS';
 import WalletConnect from '../common/img/WalletConnect';
 import RadioInput from '../common/RadioInput';
 import ModalTitle from '../modal-title';
@@ -87,36 +84,12 @@ const ButtonStyled = styled(Button)`
   width: 100%;
 `;
 
-const TermsAndConditions = styled.div`
-  align-content: center;
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-`;
-
-const TermsAndConditionsText = styled.span`
-  color: #999;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: normal;
-  line-height: 18px;
-  margin-left: 10px;
-  text-align: left;
-
-  a {
-    color: ${themeColors.primaryColor};
-  }
-`;
-
 export const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props => {
   const {onRequestClose, ...restProps} = props;
   const context = useWeb3Context();
   const history = useHistory();
 
   const [loginMethod, setLoginMethod] = useState<LoginMethod>('METAMASK');
-  const [termsAccepted, setTermsAccepted] = useState(false);
-
-  const toggleTerms = () => setTermsAccepted(!termsAccepted);
 
   const login: React.MouseEventHandler<HTMLButtonElement> = e => {
     if (loginMethod === 'METAMASK') {
@@ -137,20 +110,6 @@ export const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props =>
     <Modal {...restProps} style={modalStyle}>
       <ModalTitle title="Login" onRequestClose={onRequestClose} />
       <LoginItems>
-        <LoginItem disabled={true}>
-          <LoginItemIcon>
-            <SMS />
-          </LoginItemIcon>
-          <LoginItemText>
-            <LoginItemTitle>Use your phone</LoginItemTitle>
-            <LoginItemDescription>
-              Get a secure wallet quickly with only your phone number and a PIN.
-            </LoginItemDescription>
-          </LoginItemText>
-          <RadioInputWrapper>
-            <RadioInput checked={false} />
-          </RadioInputWrapper>
-        </LoginItem>
         <LoginItem onClick={() => setLoginMethod('WALLETCONNECT')}>
           <LoginItemIcon>
             <WalletConnect />
@@ -163,6 +122,7 @@ export const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props =>
             <RadioInput checked={loginMethod === 'WALLETCONNECT'} />
           </RadioInputWrapper>
         </LoginItem>
+
         <LoginItem onClick={() => setLoginMethod('METAMASK')}>
           <LoginItemIcon>
             <Metamask />
@@ -176,18 +136,8 @@ export const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props =>
           </RadioInputWrapper>
         </LoginItem>
       </LoginItems>
-      <TermsAndConditions>
-        <CheckboxInput onClick={toggleTerms} checked={termsAccepted} />
-        <TermsAndConditionsText>
-          I accept the{' '}
-          <NavLink onClick={onRequestClose} to="/terms">
-            Terms &amp; Conditions
-          </NavLink>
-        </TermsAndConditionsText>
-      </TermsAndConditions>
-      <ButtonStyled disabled={!termsAccepted} onClick={login}>
-        Login
-      </ButtonStyled>
+
+      <ButtonStyled onClick={login}>Login</ButtonStyled>
     </Modal>
   );
 };
