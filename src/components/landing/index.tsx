@@ -12,6 +12,7 @@ import Root from '../ui/Root';
 import Section from '../ui/Section';
 import ThemeProvider from '../ui/ThemeProvider';
 import {MailChimpForm} from './MailChimpForm';
+import AssetTable from './AssetTable';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;
@@ -129,11 +130,7 @@ const Landing: React.FC<Props> = (props: Props) => {
 
             <Box sx={{gridColumnEnd: 'span 2'}}>
               <Box sx={{maxWidth: 864}}>
-                <AccountBalance
-                  marketsData={marketsData}
-                  isLoggedIn={false}
-                  redirect={path => props.history.push(path)}
-                />
+                <AssetTable marketsData={marketsData} redirect={path => props.history.push(path)} />
               </Box>
             </Box>
           </ThreeColumnGrid>
