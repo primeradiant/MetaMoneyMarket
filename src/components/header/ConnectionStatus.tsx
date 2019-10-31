@@ -1,45 +1,15 @@
 import React, {HTMLAttributes} from 'react';
-import styled from 'styled-components';
-
-import {ConnectionStatusDot} from '../common/ConnectionStatusDot';
-
-import {themeColors} from '../../util/constants';
+import {Text} from 'rebass';
 import {shortenAccount} from '../../util/utils';
-
-const ConnectionStatusWrapper = styled.div`
-  align-items: center;
-  border-left: 1px solid ${themeColors.borderColor};
-  display: flex;
-  margin-left: 15px;
-  padding-left: 15px;
-`;
-
-const ConnectionStatusDotStyled = styled(ConnectionStatusDot)`
-  margin-right: 10px;
-`;
-
-const ConnectionStatusText = styled.span`
-  color: ${themeColors.headerTextColor};
-  font-size: 14px;
-  font-weight: 600;
-`;
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   account: string;
-  active: boolean;
 }
 
-const ConnectionStatus: React.FC<Props> = (props: Props) => {
-  const {account, active, ...restProps} = props;
-
+const ConnectionStatus: React.FC<Props> = ({account}) => {
   const shortenedAccount = shortenAccount(account);
 
-  return (
-    <ConnectionStatusWrapper {...restProps}>
-      <ConnectionStatusDotStyled status={active} />
-      <ConnectionStatusText>{shortenedAccount}</ConnectionStatusText>
-    </ConnectionStatusWrapper>
-  );
+  return <Text fontWeight={600}>{shortenedAccount}</Text>;
 };
 
 export default ConnectionStatus;

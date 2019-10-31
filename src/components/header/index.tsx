@@ -53,7 +53,7 @@ const Header: React.FC<HTMLAttributes<HTMLDivElement>> = props => {
         </LogoWrapper>
         <HeaderEndContent>
           <Menu />
-          {context.active && context.account && <ConnectionStatus active={context.active} account={context.account} />}
+          {context.active && context.account && <ConnectionStatus account={context.account} />}
         </HeaderEndContent>
       </HeaderContent>
     </HeaderContainer>

@@ -1,5 +1,4 @@
 import React, {HTMLAttributes, useState} from 'react';
-// import {NavLink} from 'react-router-dom';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 

@@ -16,10 +16,13 @@ const Navigation: React.FC = () => {
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
+
   const logout = () => {
     context.unsetConnector();
     history.push('/');
   };
+
+  const goToDashboard = () => history.push('/my-account');
 
   return (
     <>
@@ -36,9 +39,15 @@ const Navigation: React.FC = () => {
                 </Button>
               )}
               {context.account && (
-                <Button onClick={logout} variant="text">
-                  Logout
-                </Button>
+                <>
+                  <Button onClick={logout} variant="text">
+                    Logout
+                  </Button>
+                  <Box height={40} width={2} bg="muted" />
+                  <Button onClick={goToDashboard} variant="text">
+                    Dashboard
+                  </Button>
+                </>
               )}
             </Flex>
           </Flex>
