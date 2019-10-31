@@ -2,7 +2,6 @@ import React, {HTMLAttributes, useContext, useState} from 'react';
 import {Box, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
-import AccountBalance from '../my-account/AccountBalance';
 import Container from '../ui/Container';
 import Footer from '../ui/Footer';
 import {ThreeColumnGrid} from '../ui/Grid';
@@ -11,8 +10,8 @@ import Navigation from '../ui/Navigation';
 import Root from '../ui/Root';
 import Section from '../ui/Section';
 import ThemeProvider from '../ui/ThemeProvider';
-import {MailChimpForm} from './MailChimpForm';
 import AssetTable from './AssetTable';
+import {MailChimpForm} from './MailChimpForm';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   history: any;

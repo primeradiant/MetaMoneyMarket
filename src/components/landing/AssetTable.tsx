@@ -48,7 +48,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const AssetTable: React.FC<Props> = (props: Props) => {
-  const {marketsData, ...restProps} = props;
+  const {marketsData} = props;
 
   const context = useWeb3Context();
 

@@ -1,5 +1,5 @@
-import React, {HTMLAttributes, useState} from 'react';
-import {Box, BoxProps, Button, Card, Flex, Text} from 'rebass';
+import React from 'react';
+import {Box, BoxProps} from 'rebass';
 
 export const RebassTr: React.FC<BoxProps> = props => <Box as="tr" variant="tr" {...props} />;
 export const RebassTd: React.FC<BoxProps> = props => <Box as="td" variant="td" {...props} />;
