@@ -1,17 +1,14 @@
-import React, { HTMLAttributes, useState } from 'react';
-import styled, { css } from 'styled-components';
-import { Card, Box, BoxProps, Text, Flex, Button } from 'rebass';
-import { useWeb3Context } from 'web3-react';
-
-import KyberLink from '../common/KyberLink';
-
+import React, {HTMLAttributes, useState} from 'react';
+import {Card} from 'rebass';
+import styled, {css} from 'styled-components';
+import {useWeb3Context} from 'web3-react';
+import {themeColors, themeDimensions} from '../../util/constants';
 import ButtonLine from '../common/ButtonLine';
-import { getTokenDataBySymbol } from '../common/img/token-icons';
+import {getTokenDataBySymbol} from '../common/img/token-icons';
+import KyberLink from '../common/KyberLink';
 import DepositModal from '../deposit';
-import { LoginModal } from '../login';
+import {LoginModal} from '../login';
 import WithdrawModal from '../withdraw';
-
-import { themeColors, themeDimensions } from '../../util/constants';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   isLoggedIn: boolean;
@@ -37,13 +34,6 @@ const TR = styled.tr`
   }
 `;
 
-const RebassTr: React.FC<BoxProps> = props => <Box as="tr" variant="tr" {...props} />;
-const RebassTd: React.FC<BoxProps> = props => <Box as="td" variant="td" {...props} />;
-const RebassTh: React.FC<BoxProps> = props => <Box as="th" variant="th" {...props} />;
-const RebassThead: React.FC<BoxProps> = props => <Box as="thead" variant="thead" {...props} />;
-const RebassTbody: React.FC<BoxProps> = props => <Box as="tbody" variant="tbody" {...props} />;
-const RebassTable: React.FC<BoxProps> = props => <Box as="table" variant="table" {...props} />;
-
 const THead = styled.thead``;
 const TBody = styled.tbody``;
 
@@ -55,7 +45,7 @@ const cellCSS = css`
   white-space: nowrap;
 `;
 
-const TH = styled.th<{ textAlign?: string; width: string }>`
+const TH = styled.th<{textAlign?: string; width: string}>`
   ${cellCSS}
   color: #444;
   font-weight: 600;
@@ -67,7 +57,7 @@ TH.defaultProps = {
   textAlign: 'right',
 };
 
-const TD = styled.td<{ textAlign?: string }>`
+const TD = styled.td<{textAlign?: string}>`
   ${cellCSS}
   color: ${themeColors.tertiaryTextColor};
   font-feature-settings: 'tnum' 1;
@@ -105,7 +95,7 @@ const TokenData = styled.div`
   justify-content: flex-start;
 `;
 
-const TokenImage = styled.div<{ image: any }>`
+const TokenImage = styled.div<{image: any}>`
   background-image: url('${props => props.image}');
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -123,30 +113,6 @@ const Title = styled.h1`
   font-weight: 600;
   line-height: 1.35;
 `;
-
-const TableLoading = () => (
-  <>
-    {Array(3)
-      .fill('')
-      .map((el, i) => (
-        <RebassTr key={i}>
-          {Array(4)
-            .fill('')
-            .map((el, i) => (
-              <RebassTd key={i}>
-                {i === 3 ? (
-                  <Flex justifyContent="flex-end">
-                    <Text color="muted">—</Text>
-                  </Flex>
-                ) : (
-                  <Text color="muted">—</Text>
-                )}
-              </RebassTd>
-            ))}
-        </RebassTr>
-      ))}
-  </>
-);
 
 const GetToken = styled(KyberLink)`
   color: ${themeColors.primaryColor};
@@ -183,8 +149,26 @@ const GetTokens = styled(KyberLink)`
   }
 `;
 
+const TableLoading = () => (
+  <>
+    {Array(3)
+      .fill('')
+      .map((el, i) => (
+        <TR key={i}>
+          {Array(6)
+            .fill('')
+            .map((el, i) => (
+              <TD key={i} textAlign="left">
+                <span style={{color: '#d5d5d5'}}>—</span>
+              </TD>
+            ))}
+        </TR>
+      ))}
+  </>
+);
+
 const AccountBalance: React.FC<Props> = (props: Props) => {
-  const { marketsData, isLoggedIn, ...restProps } = props;
+  const {marketsData, isLoggedIn, ...restProps} = props;
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [loginModalIsOpen, setModalIsOpen] = useState(false);
@@ -216,148 +200,70 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      {isLoggedIn ? (
-        <Card {...restProps} sx={isLoggedIn ? { width: 1100, margin: 'auto' } : {}}>
-          <Title>
-            {isLoggedIn ? (
-              <span>
-                My Account{' '}
-                <GetTokens tokenSymbol="DAI" className="kyber-widget-button theme-emerald theme-supported">
-                  Swap Tokens
-                </GetTokens>
-              </span>
-            ) : (
-              'Current Rates'
-            )}
-          </Title>
-          <TableOverflow>
-            <Table>
-              <THead>
-                <TR>
-                  <TH textAlign="left" width="20%">
-                    Asset
-                  </TH>
-                  <TH width="15%">Price</TH>
-                  <TH width="15%">Interest Rate</TH>
-                  {isLoggedIn ? (
-                    <>
-                      <TH width="15%">Wallet Balance</TH>
-                      <TH width="15%">Deposit Balance</TH>
-                    </>
-                  ) : null}
-                  <TH width="20%">&nbsp;</TH>
-                </TR>
-              </THead>
-              <TBody>
-                {marketsData.length === 0 && (
-                  <>
-                    {Array(3)
-                      .fill('')
-                      .map((el, i) => (
-                        <TR key={i}>
-                          {Array(6)
-                            .fill('')
-                            .map((el, i) => (
-                              <TD key={i} textAlign="left">
-                                <span style={{ color: '#d5d5d5' }}>—</span>
-                              </TD>
-                            ))}
-                        </TR>
-                      ))}
-                  </>
-                )}
-                {marketsData.map((market, index) => {
-                  const tokenData = getTokenDataBySymbol(market.symbol);
-                  const image = tokenData ? tokenData.image : '';
-                  const hasBalance = market.walletBalance && !market.walletBalance.amount.isZero();
-
-                  return (
-                    <TR key={index}>
-                      <TD textAlign="left">
-                        <TokenData>
-                          <TokenImage image={image} />
-                          <strong>{market.symbol}</strong>
-                        </TokenData>
-                      </TD>
-                      <TD>${market.price}</TD>
-                      <TD>
-                        {isLoggedIn ? null : 'Earn'} {market.interestRate}%
-                      </TD>
-                      {isLoggedIn ? (
-                        <>
-                          <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
-                          <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
-                        </>
-                      ) : null}
-                      <TD>
-                        <ButtonsContainer>
-                          {isLoggedIn ? (
-                            <>
-                              {hasBalance ? (
-                                <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
-                              ) : (
-                                <ButtonLine>
-                                  <GetToken tokenSymbol={market.symbol}>Swap {market.symbol}</GetToken>
-                                </ButtonLine>
-                              )}
-                              <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
-                            </>
-                          ) : (
-                            <ButtonLine onClick={openLoginModal}>Start Earning</ButtonLine>
-                          )}
-                        </ButtonsContainer>
-                      </TD>
-                    </TR>
-                  );
-                })}
-              </TBody>
-            </Table>
-          </TableOverflow>
-          <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
-          <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
-          <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
-        </Card>
-      ) : (
-        <Card p={['8px 14px', '16px 30px']} sx={{ overflowX: 'auto' }}>
-          <RebassTable sx={{ minWidth: 580, tableLayout: 'auto' }}>
-            <RebassThead>
-              <RebassTr>
-                <RebassTh width={0.2}>Asset</RebassTh>
-                <RebassTh width={0.15}>Price</RebassTh>
-                <RebassTh width={0.15}>Interest Rate</RebassTh>
-                <RebassTh width={0.2}>&nbsp;</RebassTh>
-              </RebassTr>
-            </RebassThead>
-            <RebassTbody>
+      <Card {...restProps} sx={{width: 1100, margin: 'auto'}}>
+        <Title>
+          <span>
+            My Account{' '}
+            <GetTokens tokenSymbol="DAI" className="kyber-widget-button theme-emerald theme-supported">
+              Swap Tokens
+            </GetTokens>
+          </span>
+        </Title>
+        <TableOverflow>
+          <Table>
+            <THead>
+              <TR>
+                <TH textAlign="left" width="20%">
+                  Asset
+                </TH>
+                <TH width="15%">Price</TH>
+                <TH width="15%">Interest Rate</TH>
+                <TH width="15%">Wallet Balance</TH>
+                <TH width="15%">Deposit Balance</TH>
+                <TH width="20%">&nbsp;</TH>
+              </TR>
+            </THead>
+            <TBody>
               {marketsData.length === 0 && <TableLoading />}
               {marketsData.map((market, index) => {
                 const tokenData = getTokenDataBySymbol(market.symbol);
                 const image = tokenData ? tokenData.image : '';
+                const hasBalance = market.walletBalance && !market.walletBalance.amount.isZero();
+
                 return (
-                  <RebassTr key={index}>
-                    <RebassTd>
-                      <Flex alignItems="center" justifyContent="flex-start">
+                  <TR key={index}>
+                    <TD textAlign="left">
+                      <TokenData>
                         <TokenImage image={image} />
                         <strong>{market.symbol}</strong>
-                      </Flex>
-                    </RebassTd>
-                    <RebassTd>${market.price}</RebassTd>
-                    <RebassTd>Earn {market.interestRate}%</RebassTd>
-                    <RebassTd>
-                      <Flex justifyContent="flex-end">
-                        <Button onClick={openLoginModal} variant="text" py={2} fontSize={2}>
-                          Start Earning
-                        </Button>
-                      </Flex>
-                    </RebassTd>
-                  </RebassTr>
+                      </TokenData>
+                    </TD>
+                    <TD>${market.price}</TD>
+                    <TD>{market.interestRate}%</TD>
+                    <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
+                    <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
+                    <TD>
+                      <ButtonsContainer>
+                        {hasBalance ? (
+                          <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
+                        ) : (
+                          <ButtonLine>
+                            <GetToken tokenSymbol={market.symbol}>Swap {market.symbol}</GetToken>
+                          </ButtonLine>
+                        )}
+                        <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
+                      </ButtonsContainer>
+                    </TD>
+                  </TR>
                 );
               })}
-            </RebassTbody>
-          </RebassTable>
-          <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
-        </Card>
-      )}
+            </TBody>
+          </Table>
+        </TableOverflow>
+        <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
+        <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
+        <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} redirect={props.redirect} />
+      </Card>
     </>
   );
 };
