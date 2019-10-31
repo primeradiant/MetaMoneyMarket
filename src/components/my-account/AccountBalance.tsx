@@ -1,6 +1,6 @@
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
 import React, {HTMLAttributes, useState} from 'react';
-import {Heading, Button} from 'rebass';
+import {Heading, Button, Flex, Box, Card, Text} from 'rebass';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {themeColors} from '../../util/constants';
@@ -158,11 +158,41 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
     <>
       <Container>
         <Section>
-          <Heading as="h1" variant="h1" mb={4}>
-            My Account
-          </Heading>
+          <Flex justifyContent="space-between" alignItems="center" mb={5}>
+            <Heading as="h1" variant="h1">
+              My Account
+            </Heading>
 
-          <KyberLink tokenSymbol="DAI">Swap Tokens</KyberLink>
+            <Box>
+              <KyberLink variant="small" tokenSymbol="DAI">
+                Swap Tokens
+              </KyberLink>
+            </Box>
+          </Flex>
+
+          <Flex mx={-3} mb={4}>
+            <Box px={3}>
+              <Card>
+                <Text mb={2}>Total Balance</Text>
+                <Heading as="p" variant="h2">
+                  {/* {(marketsData.length === 0 || !context.account) && '-'}
+                  {context.account &&
+                    marketsData.length !== 0 &&
+                    marketsData.map(market => market.depositBalance !== null).length !== 0 &&
+                    JSON.stringify(marketsData.map(market => market.depositBalance))} */}
+                  $0.00
+                </Heading>
+              </Card>
+            </Box>
+            <Box px={3}>
+              <Card>
+                <Text mb={2}>Interest</Text>
+                <Heading as="p" variant="h2">
+                  $0.00
+                </Heading>
+              </Card>
+            </Box>
+          </Flex>
 
           <TableOverflow>
             <Table>
@@ -198,8 +228,12 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
                       <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
                       <TD>
                         <ButtonsContainer>
-                          <Button onClick={() => deposit(market)}>Deposit</Button>
-                          <Button onClick={() => withdraw(market)}>Withdraw</Button>{' '}
+                          <Button variant="small" onClick={() => deposit(market)}>
+                            Deposit
+                          </Button>
+                          <Button variant="small" onClick={() => withdraw(market)}>
+                            Withdraw
+                          </Button>{' '}
                         </ButtonsContainer>
                       </TD>
                     </TR>
