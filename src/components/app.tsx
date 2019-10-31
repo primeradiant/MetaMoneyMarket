@@ -23,12 +23,6 @@ const WrappedMyAccount = (props: any) => (
   </MainWrapper>
 );
 
-const WrappedTerms = (props: any) => (
-  <MainWrapper>
-    <Terms {...props} />
-  </MainWrapper>
-);
-
 const App: React.FC = () => {
   return (
     <Web3Provider connectors={{MetaMask, Infura, WalletConnect}} libraryName={'web3.js'} web3Api={Web3}>
@@ -38,7 +32,7 @@ const App: React.FC = () => {
             <Route exact={true} path={`/`} component={Landing} />
             <Route exact={true} path={`/my-account`} component={WrappedMyAccount} />
             <Route exact={true} path={`/help`} component={Help} />
-            <Route exact={true} path={`/terms`} component={WrappedTerms} />
+            <Route exact={true} path={`/terms`} component={Terms} />
           </Switch>
         </BrowserRouter>
       </ContractsProvider>

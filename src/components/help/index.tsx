@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const Help: React.FC<Props> = (props: Props) => {
   return (
     <Wrapper redirect={path => props.history.push(path)}>
-      <Section variant="hero">
+      <Section>
         <Container>
           <Heading as="h1" variant="h1" mb={4}>
             Help
