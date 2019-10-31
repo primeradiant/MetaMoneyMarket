@@ -1,17 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
-import App from './components/app';
-import * as serviceWorker from './serviceWorker';
-
-import './assets/styles/index.css';
+import {BrowserRouter} from 'react-router-dom';
 import './assets/styles/fonts.css';
+import './assets/styles/index.css';
+import App from './components/app';
 
 ReactModal.setAppElement('#root');
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// @ts-ignore
+const render = Component => {
+  return ReactDOM.render(
+    <BrowserRouter>
+      <Component />
+    </BrowserRouter>,
+    document.getElementById('root'),
+  );
+};
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+render(App);
+
+// @ts-ignore
+if (module.hot) {
+  // @ts-ignore
+  module.hot.accept('./components/app', () => {
+    const NextApp = require('./components/app').default;
+    render(NextApp);
+  });
+}

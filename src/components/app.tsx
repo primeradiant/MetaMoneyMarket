@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import * as Web3 from 'web3';
 import Web3Provider from 'web3-react';
 import {ContractsProvider} from '../context/contracts';
@@ -13,22 +13,20 @@ const App: React.FC = () => {
   return (
     <Web3Provider connectors={{MetaMask, Infura, WalletConnect}} libraryName={'web3.js'} web3Api={Web3}>
       <ContractsProvider>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Landing />
-            </Route>
-            <Route exact path="/my-account">
-              <MyAccount />
-            </Route>
-            <Route exact path="/help">
-              <Help />
-            </Route>
-            <Route exact path="/terms">
-              <Terms />
-            </Route>
-          </Switch>
-        </Router>
+        <Switch>
+          <Route exact path="/">
+            <Landing />
+          </Route>
+          <Route exact path="/my-account">
+            <MyAccount />
+          </Route>
+          <Route exact path="/help">
+            <Help />
+          </Route>
+          <Route exact path="/terms">
+            <Terms />
+          </Route>
+        </Switch>
       </ContractsProvider>
     </Web3Provider>
   );
