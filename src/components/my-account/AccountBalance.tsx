@@ -1,14 +1,16 @@
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
 import React, {HTMLAttributes, useState} from 'react';
-import {Card} from 'rebass';
+import {Heading} from 'rebass';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
-import {themeColors, themeDimensions} from '../../util/constants';
+import {themeColors} from '../../util/constants';
 import ButtonLine from '../common/ButtonLine';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import KyberLink from '../common/KyberLink';
 import DepositModal from '../deposit';
 import {LoginModal} from '../login';
+import Container from '../ui/Container';
+import Section from '../ui/Section';
 import WithdrawModal from '../withdraw';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -106,48 +108,6 @@ const TokenImage = styled.div<{image: any}>`
   width: 25px;
 `;
 
-const Title = styled.h1`
-  color: ${themeColors.baseTextColor};
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.35;
-`;
-
-const GetToken = styled(KyberLink)`
-  color: ${themeColors.primaryColor};
-  min-width: 55px;
-`;
-
-const GetTokens = styled(KyberLink)`
-  margin-left: 20px;
-  align-items: center;
-  background-color: #fff;
-  border-radius: ${themeDimensions.commonBorderRadius};
-  border: 1px solid ${themeColors.primaryColor};
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.05);
-  color: ${themeColors.primaryColor};
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: 600;
-  height: 23px;
-  justify-content: center;
-  outline: none;
-  text-align: center;
-  transition: box-shadow 0.15s ease-out;
-  white-space: nowrap;
-  line-height: 0;
-
-  &:hover {
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  &[disabled] {
-    box-shadow: none;
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-`;
-
 const TableLoading = () => (
   <>
     {Array(3)
@@ -166,8 +126,7 @@ const TableLoading = () => (
   </>
 );
 
-const AccountBalance: React.FC<Props> = (props: Props) => {
-  const {marketsData, ...restProps} = props;
+const AccountBalance: React.FC<Props> = ({marketsData}) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [loginModalIsOpen, setModalIsOpen] = useState(false);
@@ -209,70 +168,70 @@ const AccountBalance: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      <Card {...restProps} sx={{width: 1100, margin: 'auto'}}>
-        <Title>
-          <span>
-            My Account{' '}
-            <GetTokens tokenSymbol="DAI" className="kyber-widget-button theme-emerald theme-supported">
-              Swap Tokens
-            </GetTokens>
-          </span>
-        </Title>
-        <TableOverflow>
-          <Table>
-            <THead>
-              <TR>
-                <TH textAlign="left" width="20%">
-                  Asset
-                </TH>
-                <TH width="15%">Price</TH>
-                <TH width="15%">Interest Rate</TH>
-                <TH width="15%">Wallet Balance</TH>
-                <TH width="15%">Deposit Balance</TH>
-                <TH width="20%">&nbsp;</TH>
-              </TR>
-            </THead>
-            <TBody>
-              {marketsData.length === 0 && <TableLoading />}
-              {marketsData.map((market, index) => {
-                const tokenData = getTokenDataBySymbol(market.symbol);
-                const image = tokenData ? tokenData.image : '';
-                const hasBalance = market.walletBalance && !market.walletBalance.amount.isZero();
+      <Container>
+        <Section>
+          <Heading as="h1" variant="h1" mb={4}>
+            My Account
+          </Heading>
 
-                return (
-                  <TR key={index}>
-                    <TD textAlign="left">
-                      <TokenData>
-                        <TokenImage image={image} />
-                        <strong>{market.symbol}</strong>
-                      </TokenData>
-                    </TD>
-                    <TD>${market.price}</TD>
-                    <TD>{market.interestRate}%</TD>
-                    <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
-                    <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
-                    <TD>
-                      <ButtonsContainer>
-                        {hasBalance ? (
-                          <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
-                        ) : (
-                          <ButtonLine>
-                            <GetToken tokenSymbol={market.symbol}>Swap {market.symbol}</GetToken>
-                          </ButtonLine>
-                        )}
-                        <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
-                      </ButtonsContainer>
-                    </TD>
-                  </TR>
-                );
-              })}
-            </TBody>
-          </Table>
-        </TableOverflow>
-        <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
-        <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
-        <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} />
-      </Card>
+          <KyberLink tokenSymbol="DAI">Swap Tokens</KyberLink>
+
+          <TableOverflow>
+            <Table>
+              <THead>
+                <TR>
+                  <TH textAlign="left" width="20%">
+                    Asset
+                  </TH>
+                  <TH width="15%">Price</TH>
+                  <TH width="15%">Interest Rate</TH>
+                  <TH width="15%">Wallet Balance</TH>
+                  <TH width="15%">Deposit Balance</TH>
+                  <TH width="20%">&nbsp;</TH>
+                </TR>
+              </THead>
+              <TBody>
+                {marketsData.length === 0 && <TableLoading />}
+                {marketsData.map((market, index) => {
+                  const tokenData = getTokenDataBySymbol(market.symbol);
+                  const image = tokenData ? tokenData.image : '';
+                  const hasBalance = market.walletBalance && !market.walletBalance.amount.isZero();
+
+                  return (
+                    <TR key={index}>
+                      <TD textAlign="left">
+                        <TokenData>
+                          <TokenImage image={image} />
+                          <strong>{market.symbol}</strong>
+                        </TokenData>
+                      </TD>
+                      <TD>${market.price}</TD>
+                      <TD>{market.interestRate}%</TD>
+                      <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
+                      <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
+                      <TD>
+                        <ButtonsContainer>
+                          {hasBalance ? (
+                            <ButtonLine onClick={() => deposit(market)}>Deposit</ButtonLine>
+                          ) : (
+                            <ButtonLine>
+                              <KyberLink tokenSymbol={market.symbol}>Swap {market.symbol}</KyberLink>
+                            </ButtonLine>
+                          )}
+                          <ButtonLine onClick={() => withdraw(market)}>Withdraw</ButtonLine>{' '}
+                        </ButtonsContainer>
+                      </TD>
+                    </TR>
+                  );
+                })}
+              </TBody>
+            </Table>
+          </TableOverflow>
+        </Section>
+      </Container>
+      <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />
+      <WithdrawModal market={currentMarket} isOpen={withdrawModalIsOpen} onRequestClose={closeWithdrawModal} />
+      <LoginModal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} />
     </>
   );
 };
