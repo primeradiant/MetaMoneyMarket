@@ -1,6 +1,6 @@
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
 import React, {HTMLAttributes, useState} from 'react';
-import {Heading, Button, Flex, Box, Card, Text} from 'rebass';
+import {Heading, Button, Flex, Box, Card, Text, FlexProps} from 'rebass';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {themeColors} from '../../util/constants';
@@ -12,6 +12,7 @@ import Container from '../ui/Container';
 import Section from '../ui/Section';
 import WithdrawModal from '../withdraw';
 import TokenIcon from '../ui/TokenIcon';
+import Skeleton from 'react-loading-skeleton';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
@@ -96,22 +97,56 @@ const TokenData = styled.div`
   justify-content: flex-start;
 `;
 
-const TableLoading = () => (
-  <>
-    {Array(3)
-      .fill('')
-      .map((el, i) => (
-        <TR key={i}>
-          {Array(6)
-            .fill('')
-            .map((el, i) => (
-              <TD key={i} textAlign="left">
-                <span style={{color: '#d5d5d5'}}>—</span>
-              </TD>
-            ))}
-        </TR>
+const SkeletonAsset = () => (
+  <Flex variant="asset-row" alignItems="center" mx={-1}>
+    <Box flex={5 / 12} px={1}>
+      <Flex alignItems="center">
+        <Box mr={3} height={24} width={24}>
+          <Text lineHeight={1}>
+            <Skeleton circle={true} height={24} width={24} />
+          </Text>
+        </Box>
+        <Skeleton width={48} />
+      </Flex>
+    </Box>
+    <Box flex={4 / 12} px={1}>
+      <Text textAlign="right">
+        <Skeleton width={48} />
+      </Text>
+    </Box>
+    <Box flex={4 / 12} px={1}>
+      <Text textAlign="right">
+        <Skeleton width={48} />
+      </Text>
+    </Box>
+    <Box flex={4 / 12} px={1}>
+      <Text textAlign="right">
+        <Skeleton width={64} />
+      </Text>
+    </Box>
+    <Flex justifyContent="flex-end" flex={3 / 12} px={1}>
+      <Skeleton width={80} />
+    </Flex>
+  </Flex>
+);
+
+const AssetKeys: React.FC<{
+  keys: Array<{
+    label: String;
+    rightAligned?: Boolean;
+  }>;
+}> = ({keys}) => (
+  <Box variant="card-inner-short">
+    <Flex alignItems="center" mx={-1}>
+      {keys.map((key, i) => (
+        <Box key={i} flex={i === 0 ? 5 / 12 : i === keys.length - 1 ? 3 / 12 : 4 / 12} px={1}>
+          <Text variant="headline" textAlign={key.rightAligned && 'right'}>
+            {key.label}
+          </Text>
+        </Box>
       ))}
-  </>
+    </Flex>
+  </Box>
 );
 
 const AccountBalance: React.FC<Props> = ({marketsData}) => {
@@ -154,11 +189,33 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
     setCurrentMarket(market);
   };
 
+  const balanceHasLoaded =
+    marketsData.length > 0 &&
+    marketsData.filter(market => market.depositBalance !== undefined).length &&
+    marketsData.filter(market => Object(market.depositBalance).hasOwnProperty('amount')).length
+      ? true
+      : false;
+
+  const hasABalance = ({depositBalance}: Market) =>
+    depositBalance && (Object(depositBalance).hasOwnProperty('amount') && !depositBalance.amount.isZero());
+
+  const hasZeroBalance = (market: Market) =>
+    market.depositBalance
+      ? Object(market.depositBalance).hasOwnProperty('amount') && market.depositBalance.amount.isZero()
+      : market;
+
+  const userBalance =
+    balanceHasLoaded &&
+    marketsData
+      .filter(hasABalance)
+      .map(({depositBalance}) => !!depositBalance && Number(depositBalance.format()))
+      .reduce((accumulator, currentValue) => Number(accumulator || 0) + Number(currentValue || 0));
+
   return (
     <>
       <Container>
         <Section>
-          <Flex justifyContent="space-between" alignItems="center" mb={5}>
+          <Flex justifyContent="space-between" alignItems="center" mb={4}>
             <Heading as="h1" variant="h1">
               My Account
             </Heading>
@@ -170,78 +227,186 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
             </Box>
           </Flex>
 
-          <Flex mx={-3} mb={4}>
-            <Box px={3}>
-              <Card>
-                <Text mb={2}>Total Balance</Text>
-                <Heading as="p" variant="h2">
-                  {/* {(marketsData.length === 0 || !context.account) && '-'}
-                  {context.account &&
-                    marketsData.length !== 0 &&
-                    marketsData.map(market => market.depositBalance !== null).length !== 0 &&
-                    JSON.stringify(marketsData.map(market => market.depositBalance))} */}
-                  $0.00
-                </Heading>
-              </Card>
-            </Box>
-            <Box px={3}>
-              <Card>
-                <Text mb={2}>Interest</Text>
-                <Heading as="p" variant="h2">
-                  $0.00
-                </Heading>
-              </Card>
-            </Box>
-          </Flex>
+          {context.account && (
+            <Flex mb={5} mx={-3}>
+              <Box px={3} flex={1 / 3}>
+                <Card>
+                  <Text mb={2} variant="headline">
+                    Balance
+                  </Text>
+                  <Heading as="p" variant="h2">
+                    {balanceHasLoaded ? `$${userBalance}` : <Skeleton width={128} />}
+                  </Heading>
+                </Card>
+              </Box>
+            </Flex>
+          )}
 
-          <TableOverflow>
-            <Table>
-              <THead>
-                <TR>
-                  <TH textAlign="left" width="20%">
-                    Asset
-                  </TH>
-                  <TH width="15%">Price</TH>
-                  <TH width="15%">Interest Rate</TH>
-                  <TH width="15%">Wallet Balance</TH>
-                  <TH width="15%">Deposit Balance</TH>
-                  <TH width="20%">&nbsp;</TH>
-                </TR>
-              </THead>
-              <TBody>
-                {marketsData.length === 0 && <TableLoading />}
-                {marketsData.map((market, index) => {
+          {/* <Box px={3} flex={1 / 3}>
+              <Card variant="card-outer">
+                <Flex flexDirection="column" sx={{minHeight: '100%'}}>
+                  <Box flex={1}>
+                    <Box variant="card-inner">Get Crypto</Box>
+                    <Box variant="divider" />
+                    <Box height="100%" variant="card-inner">
+                      Purchase or swap cryptocurrencies via one of our partners
+                    </Box>
+                  </Box>
+                  <Box>
+                    <Box variant="divider" />
+                    <Box variant="card-inner">
+                      <Flex mx={-15}>
+                        <Box px={15} flex={1}>
+                          <KyberLink width={1} variant="small" tokenSymbol="DAI">
+                            Swap Tokens
+                          </KyberLink>
+                        </Box>
+                        <Box px={15} flex={1}>
+                          <Button width={1} variant="small">
+                            Get Tokens
+                          </Button>
+                        </Box>
+                      </Flex>
+                    </Box>
+                  </Box>
+                </Flex>
+              </Card>
+            </Box> */}
+
+          {context.account && balanceHasLoaded && (
+            <Heading as="h2" variant="h2" mb={4}>
+              Earning
+            </Heading>
+          )}
+
+          {context.account && balanceHasLoaded && (
+            <Card variant="card-outer" mb={5}>
+              <AssetKeys
+                keys={[
+                  {
+                    label: 'Asset',
+                  },
+                  {
+                    label: 'Price',
+                    rightAligned: true,
+                  },
+                  {
+                    label: 'Interest Rate',
+                    rightAligned: true,
+                  },
+                  {
+                    label: 'Deposit Balance',
+                    rightAligned: true,
+                  },
+                  {
+                    label: ' ',
+                  },
+                ]}
+              />
+              <Box variant="divider" />
+              <Box variant="card-inner">
+                {marketsData.filter(hasABalance).map((market, index) => {
                   const tokenData = getTokenDataBySymbol(market.symbol);
                   const image = tokenData ? tokenData.image : '';
+                  const depositBalance = market.depositBalance && market.depositBalance.format();
 
                   return (
-                    <TR key={index}>
-                      <TD textAlign="left">
-                        <TokenData>
-                          <TokenIcon mr={3} image={image} />
-                          <strong>{market.symbol}</strong>
-                        </TokenData>
-                      </TD>
-                      <TD>${market.price}</TD>
-                      <TD>{market.interestRate}%</TD>
-                      <TD>{market.walletBalance ? market.walletBalance.format() : '-'}</TD>
-                      <TD>{market.depositBalance ? market.depositBalance.format() : '-'}</TD>
-                      <TD>
-                        <ButtonsContainer>
-                          <Button variant="small" onClick={() => deposit(market)}>
-                            Deposit
-                          </Button>
-                          <Button variant="small" onClick={() => withdraw(market)}>
-                            Withdraw
-                          </Button>{' '}
-                        </ButtonsContainer>
-                      </TD>
-                    </TR>
+                    <Flex key={index} alignItems="center" mx={-1}>
+                      <Box flex={5 / 12} px={1}>
+                        <Flex alignItems="center">
+                          <TokenIcon image={image} mr={3} />
+                          <Text>{market.symbol}</Text>
+                        </Flex>
+                      </Box>
+                      <Box flex={4 / 12} px={1}>
+                        <Text textAlign="right">${market.price}</Text>
+                      </Box>
+                      <Box flex={4 / 12} px={1}>
+                        <Text textAlign="right">{market.interestRate}%</Text>
+                      </Box>
+                      <Box flex={4 / 12} px={1}>
+                        <Text textAlign="right">{depositBalance}</Text>
+                      </Box>
+                      <Flex justifyContent="flex-end" flex={3 / 12} px={1}>
+                        <button onClick={() => deposit(market)}>Deposit</button>
+                        <button onClick={() => withdraw(market)}>Withdraw</button>
+                      </Flex>
+                    </Flex>
                   );
                 })}
-              </TBody>
-            </Table>
-          </TableOverflow>
+              </Box>
+            </Card>
+          )}
+
+          <Heading as="h2" variant="h2" mb={4}>
+            Available
+          </Heading>
+
+          <Card variant="card-outer">
+            <AssetKeys
+              keys={[
+                {
+                  label: 'Asset',
+                },
+                {
+                  label: 'Price',
+                  rightAligned: true,
+                },
+                {
+                  label: 'Interest Rate',
+                  rightAligned: true,
+                },
+                {
+                  label: 'Wallet Balance',
+                  rightAligned: true,
+                },
+                {
+                  label: ' ',
+                },
+              ]}
+            />
+            <Box variant="divider" />
+            <Box variant="card-inner">
+              {!marketsData.length &&
+                Array(3)
+                  .fill('')
+                  .map((el, index) => <SkeletonAsset key={index} />)}
+              {marketsData.filter(hasZeroBalance).map((market, index) => {
+                const tokenData = getTokenDataBySymbol(market.symbol);
+                const image = tokenData ? tokenData.image : '';
+                const walletBalance = market.walletBalance ? market.walletBalance.format() : '-';
+
+                return (
+                  <Flex key={index} variant="asset-row" alignItems="center" mx={-1}>
+                    <Box flex={5 / 12} px={1}>
+                      <Flex alignItems="center">
+                        <TokenIcon image={image} mr={3} />
+                        <Text variant="headline">{market.symbol}</Text>
+                      </Flex>
+                    </Box>
+                    <Box flex={4 / 12} px={1}>
+                      <Text variant="body" textAlign="right">
+                        {`$${market.price.toFixed(2)}`}
+                      </Text>
+                    </Box>
+                    <Box flex={4 / 12} px={1}>
+                      <Text variant="body" textAlign="right">
+                        {`${market.interestRate.toFixed(2)}%`}
+                      </Text>
+                    </Box>
+                    <Box flex={4 / 12} px={1}>
+                      <Text variant="body" textAlign="right">
+                        {walletBalance}
+                      </Text>
+                    </Box>
+                    <Flex justifyContent="flex-end" flex={3 / 12} px={1}>
+                      <button onClick={() => deposit(market)}>Start Earning</button>
+                    </Flex>
+                  </Flex>
+                );
+              })}
+            </Box>
+          </Card>
         </Section>
       </Container>
       <DepositModal market={currentMarket} isOpen={depositModalIsOpen} onRequestClose={closeDepositModal} />

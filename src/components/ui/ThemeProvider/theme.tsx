@@ -61,12 +61,26 @@ export default {
     h3: {
       fontSize: [3, 4],
     },
+    h4: {
+      fontSize: [2, 3],
+    },
     caps: {
       textTransform: 'uppercase',
       letterSpacing: '0.1em',
     },
     paragraph: {
       maxWidth: '55ch',
+    },
+    'large-title': {},
+    headline: {
+      fontSize: '17px',
+      lineHeight: '22px',
+      fontWeight: 'semibold',
+    },
+    body: {
+      fontSize: '17px',
+      lineHeight: '22px',
+      fontWeight: 'medium',
     },
   },
   variants: {
@@ -84,6 +98,7 @@ export default {
       token: {
         height: 24,
         width: 24,
+        borderRadius: 'circle',
         backgroundPosition: '50% 50%',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'contain',
@@ -106,11 +121,45 @@ export default {
       borderRadius: 'circle',
     },
     card: {
-      p: [24 - 2, 32 - 2],
+      px: [24 - 2, 32 - 2],
+      py: [24 - 2, 32 - 2],
       bg: 'background',
       borderColor: 'muted',
       borderWidth: 2,
       borderStyle: 'solid',
+    },
+    'card-outer': {
+      bg: 'background',
+      borderColor: 'muted',
+      borderWidth: 2,
+      borderStyle: 'solid',
+    },
+    'card-inner': {
+      px: [24 - 2, 32 - 2],
+      py: [24 - 2, 32 - 2],
+    },
+    'card-inner-short': {
+      px: [24 - 2, 32 - 2],
+      py: 16 - 2,
+    },
+    'asset-row': {
+      pt: [20, 28],
+      pb: [20, 28],
+      borderBottomColor: 'muted',
+      borderBottomWidth: 2,
+      borderBottomStyle: 'solid',
+      ':first-of-type': {
+        pt: 0,
+      },
+      ':last-of-type': {
+        pb: 0,
+        borderBottomWidth: 0,
+      },
+    },
+    divider: {
+      height: '2px',
+      bg: 'muted',
+      width: '100%',
     },
     link: {
       color: 'primary',
