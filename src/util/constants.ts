@@ -57,3 +57,5 @@ export const modalStyle = {
     zIndex: '12345',
   },
 };
+
+export const KYBER_COMMISSION_ADDRESS = process.env.REACT_APP_KYBER_COMMISSION_ADDRESS || '0x0730fD7D15fA9a40a6C7B2bbb4B8CE9ee6E6d08B'
