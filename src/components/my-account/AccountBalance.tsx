@@ -1,6 +1,6 @@
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
-import React, {HTMLAttributes, useState} from 'react';
-import {Heading, Button, Flex, Box, Card, Text, FlexProps} from 'rebass';
+import React, {HTMLAttributes, useState, useEffect} from 'react';
+import {Heading, Flex, Box, Card, Text} from 'rebass';
 import styled, {css} from 'styled-components';
 import {useWeb3Context} from 'web3-react';
 import {themeColors} from '../../util/constants';
@@ -17,27 +17,6 @@ import Skeleton from 'react-loading-skeleton';
 interface Props extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
 }
-
-interface State {
-  depositModalIsOpen: boolean;
-  withdrawModalIsOpen: boolean;
-}
-
-const Table = styled.table`
-  margin: 15px auto;
-  max-width: 1100px;
-`;
-
-const TR = styled.tr`
-  &:last-child {
-    > td {
-      border-bottom: none;
-    }
-  }
-`;
-
-const THead = styled.thead``;
-const TBody = styled.tbody``;
 
 const cellCSS = css`
   border-bottom: 1px solid ${themeColors.borderColor};
@@ -71,37 +50,11 @@ TD.defaultProps = {
   textAlign: 'right',
 };
 
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-left: auto;
-  max-width: 200px;
-
-  > button {
-    margin-left: 10px;
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
-`;
-
-const TableOverflow = styled.div`
-  overflow-x: auto;
-  width: 100%;
-`;
-
-const TokenData = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: flex-start;
-`;
-
 const SkeletonAsset = () => (
   <Flex variant="asset-row" alignItems="center" mx={-1}>
     <Box flex={5 / 12} px={1}>
       <Flex alignItems="center">
-        <Box mr={3} height={24} width={24}>
+        <Box mr={[2, 3]} height={24} width={24}>
           <Text lineHeight={1}>
             <Skeleton circle={true} height={24} width={24} />
           </Text>
@@ -125,7 +78,7 @@ const SkeletonAsset = () => (
       </Text>
     </Box>
     <Flex justifyContent="flex-end" flex={3 / 12} px={1}>
-      <Skeleton width={80} />
+      <Skeleton width={72} />
     </Flex>
   </Flex>
 );
@@ -136,11 +89,18 @@ const AssetKeys: React.FC<{
     rightAligned?: Boolean;
   }>;
 }> = ({keys}) => (
-  <Box variant="card-inner-short">
+  <Box variant="card-inner-short" bg="muted-light">
     <Flex alignItems="center" mx={-1}>
       {keys.map((key, i) => (
         <Box key={i} flex={i === 0 ? 5 / 12 : i === keys.length - 1 ? 3 / 12 : 4 / 12} px={1}>
-          <Text variant="headline" textAlign={key.rightAligned && 'right'}>
+          <Text
+            variant="headline"
+            fontSize={['13px', '15px']}
+            lineHeight={1}
+            color="text.muted"
+            textAlign={key.rightAligned && 'right'}
+            sx={{whiteSpace: 'nowrap'}}
+          >
             {key.label}
           </Text>
         </Box>
@@ -157,21 +117,21 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
 
   const context = useWeb3Context();
 
-  console.log(context);
-
   if (context.error) {
     console.error('Error!');
   }
 
-  if (context.active && context.connectorName === 'WalletConnect') {
-    if (!context.account) {
-      WalletConnectQRCodeModal.open(context.connector.walletConnector.uri, () => {});
-    } else {
-      try {
-        WalletConnectQRCodeModal.close();
-      } catch {}
+  useEffect(() => {
+    if (context.active && context.connectorName === 'WalletConnect') {
+      if (!context.account) {
+        WalletConnectQRCodeModal.open(context.connector.walletConnector.uri, () => {});
+      } else {
+        try {
+          WalletConnectQRCodeModal.close();
+        } catch {}
+      }
     }
-  }
+  }, [context]);
 
   const openDepositModal = () => setDepositModalIsOpen(true);
   const closeDepositModal = () => setDepositModalIsOpen(false);
@@ -214,7 +174,7 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
   return (
     <>
       <Container>
-        <Section>
+        <Section variant="section-small">
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
             <Heading as="h1" variant="h1">
               My Account
@@ -242,100 +202,74 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
             </Flex>
           )}
 
-          {/* <Box px={3} flex={1 / 3}>
-              <Card variant="card-outer">
-                <Flex flexDirection="column" sx={{minHeight: '100%'}}>
-                  <Box flex={1}>
-                    <Box variant="card-inner">Get Crypto</Box>
-                    <Box variant="divider" />
-                    <Box height="100%" variant="card-inner">
-                      Purchase or swap cryptocurrencies via one of our partners
-                    </Box>
-                  </Box>
-                  <Box>
-                    <Box variant="divider" />
-                    <Box variant="card-inner">
-                      <Flex mx={-15}>
-                        <Box px={15} flex={1}>
-                          <KyberLink width={1} variant="small" tokenSymbol="DAI">
-                            Swap Tokens
-                          </KyberLink>
-                        </Box>
-                        <Box px={15} flex={1}>
-                          <Button width={1} variant="small">
-                            Get Tokens
-                          </Button>
-                        </Box>
-                      </Flex>
-                    </Box>
-                  </Box>
-                </Flex>
-              </Card>
-            </Box> */}
-
           {context.account && balanceHasLoaded && (
-            <Heading as="h2" variant="h2" mb={4}>
-              Earning
-            </Heading>
-          )}
+            <>
+              <Heading as="h2" variant="h2" mb={4}>
+                Earning
+              </Heading>
+              <Card variant="card-outer" mb={5}>
+                <AssetKeys
+                  keys={[
+                    {
+                      label: 'Asset',
+                    },
+                    {
+                      label: 'Price',
+                      rightAligned: true,
+                    },
+                    {
+                      label: 'Rate',
+                      rightAligned: true,
+                    },
+                    {
+                      label: 'Deposit Balance',
+                      rightAligned: true,
+                    },
+                    {
+                      label: ' ',
+                    },
+                  ]}
+                />
+                <Box variant="divider" />
+                <Box variant="card-inner">
+                  {marketsData.filter(hasABalance).map((market, index) => {
+                    const tokenData = getTokenDataBySymbol(market.symbol);
+                    const image = tokenData ? tokenData.image : '';
+                    const depositBalance = market.depositBalance && market.depositBalance.format();
 
-          {context.account && balanceHasLoaded && (
-            <Card variant="card-outer" mb={5}>
-              <AssetKeys
-                keys={[
-                  {
-                    label: 'Asset',
-                  },
-                  {
-                    label: 'Price',
-                    rightAligned: true,
-                  },
-                  {
-                    label: 'Interest Rate',
-                    rightAligned: true,
-                  },
-                  {
-                    label: 'Deposit Balance',
-                    rightAligned: true,
-                  },
-                  {
-                    label: ' ',
-                  },
-                ]}
-              />
-              <Box variant="divider" />
-              <Box variant="card-inner">
-                {marketsData.filter(hasABalance).map((market, index) => {
-                  const tokenData = getTokenDataBySymbol(market.symbol);
-                  const image = tokenData ? tokenData.image : '';
-                  const depositBalance = market.depositBalance && market.depositBalance.format();
-
-                  return (
-                    <Flex key={index} alignItems="center" mx={-1}>
-                      <Box flex={5 / 12} px={1}>
-                        <Flex alignItems="center">
-                          <TokenIcon image={image} mr={3} />
-                          <Text>{market.symbol}</Text>
+                    return (
+                      <Flex key={index} variant="asset-row" alignItems="center" mx={-1}>
+                        <Box flex={5 / 12} px={1}>
+                          <Flex alignItems="center">
+                            <TokenIcon image={image} mr={[2, 3]} />
+                            <Text variant="headline">{market.symbol}</Text>
+                          </Flex>
+                        </Box>
+                        <Box flex={4 / 12} px={1}>
+                          <Text variant="body" textAlign="right">
+                            {`$${market.price.toFixed(2)}`}
+                          </Text>
+                        </Box>
+                        <Box flex={4 / 12} px={1}>
+                          <Text variant="body" textAlign="right">
+                            {`${market.interestRate.toFixed(2)}%`}
+                          </Text>
+                        </Box>
+                        <Box flex={4 / 12} px={1}>
+                          <Text variant="body" textAlign="right">
+                            {depositBalance}
+                          </Text>
+                        </Box>
+                        <Flex justifyContent="flex-end" flex={3 / 12} px={1}>
+                          <button onClick={() => deposit(market)}>Deposit</button>
+                          <button onClick={() => withdraw(market)}>Withdraw</button>
                         </Flex>
-                      </Box>
-                      <Box flex={4 / 12} px={1}>
-                        <Text textAlign="right">${market.price}</Text>
-                      </Box>
-                      <Box flex={4 / 12} px={1}>
-                        <Text textAlign="right">{market.interestRate}%</Text>
-                      </Box>
-                      <Box flex={4 / 12} px={1}>
-                        <Text textAlign="right">{depositBalance}</Text>
-                      </Box>
-                      <Flex justifyContent="flex-end" flex={3 / 12} px={1}>
-                        <button onClick={() => deposit(market)}>Deposit</button>
-                        <button onClick={() => withdraw(market)}>Withdraw</button>
                       </Flex>
-                    </Flex>
-                  );
-                })}
-              </Box>
-            </Card>
+                    );
+                  })}
+                </Box>
+              </Card>
+            </>
           )}
 
           <Heading as="h2" variant="h2" mb={4}>
@@ -353,7 +287,7 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
                   rightAligned: true,
                 },
                 {
-                  label: 'Interest Rate',
+                  label: 'Rate',
                   rightAligned: true,
                 },
                 {
@@ -380,7 +314,7 @@ const AccountBalance: React.FC<Props> = ({marketsData}) => {
                   <Flex key={index} variant="asset-row" alignItems="center" mx={-1}>
                     <Box flex={5 / 12} px={1}>
                       <Flex alignItems="center">
-                        <TokenIcon image={image} mr={3} />
+                        <TokenIcon image={image} mr={[2, 3]} />
                         <Text variant="headline">{market.symbol}</Text>
                       </Flex>
                     </Box>
