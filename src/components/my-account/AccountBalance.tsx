@@ -7,7 +7,7 @@ import {themeColors} from '../../util/constants';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import KyberLink from '../common/KyberLink';
 import DepositModal from '../deposit';
-import {LoginModal} from '../login';
+import LoginModal from '../login';
 import Container from '../ui/Container';
 import Section from '../ui/Section';
 import WithdrawModal from '../withdraw';

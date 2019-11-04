@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {Box, Button, Flex, Image, ImageProps} from 'rebass';
 import {useWeb3Context} from 'web3-react';
 import brandmark from '../../../assets/images/mmm-brandmark.svg';
-import {LoginModal} from '../../login';
+import LoginModal from '../../login';
 import Container from '../Container';
 
 const Brandmark: React.FC<ImageProps> = props => <Image src={brandmark} variant="nav.logo" {...props} />;

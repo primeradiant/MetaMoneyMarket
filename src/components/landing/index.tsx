@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {Box, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
-import {LoginModal} from '../login';
+import LoginModal from '../login';
 import Container from '../ui/Container';
 import {ThreeColumnGrid} from '../ui/Grid';
 import {Rates, Rocket, Savings, Simplicity} from '../ui/Icons';

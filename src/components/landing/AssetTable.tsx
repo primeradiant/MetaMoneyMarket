@@ -3,7 +3,7 @@ import {Button, Card, Flex, Text} from 'rebass';
 import {useWeb3Context} from 'web3-react';
 import {getTokenDataBySymbol} from '../common/img/token-icons';
 import {useHistory} from 'react-router-dom';
-import {LoginModal} from '../login';
+import LoginModal from '../login';
 import {RebassTable, RebassTbody, RebassTd, RebassTh, RebassThead, RebassTr} from '../ui/Table';
 import TokenIcon from '../ui/TokenIcon';
 
