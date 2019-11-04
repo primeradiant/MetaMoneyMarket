@@ -35,26 +35,28 @@ export const themeBreakPoints = {
 export const modalStyle = {
   content: {
     backgroundColor: '#fff',
-    borderColor: 'transparent',
+    borderColor: '#E7EFEE',
+    borderRadius: 0,
+    borderWidth: 2,
     bottom: 'auto',
-    boxShadow: '0 0 15px 0 rgba(0, 0, 0, 0.15)',
+    boxShadow: 'none',
     display: 'flex',
     flexDirection: 'column',
     flexGrow: '0',
     left: 'auto',
     overflow: 'hidden',
-    padding: '17px',
+    padding: 0,
     position: 'relative',
     right: 'auto',
     top: 'auto',
-    width: '350px',
+    width: 352,
   },
   overlay: {
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.75)',
     display: 'flex',
     justifyContent: 'center',
-    zIndex: '12345',
+    zIndex: '99999',
   },
 };
 

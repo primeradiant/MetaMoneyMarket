@@ -3,10 +3,12 @@ export default {
     text: {
       light: '#fff',
       dark: '#0e100d',
+      muted: '#303232',
     },
     background: '#fff',
     primary: '#0A6054',
     muted: '#E7EFEE',
+    'muted-light': '#F4FAF9',
     negative: '#E05252',
     positive: '#52E0A4',
   },
@@ -73,14 +75,19 @@ export default {
     },
     'large-title': {},
     headline: {
-      fontSize: '17px',
-      lineHeight: '22px',
+      fontSize: ['15px', '17px'],
+      lineHeight: ['20px', '22px'],
       fontWeight: 'semibold',
     },
     body: {
-      fontSize: '17px',
-      lineHeight: '22px',
+      fontSize: ['15px', '17px'],
+      lineHeight: ['20px', '22px'],
       fontWeight: 'medium',
+    },
+    'modal-title': {
+      fontSize: 18,
+      fontWeight: 'semibold',
+      lineHeight: 1,
     },
   },
   variants: {
@@ -105,15 +112,18 @@ export default {
       },
     },
     container: {
-      px: 24,
-      maxWidth: 1136 + 24 * 2,
+      px: ['16px', '24px'],
+      maxWidth: [1136 + 16 * 2, 1136 + 24 * 2],
       mx: 'auto',
     },
     hero: {
-      py: [6, 7],
+      py: [5, 6, 7],
     },
     section: {
-      py: [5, 6],
+      py: [4, 5, 6],
+    },
+    'section-small': {
+      py: [4, 5],
     },
     avatar: {
       width: 'avatar',
@@ -135,16 +145,16 @@ export default {
       borderStyle: 'solid',
     },
     'card-inner': {
-      px: [24 - 2, 32 - 2],
-      py: [24 - 2, 32 - 2],
+      px: [16 - 2, 24 - 2, 32 - 2],
+      py: [16 - 2, 24 - 2, 32 - 2],
     },
     'card-inner-short': {
-      px: [24 - 2, 32 - 2],
-      py: 16 - 2,
+      px: [16 - 2, 24 - 2, 32 - 2],
+      py: [16 - 2],
     },
     'asset-row': {
-      pt: [20, 28],
-      pb: [20, 28],
+      pt: [12, 20, 28],
+      pb: [12, 20, 28],
       borderBottomColor: 'muted',
       borderBottomWidth: 2,
       borderBottomStyle: 'solid',
