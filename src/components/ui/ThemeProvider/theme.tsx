@@ -77,14 +77,21 @@ export default {
     },
     'large-title': {},
     headline: {
-      fontSize: ['15px', '17px'],
+      fontSize: ['13px', '15px', '17px'],
       lineHeight: ['20px', '22px'],
       fontWeight: 'semibold',
     },
     body: {
-      fontSize: ['15px', '17px'],
+      fontSize: ['13px', '15px', '17px'],
       lineHeight: ['20px', '22px'],
       fontWeight: 'medium',
+    },
+    'asset-key-label': {
+      variant: 'text.headline',
+      fontSize: ['13px', '15px'],
+      color: 'text.muted',
+      lineHeight: 1,
+      whiteSpace: 'nowrap',
     },
     'modal-title': {
       color: 'text.dark',
@@ -159,9 +166,20 @@ export default {
       px: [16 - 2, 24 - 2, 32 - 2],
       py: [16 - 2],
     },
+    'asset-grid-row': {alignItems: 'center', mx: -1},
+    'asset-grid-col': {flex: 1, px: 1},
     'asset-row': {
-      pt: [12, 20, 28],
-      pb: [12, 20, 28],
+      width: '100%',
+      display: 'block',
+      background: 'none',
+      borderRadius: 'none',
+      pt: [14, 22, 28],
+      pb: [14, 22, 28],
+      px: 0,
+      border: 'none',
+      outline: 'none',
+      fontSize: 'inherit',
+      textAlign: 'inherit',
       borderBottomColor: 'muted',
       borderBottomWidth: 2,
       borderBottomStyle: 'solid',
@@ -250,7 +268,7 @@ export default {
   buttons: {
     primary: {
       cursor: 'pointer',
-      fontSize: 3,
+      fontSize: [18, 3],
       py: '14px',
       px: '18px',
       lineHeight: 'solid',
@@ -258,12 +276,19 @@ export default {
       color: 'background',
       bg: 'primary',
       borderRadius: 'default',
+      whiteSpace: 'nowrap',
     },
     small: {
       variant: 'buttons.primary',
       py: '12px',
       px: 3,
-      fontSize: 2,
+      fontSize: [2, 2],
+    },
+    xsmall: {
+      variant: 'buttons.primary',
+      py: '8px',
+      px: 2,
+      fontSize: [1, 1],
     },
     text: {
       variant: 'buttons.primary',
@@ -271,6 +296,12 @@ export default {
       px: '18px',
       color: 'primary',
       bg: 'transparent',
+    },
+    'text-small': {
+      variant: 'buttons.text',
+      py: 0,
+      px: 0,
+      fontSize: [2, 2],
     },
     unstyled: {
       background: 'none',
@@ -280,6 +311,8 @@ export default {
       m: 0,
       color: 'text.dark',
       cursor: 'pointer',
+      textAlign: 'initial',
+      display: 'block',
     },
     'provider-button': {
       variant: 'buttons.unstyled',
