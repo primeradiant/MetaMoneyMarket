@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import Modal from 'react-modal';
 import {Link, useHistory} from 'react-router-dom';
 import {Box, Button, Flex, Text} from 'rebass';
@@ -7,6 +7,19 @@ import {modalStyle} from '../../util/constants';
 import Metamask from '../common/img/Metamask';
 import WalletConnect from '../common/img/WalletConnect';
 import ModalTitle from '../modal-title';
+
+interface ProviderButtonTypes extends HTMLAttributes<HTMLButtonElement> {
+  icon: React.ReactNode;
+}
+
+const ProviderButton: React.FC<ProviderButtonTypes> = ({icon, children, onClick}) => (
+  <Button width={1} variant="provider-button" onClick={onClick}>
+    <Flex justifyContent="center" alignItems="center">
+      {icon}
+      <Text ml={[2, 3]}>{children}</Text>
+    </Flex>
+  </Button>
+);
 
 const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props => {
   const {onRequestClose, ...restProps} = props;
@@ -36,21 +49,15 @@ const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props => {
       <ModalTitle title="Login" onRequestClose={onRequestClose} />
       <Box variant="card-inner-small">
         <Box mb={[16 - 2, 24 - 2]}>
-          <Button width={1} variant="provider-button" onClick={loginWalletConnect}>
-            <Flex justifyContent="center" alignItems="center">
-              <WalletConnect />
-              <Text ml={[2, 3]}>Connect with WalletConnect</Text>
-            </Flex>
-          </Button>
+          <ProviderButton icon={<WalletConnect />} onClick={loginWalletConnect}>
+            Connect with WalletConnect
+          </ProviderButton>
         </Box>
 
         <Box mb={[16 - 2, 24 - 2]}>
-          <Button width={1} variant="provider-button" onClick={loginMetamask}>
-            <Flex justifyContent="center" alignItems="center">
-              <Metamask />
-              <Text ml={[2, 3]}>Connect with MetaMask</Text>
-            </Flex>
-          </Button>
+          <ProviderButton icon={<Metamask />} onClick={loginMetamask}>
+            Connect with MetaMask
+          </ProviderButton>
         </Box>
 
         <Text
