@@ -1,11 +1,11 @@
 import BN from 'bn.js';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
+import { Box, Flex, Button } from 'rebass';
 import styled from 'styled-components';
 import { useWeb3Context } from 'web3-react';
 
 import AmountTextfield from '../amount-textfield';
-import Button from '../common/Button';
 import FormRow, { FormRowsContainer } from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
@@ -19,11 +19,6 @@ interface Props {
   isOpen: boolean;
   onRequestClose: () => void;
 }
-
-const ButtonStyled = styled(Button)`
-  text-transform: uppercase;
-  width: 100%;
-`;
 
 const ModalText = styled.p`
   color: #444;
@@ -120,44 +115,46 @@ const DepositModal: React.FC<Props> = props => {
   return (
     <Modal {...restProps} style={modalStyle}>
       <ModalTitle title={`Deposit ${market.symbol}`} onRequestClose={onRequestClose} />
-      <ModalText>
-        Deposit <strong>{market.symbol}</strong> and earn interest automatically.
-      </ModalText>
-      <FormRowsContainer>
-        <FormRow text="Account" value={shortenAccount(context.account || '')} />
-        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance.format()} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.depositBalance.format()} />
-        <FormRow
-          text="Interest"
-          value={`Earn ${market.interestRate.toFixed(4)}% APR`}
-          valueColor={themeColors.primaryColorLighter}
+      <Box variant="card-inner-small">
+        <ModalText>
+          Deposit <strong>{market.symbol}</strong> and earn interest automatically.
+        </ModalText>
+        <FormRowsContainer>
+          <FormRow text="Account" value={shortenAccount(context.account || '')} />
+          <FormRow text={`Available ${market.symbol}`} value={market.walletBalance.format()} />
+          <FormRow text={`Deposited ${market.symbol}`} value={market.depositBalance.format()} />
+          <FormRow
+            text="Interest"
+            value={`Earn ${market.interestRate.toFixed(4)}% APR`}
+            valueColor={themeColors.primaryColorLighter}
+          />
+        </FormRowsContainer>
+        <ModalSubtitle>Amount</ModalSubtitle>
+        <AmountTextfield
+          decimals={market.walletBalance.decimals}
+          disabled={isLoading}
+          max={market.walletBalance.amount}
+          onMax={onMax}
+          token={market.symbol || ''}
+          value={amount}
+          onChange={value => {
+            setMaxEnabled(false);
+            setAmount(value);
+          }}
         />
-      </FormRowsContainer>
-      <ModalSubtitle>Amount</ModalSubtitle>
-      <AmountTextfield
-        decimals={market.walletBalance.decimals}
-        disabled={isLoading}
-        max={market.walletBalance.amount}
-        onMax={onMax}
-        token={market.symbol || ''}
-        value={amount}
-        onChange={value => {
-          setMaxEnabled(false);
-          setAmount(value);
-        }}
-      />
-      {isLoading ? (
-        <LoadingStyled />
-      ) : (
-        <ModalNote>
-          <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then make
-          the deposit.
-          {error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}
-        </ModalNote>
-      )}
-      <ButtonStyled disabled={isLoading || !amount || amount.isZero()} onClick={sendDeposit}>
-        Deposit
-      </ButtonStyled>
+        {isLoading ? (
+          <LoadingStyled />
+        ) : (
+          <ModalNote>
+            <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then
+            make the deposit.
+            {error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}
+          </ModalNote>
+        )}
+        <Button width={1} disabled={isLoading || !amount} onClick={sendDeposit}>
+          Deposit
+        </Button>
+      </Box>
     </Modal>
   );
 };

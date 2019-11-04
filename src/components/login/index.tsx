@@ -34,7 +34,7 @@ const LoginModal: React.FC<React.ComponentProps<typeof Modal>> = props => {
   return (
     <Modal {...restProps} style={modalStyle}>
       <ModalTitle title="Login" onRequestClose={onRequestClose} />
-      <Box p={[16 - 2, 24 - 2]}>
+      <Box variant="card-inner-small">
         <Box mb={[16 - 2, 24 - 2]}>
           <Button width={1} variant="provider-button" onClick={loginWalletConnect}>
             <Flex justifyContent="center" alignItems="center">

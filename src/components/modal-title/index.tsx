@@ -10,7 +10,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const ModalTitle: React.FC<Props> = ({closeButtonDisabled, onRequestClose, title, ...rest}) => (
   <>
-    <Flex p={[16 - 2, 24 - 2]} {...rest}>
+    <Flex variant="card-inner-small" {...rest}>
       <Text flex={1} variant="modal-title">
         {title}
       </Text>

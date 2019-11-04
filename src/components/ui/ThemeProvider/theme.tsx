@@ -87,6 +87,7 @@ export default {
       fontWeight: 'medium',
     },
     'modal-title': {
+      color: 'text.dark',
       fontFamily: 'body',
       fontSize: 18,
       fontWeight: 'semibold',
@@ -150,6 +151,9 @@ export default {
     'card-inner': {
       px: [16 - 2, 24 - 2, 32 - 2],
       py: [16 - 2, 24 - 2, 32 - 2],
+    },
+    'card-inner-small': {
+      p: [16 - 2, 24 - 2],
     },
     'card-inner-short': {
       px: [16 - 2, 24 - 2, 32 - 2],
