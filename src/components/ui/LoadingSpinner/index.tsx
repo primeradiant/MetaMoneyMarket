@@ -1,11 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Box} from 'rebass';
 
 interface LoadingSpinnerProps {
-  loading?: boolean;
-  size: number;
-  color: string;
+  loading: boolean;
+  size?: number;
+  color?: string;
 }
 
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({loading, size, color}) => {
@@ -42,14 +41,9 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({loading, size, color}) =
 };
 
 LoadingSpinner.defaultProps = {
+  loading: false,
   size: 40,
   color: 'primary',
-};
-
-LoadingSpinner.propTypes = {
-  loading: PropTypes.bool,
-  size: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
 };
 
 export default LoadingSpinner;
