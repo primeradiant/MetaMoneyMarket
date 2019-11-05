@@ -1,8 +1,6 @@
-import BN from 'bn.js';
 import {Input} from '@rebass/forms';
+import BN from 'bn.js';
 import React from 'react';
-import styled from 'styled-components';
-
 import TokenAmount from '../../util/token-amount';
 
 interface Props {
@@ -81,6 +79,7 @@ export class BigNumberInput extends React.Component<Props, State> {
         value={currentValueStr}
         placeholder={placeholder}
         sx={{
+          lineHeight: 1.5,
           pr: '48px',
           textAlign: 'right',
           '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button': {

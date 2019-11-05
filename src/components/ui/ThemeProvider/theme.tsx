@@ -3,10 +3,12 @@ export default {
     text: {
       light: '#fff',
       dark: '#0e100d',
-      muted: '#303232',
+      muted: '#4E504D',
+      'muted-light': '#8E908E',
     },
     background: '#fff',
     primary: '#0A6054',
+    'primary-disabled': '#8cafa9',
     muted: '#E7EFEE',
     'muted-light': '#F4FAF9',
     'muted-dark': '#D6DEDD',
@@ -86,12 +88,22 @@ export default {
       lineHeight: ['20px', '22px'],
       fontWeight: 'medium',
     },
+    'headline-small': {
+      fontSize: ['13px', '15px'],
+      lineHeight: '20px',
+      fontWeight: 'semibold',
+    },
+    'body-small': {
+      fontSize: ['13px', '15px'],
+      lineHeight: '20px',
+      fontWeight: 'medium',
+    },
     'token-name': {
       fontSize: 2,
       color: 'text.muted',
       fontWeight: 'bold',
       textTransform: 'uppercase',
-      lineHeight: 1.2,
+      lineHeight: 1,
       zIndex: 1,
       letterSpacing: '0.01em',
     },
@@ -108,6 +120,12 @@ export default {
       fontSize: 18,
       fontWeight: 'semibold',
       lineHeight: 1,
+    },
+    'modal-note': {fontSize: 0, fontWeight: 'medium'},
+    'modal-error': {
+      fontSize: 0,
+      color: 'negative',
+      fontWeight: 'bold',
     },
   },
   variants: {
@@ -204,6 +222,22 @@ export default {
         borderBottomWidth: 0,
       },
     },
+    'modal-data-row': {
+      justifyContent: 'space-between',
+      px: '10px',
+      pt: '10px',
+      pb: '8px',
+      borderBottomColor: 'muted',
+      borderBottomWidth: 2,
+      borderBottomStyle: 'solid',
+      ':last-of-type': {
+        pb: '10px',
+        borderBottomWidth: 0,
+      },
+      ':nth-of-type(even)': {
+        bg: 'muted-light',
+      },
+    },
     divider: {
       height: '2px',
       bg: 'muted',
@@ -290,6 +324,10 @@ export default {
       bg: 'primary',
       borderRadius: 'default',
       whiteSpace: 'nowrap',
+      ':disabled': {
+        bg: 'primary-disabled',
+        cursor: 'not-allowed',
+      },
     },
     small: {
       variant: 'buttons.primary',
@@ -316,7 +354,16 @@ export default {
       px: 0,
       fontSize: [2, 2],
     },
-    'max-button': {variant: 'text.token-name', color: 'muted-darker', background: 'none', p: 0},
+    'max-button': {
+      cursor: 'pointer',
+      variant: 'text.token-name',
+      color: 'text.muted-light',
+      background: 'none',
+      p: 0,
+      '&:hover,&:focus,&:active': {
+        color: 'text.muted',
+      },
+    },
     unstyled: {
       background: 'none',
       border: 'none',
@@ -353,7 +400,7 @@ export default {
     },
     select: {},
     textarea: {},
-    label: {fontWeight: 'bold', mb: 24},
+    label: {fontWeight: 'bold', mb: 2},
     radio: {},
     checkbox: {},
   },
@@ -363,10 +410,10 @@ export default {
       fontWeight: 'body',
       lineHeight: 'body',
       fontSize: [2, 18],
+      color: 'text.dark',
     },
     root: {
       variant: 'styles.root-styles',
-      color: 'text.dark',
       display: 'flex',
       minHeight: '100vh',
       flexDirection: 'column',

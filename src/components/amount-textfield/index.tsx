@@ -1,12 +1,11 @@
 import BN from 'bn.js';
 import React from 'react';
-import {Flex, Text, Box, Button} from 'rebass';
-import styled from 'styled-components';
-
-import {themeColors} from '../../util/constants';
+import {Box, Button, Flex, Text} from 'rebass';
 import {BigNumberInput} from '../common/BigNumberInput';
 
-interface Props {
+const ValueInput: any = ({...rest}: any) => <BigNumberInput {...rest} />;
+
+interface AmountTextfieldProps {
   id?: string;
   decimals: number;
   disabled?: boolean;
@@ -17,30 +16,7 @@ interface Props {
   onChange: (newValue: BN) => void;
 }
 
-const AmountTextfieldWrapper = styled.div<{disabled?: boolean}>`
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-
-    &::before {
-      content: '';
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      z-index: 5;
-    }
-  }
-`;
-
-AmountTextfieldWrapper.defaultProps = {
-  disabled: false,
-};
-
-const ValueInput: any = ({...rest}: any) => <BigNumberInput {...rest} />;
-
-const AmountTextfield: React.FC<Props> = ({
+const AmountTextfield: React.FC<AmountTextfieldProps> = ({
   id,
   decimals,
   disabled,
@@ -51,13 +27,28 @@ const AmountTextfield: React.FC<Props> = ({
   onChange,
   ...restProps
 }) => (
-  <Flex width={1} alignItems="center" sx={{position: 'relative', height: 44}} {...restProps}>
-    <Box sx={{position: 'absolute', left: '16px'}}>
+  <Flex
+    width={1}
+    alignItems="center"
+    sx={{
+      position: 'relative',
+      height: 44,
+    }}
+    {...restProps}
+  >
+    <Box
+      sx={{
+        position: 'absolute',
+        left: '16px',
+      }}
+    >
       <Button variant="max-button" onClick={onMax}>
         Max
       </Button>
     </Box>
+
     <ValueInput id={id} min={new BN(0)} max={max} value={value} onChange={onChange} decimals={decimals} />
+
     <Box
       sx={{
         position: 'absolute',
