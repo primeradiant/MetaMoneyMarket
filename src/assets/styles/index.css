@@ -14,6 +14,24 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+@keyframes loading {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingCircle {
+  0% {
+    stroke-dashoffset: 600;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
 #kyber-widget {
   position: absolute;
   box-sizing: border-box;
