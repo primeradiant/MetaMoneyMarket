@@ -6,7 +6,6 @@ import {useWeb3Context} from 'web3-react';
 import brandmark from '../../../assets/images/mmm-brandmark.svg';
 import LoginModal from '../../login';
 import Container from '../Container';
-import {shortenAccount} from '../../../util/utils';
 
 const Brandmark: React.FC<ImageProps> = props => <Image src={brandmark} variant="nav.logo" {...props} />;
 
@@ -46,7 +45,7 @@ const Navigation: React.FC = () => {
                   </Button>
                   <Box height={40} width={2} bg="muted" />
                   <Button onClick={goToDashboard} variant="text">
-                    {shortenAccount(context.account)}
+                    Dashboard
                   </Button>
                 </>
               )}

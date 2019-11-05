@@ -22,12 +22,14 @@ interface AccountBalanceProps extends HTMLAttributes<HTMLDivElement> {
 const FundingCard: React.FC<{destAddress: string}> = ({destAddress}) => {
   return (
     <Card variant="card-outer">
-      <Box variant="card-inner">
-        <Text variant="modal-title">Funding</Text>
+      <Box variant="card-inner-short" bg="muted-light">
+        <Text variant="asset-key-label">Funding</Text>
       </Box>
       <Box variant="divider" />
       <Box variant="card-inner">
-        <Text as="p">Purchase or swap your current cryptocurrency for others with our partners.</Text>
+        <Text as="p" fontSize={2}>
+          Purchase or swap your current cryptocurrency for others with our partners.
+        </Text>
       </Box>
       <Box variant="divider" />
       <Box variant="card-inner-short">
@@ -97,7 +99,7 @@ const AssetRow: React.FC<{
           <Flex justifyContent="flex-end" alignItems="center">
             <Button
               variant="text-small"
-              mr={showDepositBalance && 24}
+              mr={showDepositBalance && [3, 24]}
               onClick={context.account ? () => depositAction() : () => loginAction()}
             >
               {showDepositBalance ? 'Deposit' : 'Start Earning'}
@@ -251,7 +253,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
     <>
       <Container>
         <Section variant="section-small">
-          <Heading as="h1" variant="h1" mb={4}>
+          <Heading as="h1" variant="h2" mb={[3, 4]}>
             My Account
           </Heading>
 
@@ -259,8 +261,8 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
             <Flex mb={[4, 5]} mx={[-2, -3]} flexWrap="wrap">
               <Box px={[2, 3]} width={[1, 1 / 2]} mb={[3, 0]}>
                 <Card variant="card-outer" height="100%">
-                  <Box variant="card-inner">
-                    <Text variant="modal-title">Total Balance</Text>
+                  <Box variant="card-inner-short" bg="muted-light">
+                    <Text variant="asset-key-label">Total Balance</Text>
                   </Box>
                   <Box variant="divider" />
                   <Box variant="card-inner">
@@ -278,7 +280,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
 
           {context.account && balanceHasLoaded && marketsData.filter(hasABalance).length > 0 && (
             <>
-              <Heading as="h2" variant="h2" mb={[3, 4]}>
+              <Heading as="h2" variant="h3" mb={[3, 4]}>
                 Earning
               </Heading>
 
@@ -325,7 +327,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
             </>
           )}
 
-          <Heading as="h2" variant="h2" mb={[3, 4]}>
+          <Heading as="h2" variant="h3" mb={[3, 4]}>
             Available
           </Heading>
 

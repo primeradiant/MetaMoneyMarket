@@ -183,14 +183,14 @@ export default {
       borderStyle: 'solid',
     },
     'card-inner': {
-      px: [16 - 2, 24 - 2, 32 - 2],
-      py: [16 - 2, 24 - 2, 32 - 2],
+      px: [16 - 2, 24 - 2],
+      py: [16 - 2, 24 - 2],
     },
     'card-inner-small': {
       p: [16 - 2, 24 - 2],
     },
     'card-inner-short': {
-      px: [16 - 2, 24 - 2, 32 - 2],
+      px: [16 - 2, 24 - 2],
       py: [16 - 2],
     },
     'modal-card-inner': {
@@ -204,8 +204,8 @@ export default {
       display: 'block',
       background: 'none',
       borderRadius: 'none',
-      pt: [14, 22, 28],
-      pb: [14, 22, 28],
+      pt: [14, 22],
+      pb: [14, 22],
       px: 0,
       border: 'none',
       outline: 'none',
