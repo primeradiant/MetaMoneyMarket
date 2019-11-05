@@ -1,10 +1,12 @@
 import BN from 'bn.js';
+import {Input} from '@rebass/forms';
 import React from 'react';
 import styled from 'styled-components';
 
 import TokenAmount from '../../util/token-amount';
 
 interface Props {
+  id?: string;
   autofocus?: boolean;
   className?: string;
   decimals: number;
@@ -20,15 +22,6 @@ interface Props {
 interface State {
   currentValueStr: string;
 }
-
-const Input = styled.input`
-  ::-webkit-inner-spin-button,
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  -moz-appearance: textfield;
-`;
 
 export class BigNumberInput extends React.Component<Props, State> {
   public static defaultProps = {
@@ -70,22 +63,30 @@ export class BigNumberInput extends React.Component<Props, State> {
 
   public render = () => {
     const {currentValueStr} = this.state;
-    const {decimals, step, min, max, className, placeholder} = this.props;
+    const {decimals, id, step, min, max, className, placeholder} = this.props;
     const stepStr = step && TokenAmount.format(step, decimals);
     const minStr = min && TokenAmount.format(min, decimals);
     const maxStr = max && TokenAmount.format(max, decimals);
 
     return (
       <Input
+        id={id}
         className={className}
         max={maxStr}
         min={minStr}
         onChange={this.updateValue}
-        ref={ref => (this.textInput = ref)}
+        ref={(ref: any) => (this.textInput = ref)}
         step={stepStr}
         type={'number'}
         value={currentValueStr}
         placeholder={placeholder}
+        sx={{
+          pr: '48px',
+          textAlign: 'right',
+          '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button': {
+            appearance: 'none',
+          },
+        }}
       />
     );
   };

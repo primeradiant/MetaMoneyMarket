@@ -1,7 +1,8 @@
 import BN from 'bn.js';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
-import { Box, Flex, Button } from 'rebass';
+import { Box, Flex, Text, Button } from 'rebass';
+import { Label, Input } from '@rebass/forms';
 import styled from 'styled-components';
 import { useWeb3Context } from 'web3-react';
 
@@ -115,21 +116,23 @@ const DepositModal: React.FC<Props> = props => {
   return (
     <Modal {...restProps} style={modalStyle}>
       <ModalTitle title={`Deposit ${market.symbol}`} onRequestClose={onRequestClose} />
-      <Box variant="card-inner-small">
-        <ModalText>
-          Deposit <strong>{market.symbol}</strong> and earn interest automatically.
-        </ModalText>
-        <FormRowsContainer>
+      <Box variant="modal-card-inner">
+        <Text fontSize={1} mb={3}>
+          Deposit <Text as="strong">{market.symbol}</Text> and earn interest automatically.
+        </Text>
+
+        <Box mb={24}>
           <FormRow text="Account" value={shortenAccount(context.account || '')} />
           <FormRow text={`Available ${market.symbol}`} value={market.walletBalance.format()} />
           <FormRow text={`Deposited ${market.symbol}`} value={market.depositBalance.format()} />
           <FormRow
             text="Interest"
-            value={`Earn ${market.interestRate.toFixed(4)}% APR`}
+            value={`Earn ${market.interestRate.toFixed(2)}% APR`}
             valueColor={themeColors.primaryColorLighter}
           />
-        </FormRowsContainer>
-        <ModalSubtitle>Amount</ModalSubtitle>
+        </Box>
+
+        <Label htmlFor="amount-text-field">Amount</Label>
         <AmountTextfield
           decimals={market.walletBalance.decimals}
           disabled={isLoading}

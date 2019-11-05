@@ -86,6 +86,15 @@ export default {
       lineHeight: ['20px', '22px'],
       fontWeight: 'medium',
     },
+    'token-name': {
+      fontSize: 2,
+      color: 'text.muted',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+      lineHeight: 1.2,
+      zIndex: 1,
+      letterSpacing: '0.01em',
+    },
     'asset-key-label': {
       variant: 'text.headline',
       fontSize: ['13px', '15px'],
@@ -165,6 +174,10 @@ export default {
     'card-inner-short': {
       px: [16 - 2, 24 - 2, 32 - 2],
       py: [16 - 2],
+    },
+    'modal-card-inner': {
+      variant: 'styles.root-styles',
+      p: [16 - 2, 24 - 2],
     },
     'asset-grid-row': {alignItems: 'center', mx: -1},
     'asset-grid-col': {flex: 1, px: 1},
@@ -303,6 +316,7 @@ export default {
       px: 0,
       fontSize: [2, 2],
     },
+    'max-button': {variant: 'text.token-name', color: 'muted-darker', background: 'none', p: 0},
     unstyled: {
       background: 'none',
       border: 'none',
@@ -323,7 +337,6 @@ export default {
       height: 56,
       px: 1,
       py: 3,
-      transition: 'border-color 100ms',
       ':hover, :focus, :active': {
         borderColor: 'muted',
       },
@@ -340,16 +353,19 @@ export default {
     },
     select: {},
     textarea: {},
-    label: {},
+    label: {fontWeight: 'bold', mb: 24},
     radio: {},
     checkbox: {},
   },
   styles: {
-    root: {
+    'root-styles': {
       fontFamily: 'body',
       fontWeight: 'body',
       lineHeight: 'body',
       fontSize: [2, 18],
+    },
+    root: {
+      variant: 'styles.root-styles',
       color: 'text.dark',
       display: 'flex',
       minHeight: '100vh',
