@@ -58,7 +58,9 @@ const DepositModal: React.FC<Props> = props => {
         await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {
           from: context.account,
         });
+
         fetchMetaMoneyMarketData(contracts, context.account);
+
         if (onRequestClose) {
           onRequestClose();
         }

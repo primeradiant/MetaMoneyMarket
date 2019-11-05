@@ -70,6 +70,7 @@ const WithdrawModal: React.FC<Props> = props => {
         });
 
         fetchMetaMoneyMarketData(contracts, context.account);
+
         if (onRequestClose) {
           onRequestClose();
         }
