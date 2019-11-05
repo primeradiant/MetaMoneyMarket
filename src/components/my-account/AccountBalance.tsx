@@ -242,6 +242,8 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
       .filter(hasABalance)
       .map(({depositBalance, price}) => {
         if (depositBalance !== undefined) return Number(Number(depositBalance.format()) * price);
+
+        return undefined;
       })
       .reduce(priceReducer, 0);
 
