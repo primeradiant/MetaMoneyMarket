@@ -210,7 +210,10 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
    * @name hasABalance
    */
   const hasABalance = ({depositBalance}: Market) =>
-    depositBalance && (Object(depositBalance).hasOwnProperty('amount') && !depositBalance.amount.isZero());
+    balanceHasLoaded &&
+    depositBalance &&
+    Object(depositBalance).hasOwnProperty('amount') &&
+    !depositBalance.amount.isZero();
 
   /**
    * @name hasZeroBalance
@@ -220,6 +223,9 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
       ? Object(market.depositBalance).hasOwnProperty('amount') && market.depositBalance.amount.isZero()
       : market;
 
+  const priceReducer = (accumulator: number | undefined, currentValue: number | undefined) =>
+    Number(accumulator || 0) + Number(currentValue || 0);
+
   /**
    * @name userBalance
    */
@@ -227,8 +233,10 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
     balanceHasLoaded &&
     marketsData
       .filter(hasABalance)
-      .map(({depositBalance, price}) => !!depositBalance && Number(depositBalance.format()) * price)
-      .reduce((accumulator, currentValue) => Number(accumulator || 0) + Number(currentValue || 0));
+      .map(({depositBalance, price}) => {
+        if (depositBalance !== undefined) return Number(Number(depositBalance.format()) * price);
+      })
+      .reduce(priceReducer, 0);
 
   return (
     <>
@@ -259,7 +267,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
             </Flex>
           )}
 
-          {context.account && balanceHasLoaded && (
+          {context.account && balanceHasLoaded && marketsData.filter(hasABalance).length > 0 && (
             <>
               <Heading as="h2" variant="h2" mb={[3, 4]}>
                 Earning
