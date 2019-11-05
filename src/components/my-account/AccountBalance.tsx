@@ -61,6 +61,7 @@ const AssetRow: React.FC<{
   const toggle = () => setRowOpened(!rowOpened);
 
   const tokenData = getTokenDataBySymbol(market.symbol);
+
   const image = tokenData ? tokenData.image : '';
   const depositBalance = market.depositBalance ? market.depositBalance.format() : '-';
   const walletBalance = market.walletBalance ? market.walletBalance.format() : '-';
