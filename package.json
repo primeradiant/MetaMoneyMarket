@@ -11,7 +11,7 @@
     "@walletconnect/qrcode-modal": "^1.0.0-beta.38",
     "@walletconnect/web3-subprovider": "^1.0.0-beta.38",
     "emotion-theming": "^10.0.17",
-    "ethers": "^4.0.32",
+    "ethers": "^4.0.39",
     "lodash.find": "^4.6.0",
     "lodash.uniqby": "^4.7.0",
     "react": "^16.8.6",
@@ -26,7 +26,7 @@
     "sanitize.css": "^10.0.0",
     "styled-components": "^4.3.1",
     "truffle-contract": "^4.0.23",
-    "web3": "^1.0.0-beta.55",
+    "web3": "^1.2.2",
     "web3-react": "^5.0.4"
   },
   "devDependencies": {
