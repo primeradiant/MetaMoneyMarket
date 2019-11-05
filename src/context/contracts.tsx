@@ -146,12 +146,8 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
   useEffect(() => {
     const getContracts = async () => {
       if (context.active) {
-        // console.log(context.connector.engine);
-        // console.log(context.library);
-        // console.log(context.library.currentProvider.connection);
-
-        IERC20.setProvider(context.library.givenProvider);
-        MetaMoneyMarket.setProvider(context.library.givenProvider);
+        IERC20.setProvider(context.library.currentProvider);
+        MetaMoneyMarket.setProvider(context.library.currentProvider);
 
         const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
