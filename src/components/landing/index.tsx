@@ -1,5 +1,5 @@
 import React, {HTMLAttributes, useContext, useState} from 'react';
-import {Box, Button, Card, Heading, Text} from 'rebass';
+import {Box, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
 import {LoginModal} from '../login';
 import AccountBalance from '../my-account/AccountBalance';
