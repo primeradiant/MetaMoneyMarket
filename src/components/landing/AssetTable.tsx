@@ -40,7 +40,7 @@ const AssetTable: React.FC<Props> = (props: Props) => {
 
   const context = useWeb3Context();
 
-  const {history} = useHistory();
+  const history = useHistory();
 
   const [loginModalIsOpen, setModalIsOpen] = useState(false);
 
