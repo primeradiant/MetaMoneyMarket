@@ -2,4 +2,3 @@
 node_modules
 /blockchain/build
 /src/artifacts
-/src/serviceWorker.ts
