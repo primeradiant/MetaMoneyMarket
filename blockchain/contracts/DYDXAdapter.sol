@@ -56,26 +56,28 @@ contract SoloMargin {
   }
 
   function getMarketInterestRate(uint256 marketId)
-    public
+    external
     view
     returns (Rate memory);
 
   function getMarketTotalPar(uint256 marketId)
-    public
+    external
     view
     returns (TotalPar memory);
   function getMarketCurrentIndex(uint256 marketId)
-    public
+    external
     view
     returns (Index memory);
 
-  function getAccountWei(AccountInfo memory account, uint256 marketId)
-    public
+  function getAccountWei(AccountInfo calldata account, uint256 marketId)
+    external
     view
     returns (Wei memory);
 
-  function operate(AccountInfo[] memory accounts, ActionArgs[] memory actions)
-    public;
+  function operate(
+    AccountInfo[] calldata accounts,
+    ActionArgs[] calldata actions
+  ) external;
 }
 
 contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
@@ -136,10 +138,10 @@ contract DYDXAdapter is IMoneyMarketAdapter, Ownable, Claimable {
       .value;
 
     uint256 supplyRatePerSecond = (
-      90000 * uint256(totalPar.borrow) * uint256(
+      9e4 * uint256(totalPar.borrow) * uint256(
         index.borrow
       ) * borrowRatePerSecond
-    ) / (100000 * uint256(totalPar.supply) * uint256(index.supply));
+    ) / (10e4 * uint256(totalPar.supply) * uint256(index.supply));
 
     return supplyRatePerSecond * 15;
   }

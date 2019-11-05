@@ -90,6 +90,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
 
       for (let i = 0; i < count; i++) {
         const address = await metaMoneyMarket.supportedMarketsList(i);
+
         let symbol = 'UNKNOWN';
         try {
           symbol = await metaMoneyMarket.getMarketSymbol(address);

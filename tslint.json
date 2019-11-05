@@ -12,7 +12,9 @@
     "jsx-no-lambda": false,
     "no-console": false,
     "no-shadowed-variable": false,
-    "no-implicit-dependencies": false
+    "no-implicit-dependencies": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false
   },
   "linterOptions": {
     "exclude": [

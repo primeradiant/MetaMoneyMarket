@@ -146,7 +146,7 @@ const WithdrawModal: React.FC<Props> = props => {
       ) : (
         <ModalNote>{error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}</ModalNote>
       )}
-      <ButtonStyled disabled={isLoading || !amount} onClick={sendWithdraw}>
+      <ButtonStyled disabled={isLoading || !amount || amount.isZero()} onClick={sendWithdraw}>
         Withdraw
       </ButtonStyled>
     </Modal>

@@ -70,7 +70,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
     uint256 tokenShareSupply = tokenShare.totalSupply();
     uint256 tokenSupply = totalSupply(tokenAddress);
 
-    uint256 tokenSharesToMint = tokenSupply > 0
+    uint256 tokenSharesToMint = (tokenSupply > 0 && tokenShareSupply > 0)
       ? tokenShareSupply * tokenAmount / tokenSupply
       : tokenAmount;
 
@@ -184,8 +184,8 @@ contract MetaMoneyMarket is Ownable, Claimable {
     * rebalance so that the first one has 10.5% of the tokens, the second one 55%, and the third one 34.5%, this param
     * will be [1050, 5500].
     */
-  function rebalance(address tokenAddress, uint256[] memory percentages)
-    public
+  function rebalance(address tokenAddress, uint256[] calldata percentages)
+    external
     checkMarketSupported(tokenAddress)
     onlyOwner
   {
@@ -200,13 +200,13 @@ contract MetaMoneyMarket is Ownable, Claimable {
       moneyMarkets[i].withdrawAll(tokenAddress, address(this));
     }
 
-    uint256 totalSupply = token.balanceOf(address(this));
+    uint256 tokenSupply = token.balanceOf(address(this));
 
     for (uint256 i = 0; i < percentages.length; i++) {
       if (!moneyMarkets[i].supportsToken(tokenAddress)) {
         continue;
       }
-      uint256 amountToDeposit = totalSupply * percentages[i] / 10000;
+      uint256 amountToDeposit = tokenSupply * percentages[i] / 10000;
       if (amountToDeposit == 0) {
         continue;
       }
@@ -232,7 +232,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
   }
 
   function claimTokens(address tokenAddress, address recipient)
-    public
+    external
     onlyOwner
   {
     _claimTokens(tokenAddress, recipient);
@@ -242,7 +242,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
     uint256 index,
     address tokenAddress,
     address recipient
-  ) public onlyOwner {
+  ) external onlyOwner {
     IMoneyMarketAdapter moneyMarket = moneyMarkets[index];
     moneyMarket.claimTokens(tokenAddress, recipient);
   }
@@ -316,7 +316,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
   }
 
   function getMarketSymbol(address tokenAddress)
-    public
+    external
     view
     checkMarketSupported(tokenAddress)
     returns (string memory)
@@ -329,16 +329,16 @@ contract MetaMoneyMarket is Ownable, Claimable {
   /**
     * @dev Returns the number of underlying money markets.
     */
-  function moneyMarketsCount() public view returns (uint256) {
+  function moneyMarketsCount() external view returns (uint256) {
     return moneyMarkets.length;
   }
 
-  function supportedMarketsCount() public view returns (uint256) {
+  function supportedMarketsCount() external view returns (uint256) {
     return supportedMarketsList.length;
   }
 
   function getDepositedAmount(address tokenAddress, address account)
-    public
+    external
     view
     checkMarketSupported(tokenAddress)
     returns (uint256)
@@ -380,7 +380,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
         continue;
       }
       uint256 rate = moneyMarkets[i].getRate(tokenAddress);
-      if (rate > bestRate) {
+      if (rate >= bestRate) {
         bestRate = rate;
         bestMoneyMarket = moneyMarkets[i];
       }
@@ -390,7 +390,7 @@ contract MetaMoneyMarket is Ownable, Claimable {
   }
 
   function getBestInterestRate(address tokenAddress)
-    public
+    external
     view
     checkMarketSupported(tokenAddress)
     returns (uint256)
