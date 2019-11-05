@@ -60,7 +60,8 @@ const AssetRow: React.FC<{
   const isWide = useMedia('(min-width: 52em)');
   const context = useWeb3Context();
 
-  const toggle = () => setRowOpened(!rowOpened);
+  const toggle = () => (isWide ? null : setRowOpened(!rowOpened));
+  const handleKeyPress = ({key}: React.KeyboardEvent<HTMLDivElement>) => (key === 'Enter' || key === ' ') && toggle();
 
   const tokenData = getTokenDataBySymbol(market.symbol);
 
@@ -70,7 +71,7 @@ const AssetRow: React.FC<{
 
   return (
     <Box variant="asset-row">
-      <Flex variant="asset-grid-row" onClick={isWide ? () => null : toggle}>
+      <Flex tabIndex={isWide ? undefined : 0} variant="asset-grid-row" onKeyDown={handleKeyPress} onClick={toggle}>
         <Box variant="asset-grid-col">
           <Flex alignItems="center">
             <TokenIcon image={image} mr={[2, 3]} />
