@@ -2,23 +2,30 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Box} from 'rebass';
 
-const LoadingSpinner = ({loading, size, color}) => {
+interface LoadingSpinnerProps {
+  loading?: boolean;
+  size: number;
+  color: string;
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({loading, size, color}) => {
   if (!loading) return null;
 
   return (
     <Box height={size} width={size} color={color}>
-      <Box
-        as="svg"
-        sx={{
-          animation: `loading 2s linear infinite`,
-        }}
+      <svg
         x="0px"
         y="0px"
         viewBox="0 0 150 150"
+        style={{
+          animation: `loading 2s linear infinite`,
+        }}
       >
-        <Box
-          as="circle"
-          sx={{
+        <circle
+          cx="75"
+          cy="75"
+          r="60"
+          style={{
             strokeDashoffset: 600,
             strokeDasharray: 300,
             strokeWidth: 12,
@@ -28,11 +35,8 @@ const LoadingSpinner = ({loading, size, color}) => {
             stroke: 'currentColor',
             fill: 'transparent',
           }}
-          cx="75"
-          cy="75"
-          r="60"
         />
-      </Box>
+      </svg>
     </Box>
   );
 };
