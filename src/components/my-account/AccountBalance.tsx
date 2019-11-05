@@ -54,9 +54,11 @@ const AssetRow: React.FC<{
   showDepositBalance?: Boolean;
   withdrawAction: () => void;
   depositAction: () => void;
-}> = ({market, showDepositBalance, withdrawAction, depositAction}) => {
+  loginAction: () => void;
+}> = ({market, showDepositBalance, withdrawAction, depositAction, loginAction}) => {
   const [rowOpened, setRowOpened] = useState(false);
   const isWide = useMedia('(min-width: 52em)');
+  const context = useWeb3Context();
 
   const toggle = () => setRowOpened(!rowOpened);
 
@@ -67,8 +69,8 @@ const AssetRow: React.FC<{
   const walletBalance = market.walletBalance ? market.walletBalance.format() : '-';
 
   return (
-    <Box variant="asset-row" onClick={isWide ? () => null : toggle}>
-      <Flex variant="asset-grid-row">
+    <Box variant="asset-row">
+      <Flex variant="asset-grid-row" onClick={isWide ? () => null : toggle}>
         <Box variant="asset-grid-col">
           <Flex alignItems="center">
             <TokenIcon image={image} mr={[2, 3]} />
@@ -92,7 +94,11 @@ const AssetRow: React.FC<{
         </Box>
         <Box variant="asset-grid-col" flex={1.2} sx={hideOnTabletAndBelow}>
           <Flex justifyContent="flex-end" alignItems="center">
-            <Button variant="text-small" mr={showDepositBalance && 24} onClick={() => depositAction()}>
+            <Button
+              variant="text-small"
+              mr={showDepositBalance && 24}
+              onClick={context.account ? () => depositAction() : () => loginAction()}
+            >
               {showDepositBalance ? 'Deposit' : 'Start Earning'}
             </Button>
             {showDepositBalance && (
@@ -124,7 +130,7 @@ const AssetRow: React.FC<{
             <Flex justifyContent="space-between" mt={3}>
               <Text variant="headline">Deposit more</Text>
               <Text variant="body">
-                <Button variant="text-small" onClick={() => depositAction()}>
+                <Button variant="text-small" onClick={context.account ? () => depositAction() : () => loginAction()}>
                   {showDepositBalance ? 'Deposit' : 'Start Earning'}
                 </Button>
               </Text>
@@ -180,7 +186,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
   const closeDepositModal = () => setDepositModalIsOpen(false);
   const openWithdrawModal = () => setWithdrawModalIsOpen(true);
   const closeWithdrawModal = () => setWithdrawModalIsOpen(false);
-  const openLoginModal = () => setWithdrawModalIsOpen(true);
+  const openLoginModal = () => setLoginModalIsOpen(true);
   const closeLoginModal = () => setLoginModalIsOpen(false);
 
   const deposit = (market: Market) => {
@@ -272,6 +278,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
               <Heading as="h2" variant="h2" mb={[3, 4]}>
                 Earning
               </Heading>
+
               <Card variant="card-outer" mb={[4, 5]}>
                 <Box variant="card-inner-short" bg="muted-light">
                   <Flex variant="asset-grid-row">
@@ -307,6 +314,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
                       showDepositBalance
                       depositAction={() => deposit(market)}
                       withdrawAction={() => withdraw(market)}
+                      loginAction={() => openLoginModal()}
                     />
                   ))}
                 </Box>
@@ -353,6 +361,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
                   market={market}
                   depositAction={() => deposit(market)}
                   withdrawAction={() => withdraw(market)}
+                  loginAction={() => openLoginModal()}
                 />
               ))}
             </Box>
