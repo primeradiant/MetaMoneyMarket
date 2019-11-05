@@ -10,10 +10,10 @@ import SendwyreLink from '../common/SendwyreLink';
 import DepositModal from '../deposit';
 import LoginModal from '../login';
 import Container from '../ui/Container';
+import {SkeletonAssets} from '../ui/LoadingScreens';
 import Section from '../ui/Section';
 import TokenIcon from '../ui/TokenIcon';
 import WithdrawModal from '../withdraw';
-import {SkeletonAssets} from '../ui/LoadingScreens';
 
 interface AccountBalanceProps extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
