@@ -154,13 +154,13 @@ contract MetaMoneyMarket is Ownable, Claimable {
     * @param tokenAddress Address of the token that is going to be supported
     */
   function addMarket(address tokenAddress) external onlyOwner {
-    IERC20 token = IERC20(tokenAddress);
+    ERC20Detailed token = ERC20Detailed(tokenAddress);
     require(
       !supportedMarkets[tokenAddress].isSupported,
       "Market is already supported"
     );
 
-    TokenShare tokenShare = new TokenShare();
+    TokenShare tokenShare = new TokenShare(token.decimals());
 
     supportedMarketsList.push(tokenAddress);
     supportedMarkets[tokenAddress].isSupported = true;
