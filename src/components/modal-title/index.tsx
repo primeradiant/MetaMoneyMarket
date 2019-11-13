@@ -1,9 +1,11 @@
 import React, {HTMLAttributes} from 'react';
-import styled from 'styled-components';
+import {Box, Button, Flex, Text} from 'rebass';
 
-import CloseModal from '../common/img/CloseModal';
-
-import {themeColors} from '../../util/constants';
+const CloseModal = () => (
+  <svg stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24" width={20} height={20}>
+    <path d="M6.343 6.343l11.314 11.314m-11.314 0L17.657 6.343" />
+  </svg>
+);
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   closeButtonDisabled?: boolean;
@@ -11,59 +13,30 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string;
 }
 
-const ModalTitleWrapper = styled.div`
-  align-items: flex-start;
-  border-bottom: 1px solid ${themeColors.borderColor};
-  display: flex;
-  justify-content: space-between;
-  margin: 0 0 25px;
-  padding: 0 0 10px 0;
-`;
-
-const ModalTitleText = styled.h2`
-  color: #222;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  padding: 0 15px 0 0;
-`;
-
-const ModalClose = styled.button`
-  align-items: flex-start;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  height: 21px;
-  justify-content: flex-end;
-  outline: none;
-  padding: 0;
-  width: 30px;
-
-  &:active {
-    opacity: 0.8;
-  }
-
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-`;
-
-class ModalTitle extends React.Component<Props> {
-  public render = () => {
-    const {onRequestClose, title, closeButtonDisabled, ...restProps} = this.props;
-
-    return (
-      <ModalTitleWrapper {...restProps}>
-        <ModalTitleText>{title}</ModalTitleText>
-        <ModalClose onClick={onRequestClose} disabled={closeButtonDisabled}>
-          <CloseModal />
-        </ModalClose>
-      </ModalTitleWrapper>
-    );
-  };
-}
+const ModalTitle: React.FC<Props> = ({closeButtonDisabled, onRequestClose, title, ...rest}) => (
+  <>
+    <Flex variant="card-inner-small" alignItems="center" {...rest}>
+      <Text flex={1} variant="modal-title">
+        {title}
+      </Text>
+      <Button
+        onClick={onRequestClose}
+        disabled={closeButtonDisabled}
+        sx={{
+          color: '#999',
+          display: 'flex',
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          cursor: 'pointer',
+          '&[disabled]': {cursor: 'not-allowed'},
+        }}
+      >
+        <CloseModal />
+      </Button>
+    </Flex>
+    <Box variant="divider" />
+  </>
+);
 
 export default ModalTitle;

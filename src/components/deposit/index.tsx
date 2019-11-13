@@ -1,68 +1,21 @@
+import { Label } from '@rebass/forms';
 import BN from 'bn.js';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
-import styled from 'styled-components';
+import { Box, Button, Flex, Text } from 'rebass';
 import { useWeb3Context } from 'web3-react';
-
-import AmountTextfield from '../amount-textfield';
-import Button from '../common/Button';
-import FormRow, { FormRowsContainer } from '../common/FormRow';
-import Loading from '../common/Loading';
-import ModalTitle from '../modal-title';
-
 import { ContractsContext } from '../../context/contracts';
-import { modalStyle, themeColors } from '../../util/constants';
+import { modalStyle } from '../../util/constants';
 import { shortenAccount } from '../../util/utils';
+import AmountTextfield from '../amount-textfield';
+import ModalTitle from '../modal-title';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 interface Props {
   market: null | Market;
   isOpen: boolean;
   onRequestClose: () => void;
 }
-
-const ButtonStyled = styled(Button)`
-  text-transform: uppercase;
-  width: 100%;
-`;
-
-const ModalText = styled.p`
-  color: #444;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.3;
-  margin: 0 0 18px;
-`;
-
-const ModalNote = styled.p`
-  color: #999;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.42;
-  margin: 0 0 15px;
-`;
-
-const ModalNoteStrong = styled.span`
-  color: #666;
-  font-weight: 700;
-`;
-
-const ModalNoteError = styled.div`
-  color: lightcoral;
-  font-weight: 700;
-`;
-
-const ModalSubtitle = styled.h3`
-  color: #000;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.38;
-  margin: 0 0 25px;
-`;
-
-const LoadingStyled = styled(Loading)`
-  margin: 0 0 18px;
-  width: 100%;
-`;
 
 const DepositModal: React.FC<Props> = props => {
   const { onRequestClose, market, ...restProps } = props;
@@ -105,7 +58,9 @@ const DepositModal: React.FC<Props> = props => {
         await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {
           from: context.account,
         });
+
         fetchMetaMoneyMarketData(contracts, context.account);
+
         if (onRequestClose) {
           onRequestClose();
         }
@@ -120,44 +75,72 @@ const DepositModal: React.FC<Props> = props => {
   return (
     <Modal {...restProps} style={modalStyle}>
       <ModalTitle title={`Deposit ${market.symbol}`} onRequestClose={onRequestClose} />
-      <ModalText>
-        Deposit <strong>{market.symbol}</strong> and earn interest automatically.
-      </ModalText>
-      <FormRowsContainer>
-        <FormRow text="Account" value={shortenAccount(context.account || '')} />
-        <FormRow text={`Available ${market.symbol}`} value={market.walletBalance.format()} />
-        <FormRow text={`Deposited ${market.symbol}`} value={market.depositBalance.format()} />
-        <FormRow
-          text="Interest"
-          value={`Earn ${market.interestRate.toFixed(4)}% APR`}
-          valueColor={themeColors.primaryColorLighter}
+      <Box variant="modal-card-inner">
+        <Text variant="body-small" mb={3}>
+          Deposit <strong>{market.symbol}</strong> and earn interest automatically.
+        </Text>
+
+        <Box mt={3} mb={24}>
+          <Flex variant="modal-data-row">
+            <Text variant="headline-small">Account</Text>
+            <Text variant="body-small">{shortenAccount(context.account || '')}</Text>
+          </Flex>
+
+          <Flex variant="modal-data-row">
+            <Text variant="headline-small">{`Available ${market.symbol}`}</Text>
+            <Text variant="body-small">{market.walletBalance.format()}</Text>
+          </Flex>
+
+          <Flex variant="modal-data-row">
+            <Text variant="headline-small">{`Deposited ${market.symbol}`}</Text>
+            <Text variant="body-small">{market.depositBalance.format()}</Text>
+          </Flex>
+
+          <Flex variant="modal-data-row">
+            <Text variant="headline-small">Interest</Text>
+            <Text variant="body-small" color="primary" fontWeight={600}>
+              {`Earn ${market.interestRate.toFixed(2)}% APR`}
+            </Text>
+          </Flex>
+        </Box>
+
+        <Label htmlFor="amount-text-field">Amount</Label>
+        <AmountTextfield
+          id="amount-text-field"
+          decimals={market.walletBalance.decimals}
+          disabled={isLoading}
+          max={market.walletBalance.amount}
+          onMax={onMax}
+          token={market.symbol || ''}
+          value={amount}
+          onChange={value => {
+            setMaxEnabled(false);
+            setAmount(value);
+          }}
         />
-      </FormRowsContainer>
-      <ModalSubtitle>Amount</ModalSubtitle>
-      <AmountTextfield
-        decimals={market.walletBalance.decimals}
-        disabled={isLoading}
-        max={market.walletBalance.amount}
-        onMax={onMax}
-        token={market.symbol || ''}
-        value={amount}
-        onChange={value => {
-          setMaxEnabled(false);
-          setAmount(value);
-        }}
-      />
-      {isLoading ? (
-        <LoadingStyled />
-      ) : (
-        <ModalNote>
-          <ModalNoteStrong>Note:</ModalNoteStrong> we will first enable <strong>{market.symbol}</strong>, and then make
-          the deposit.
-          {error && <ModalNoteError>There was an error making the deposit.</ModalNoteError>}
-        </ModalNote>
-      )}
-      <ButtonStyled disabled={isLoading || !amount || amount.isZero()} onClick={sendDeposit}>
-        Deposit
-      </ButtonStyled>
+
+        <Box my={24}>
+          <Flex justifyContent="center">
+            <LoadingSpinner loading={isLoading} />
+          </Flex>
+
+          {!isLoading && (
+            <Text variant="modal-note">
+              <strong>Note:</strong> we will first enable <strong>{market.symbol}</strong>, and then make the deposit.
+            </Text>
+          )}
+
+          {error && (
+            <Text variant="modal-error" mt={2}>
+              There was an error making the deposit.
+            </Text>
+          )}
+        </Box>
+
+        <Button width={1} disabled={isLoading || !amount} onClick={sendDeposit}>
+          Deposit
+        </Button>
+      </Box>
     </Modal>
   );
 };
