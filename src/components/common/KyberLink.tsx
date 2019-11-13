@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Button } from 'rebass';
+import { Button, ButtonProps } from 'rebass';
 import { KYBER_COMMISSION_ADDRESS } from '../../util/constants';
 
-interface Props extends React.HTMLAttributes<any> {
+interface Props extends ButtonProps {
   tokenSymbol: string;
 }
 
