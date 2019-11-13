@@ -146,8 +146,9 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
   useEffect(() => {
     const getContracts = async () => {
       if (context.active) {
-        IERC20.setProvider(context.library.givenProvider);
-        MetaMoneyMarket.setProvider(context.library.givenProvider);
+        IERC20.setProvider(context.library.currentProvider);
+        MetaMoneyMarket.setProvider(context.library.currentProvider);
+
         const metaMoneyMarket = await MetaMoneyMarket.deployed();
 
         const contracts = {IERC20, metaMoneyMarket};
@@ -171,7 +172,7 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
 
   useEffect(() => {
     if (!context.active) {
-      context.setFirstValidConnector(['Infura']);
+      context.setConnector('Infura');
     }
   }, [context]);
 

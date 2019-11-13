@@ -1,41 +1,20 @@
-import React, {HTMLAttributes, useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Box, Card, Heading, Text} from 'rebass';
 import {ContractsContext} from '../../context/contracts';
-import {LoginModal} from '../login';
-import AccountBalance from '../my-account/AccountBalance';
+import LoginModal from '../login';
 import Container from '../ui/Container';
-import Footer from '../ui/Footer';
 import {ThreeColumnGrid} from '../ui/Grid';
 import {Rates, Rocket, Savings, Simplicity} from '../ui/Icons';
-import Navigation from '../ui/Navigation';
-import Root from '../ui/Root';
 import Section from '../ui/Section';
-import ThemeProvider from '../ui/ThemeProvider';
+import Wrapper from '../ui/Wrapper';
+import AssetTable from './AssetTable';
 import {MailChimpForm} from './MailChimpForm';
-
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  history: any;
-}
-
-interface WrapperProps extends HTMLAttributes<HTMLDivElement> {
-  redirect: (path: string) => void;
-}
 
 interface State {
   modalIsOpen: boolean;
 }
 
-const Wrapper: React.FC<WrapperProps> = ({children, redirect}) => (
-  <ThemeProvider>
-    <Root>
-      <Navigation redirect={redirect} />
-      {children}
-      <Footer />
-    </Root>
-  </ThemeProvider>
-);
-
-const Landing: React.FC<Props> = (props: Props) => {
+const Landing: React.FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const closeModal = () => setModalIsOpen(false);
@@ -43,7 +22,7 @@ const Landing: React.FC<Props> = (props: Props) => {
   const {marketsData} = useContext(ContractsContext);
 
   return (
-    <Wrapper redirect={path => props.history.push(path)}>
+    <Wrapper>
       <Section variant="hero">
         <Container>
           <Heading as="h1" variant="h1" mb={4}>
@@ -129,11 +108,7 @@ const Landing: React.FC<Props> = (props: Props) => {
 
             <Box sx={{gridColumnEnd: 'span 2'}}>
               <Box sx={{maxWidth: 864}}>
-                <AccountBalance
-                  marketsData={marketsData}
-                  isLoggedIn={false}
-                  redirect={path => props.history.push(path)}
-                />
+                <AssetTable marketsData={marketsData} />
               </Box>
             </Box>
           </ThreeColumnGrid>
@@ -153,7 +128,7 @@ const Landing: React.FC<Props> = (props: Props) => {
         </Container>
       </Box>
 
-      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} redirect={path => props.history.push(path)} />
+      <LoginModal isOpen={modalIsOpen} onRequestClose={closeModal} />
     </Wrapper>
   );
 };
