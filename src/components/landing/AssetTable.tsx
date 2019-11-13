@@ -1,10 +1,10 @@
-import React, { HTMLAttributes, useState } from 'react';
-import { Button, Card, Flex, Text } from 'rebass';
-import { useWeb3Context } from 'web3-react';
-import { getTokenDataBySymbol } from '../common/img/token-icons';
-import { useHistory } from 'react-router-dom';
+import React, {HTMLAttributes, useState} from 'react';
+import {Button, Card, Flex, Text} from 'rebass';
+import {useWeb3Context} from 'web3-react';
+import {getTokenDataBySymbol} from '../common/img/token-icons';
+import {useHistory} from 'react-router-dom';
 import LoginModal from '../login';
-import { RebassTable, RebassTbody, RebassTd, RebassTh, RebassThead, RebassTr } from '../ui/Table';
+import {RebassTable, RebassTbody, RebassTd, RebassTh, RebassThead, RebassTr} from '../ui/Table';
 import TokenIcon from '../ui/TokenIcon';
 
 const TableLoading = () => (
@@ -36,7 +36,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const AssetTable: React.FC<Props> = (props: Props) => {
-  const { marketsData } = props;
+  const {marketsData} = props;
 
   const context = useWeb3Context();
 
@@ -54,8 +54,8 @@ const AssetTable: React.FC<Props> = (props: Props) => {
   const closeLoginModal = () => setModalIsOpen(false);
 
   return (
-    <Card p={['8px 14px', '16px 30px']} sx={{ overflowX: 'auto' }}>
-      <RebassTable sx={{ minWidth: 580, tableLayout: 'auto' }}>
+    <Card p={['8px 14px', '16px 30px']} sx={{overflowX: 'auto'}}>
+      <RebassTable sx={{minWidth: 580, tableLayout: 'auto'}}>
         <RebassThead>
           <RebassTr>
             <RebassTh width={0.2}>Asset</RebassTh>

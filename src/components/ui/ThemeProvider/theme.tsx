@@ -120,7 +120,7 @@ export default {
       fontWeight: 'semibold',
       lineHeight: 1,
     },
-    'modal-note': { fontSize: 0, fontWeight: 'medium' },
+    'modal-note': {fontSize: 0, fontWeight: 'medium'},
     'modal-error': {
       fontSize: 0,
       color: 'negative',
@@ -196,8 +196,8 @@ export default {
       variant: 'styles.root-styles',
       p: [16 - 2, 24 - 2],
     },
-    'asset-grid-row': { alignItems: 'center', mx: -1 },
-    'asset-grid-col': { flex: 1, px: 1 },
+    'asset-grid-row': {alignItems: 'center', mx: -1},
+    'asset-grid-col': {flex: 1, px: 1},
     'asset-row': {
       width: '100%',
       display: 'block',
@@ -399,7 +399,7 @@ export default {
     },
     select: {},
     textarea: {},
-    label: { fontWeight: 'bold', mb: 2 },
+    label: {fontWeight: 'bold', mb: 2},
     radio: {},
     checkbox: {},
   },

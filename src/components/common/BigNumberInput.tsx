@@ -1,4 +1,4 @@
-import { Input } from '@rebass/forms';
+import {Input} from '@rebass/forms';
 import BN from 'bn.js';
 import React from 'react';
 import TokenAmount from '../../util/token-amount';
@@ -28,8 +28,8 @@ export class BigNumberInput extends React.Component<Props, State> {
   };
 
   public static getDerivedStateFromProps = (props: Props, state: State) => {
-    const { decimals, value, valueFixedDecimals } = props;
-    const { currentValueStr } = state;
+    const {decimals, value, valueFixedDecimals} = props;
+    const {currentValueStr} = state;
 
     if (!value) {
       return {
@@ -53,7 +53,7 @@ export class BigNumberInput extends React.Component<Props, State> {
   private textInput: any;
 
   public componentDidMount = () => {
-    const { autofocus } = this.props;
+    const {autofocus} = this.props;
 
     if (autofocus) {
       this.textInput.focus();
@@ -61,8 +61,8 @@ export class BigNumberInput extends React.Component<Props, State> {
   };
 
   public render = () => {
-    const { currentValueStr } = this.state;
-    const { decimals, id, step, min, max, className, placeholder, adjustPadding } = this.props;
+    const {currentValueStr} = this.state;
+    const {decimals, id, step, min, max, className, placeholder, adjustPadding} = this.props;
     const stepStr = step && TokenAmount.format(step, decimals);
     const minStr = min && TokenAmount.format(min, decimals);
     const maxStr = max && TokenAmount.format(max, decimals);
@@ -92,7 +92,7 @@ export class BigNumberInput extends React.Component<Props, State> {
   };
 
   private readonly updateValue: React.ReactEventHandler<HTMLInputElement> = e => {
-    const { decimals, onChange, min, max } = this.props;
+    const {decimals, onChange, min, max} = this.props;
     const newValueStr = e.currentTarget.value;
 
     if (!newValueStr) {

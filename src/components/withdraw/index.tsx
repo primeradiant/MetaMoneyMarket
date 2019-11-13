@@ -1,12 +1,12 @@
-import { Label } from '@rebass/forms';
+import {Label} from '@rebass/forms';
 import BN from 'bn.js';
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import Modal from 'react-modal';
-import { Box, Button, Flex, Text } from 'rebass';
-import { useWeb3Context } from 'web3-react';
-import { ContractsContext } from '../../context/contracts';
-import { modalStyle } from '../../util/constants';
-import { shortenAccount } from '../../util/utils';
+import {Box, Button, Flex, Text} from 'rebass';
+import {useWeb3Context} from 'web3-react';
+import {ContractsContext} from '../../context/contracts';
+import {modalStyle} from '../../util/constants';
+import {shortenAccount} from '../../util/utils';
 import AmountTextfield from '../amount-textfield';
 import ModalTitle from '../modal-title';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const WithdrawModal: React.FC<Props> = props => {
-  const { onRequestClose, market, ...restProps } = props;
+  const {onRequestClose, market, ...restProps} = props;
 
   const [amount, setAmount] = useState<Maybe<BN>>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +33,13 @@ const WithdrawModal: React.FC<Props> = props => {
   };
 
   const context = useWeb3Context();
-  const { contracts, fetchMetaMoneyMarketData } = useContext(ContractsContext);
+  const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
   if (!market || !contracts || !market.depositBalance || !market.walletBalance) {
     return <div />;
   }
 
-  const { IERC20, metaMoneyMarket } = contracts;
+  const {IERC20, metaMoneyMarket} = contracts;
 
   const sendWithdraw = async () => {
     if (context.account && metaMoneyMarket) {
@@ -62,7 +62,7 @@ const WithdrawModal: React.FC<Props> = props => {
         }
 
         if (allowance.lt(amountToBurn)) {
-          await tokenShare.approve(metaMoneyMarket.address, '-1', { from: context.account });
+          await tokenShare.approve(metaMoneyMarket.address, '-1', {from: context.account});
         }
 
         await metaMoneyMarket.withdraw(market.address, amountToBurn.toString(), {

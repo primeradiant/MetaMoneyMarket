@@ -1,16 +1,16 @@
 import WalletConnectQRCodeModal from '@walletconnect/qrcode-modal';
-import React, { HTMLAttributes, useEffect, useState } from 'react';
+import React, {HTMLAttributes, useEffect, useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { useMedia } from 'react-use';
-import { Box, Button, Card, Flex, Heading, Text } from 'rebass';
-import { useWeb3Context } from 'web3-react';
-import { getTokenDataBySymbol } from '../common/img/token-icons';
+import {useMedia} from 'react-use';
+import {Box, Button, Card, Flex, Heading, Text} from 'rebass';
+import {useWeb3Context} from 'web3-react';
+import {getTokenDataBySymbol} from '../common/img/token-icons';
 import KyberLink from '../common/KyberLink';
 import SendwyreLink from '../common/SendwyreLink';
 import DepositModal from '../deposit';
 import LoginModal from '../login';
 import Container from '../ui/Container';
-import { SkeletonAssets } from '../ui/LoadingScreens';
+import {SkeletonAssets} from '../ui/LoadingScreens';
 import Section from '../ui/Section';
 import TokenIcon from '../ui/TokenIcon';
 import WithdrawModal from '../withdraw';
@@ -19,7 +19,7 @@ interface AccountBalanceProps extends HTMLAttributes<HTMLDivElement> {
   marketsData: Markets;
 }
 
-const FundingCard: React.FC<{ destAddress: string }> = ({ destAddress }) => {
+const FundingCard: React.FC<{destAddress: string}> = ({destAddress}) => {
   return (
     <Card variant="card-outer">
       <Box variant="card-inner-short" bg="muted-light">
@@ -57,13 +57,13 @@ const AssetRow: React.FC<{
   withdrawAction: () => void;
   depositAction: () => void;
   loginAction: () => void;
-}> = ({ market, showDepositBalance, withdrawAction, depositAction, loginAction }) => {
+}> = ({market, showDepositBalance, withdrawAction, depositAction, loginAction}) => {
   const [rowOpened, setRowOpened] = useState(false);
   const isWide = useMedia('(min-width: 52em)');
   const context = useWeb3Context();
 
   const toggle = () => (isWide ? null : setRowOpened(!rowOpened));
-  const handleKeyPress = ({ key }: React.KeyboardEvent<HTMLDivElement>) => (key === 'Enter' || key === ' ') && toggle();
+  const handleKeyPress = ({key}: React.KeyboardEvent<HTMLDivElement>) => (key === 'Enter' || key === ' ') && toggle();
 
   const tokenData = getTokenDataBySymbol(market.symbol);
 
@@ -162,7 +162,7 @@ AssetRow.defaultProps = {
   showDepositBalance: false,
 };
 
-const AccountBalance: React.FC<AccountBalanceProps> = ({ marketsData }) => {
+const AccountBalance: React.FC<AccountBalanceProps> = ({marketsData}) => {
   const [depositModalIsOpen, setDepositModalIsOpen] = useState(false);
   const [withdrawModalIsOpen, setWithdrawModalIsOpen] = useState(false);
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
@@ -220,7 +220,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({ marketsData }) => {
   /**
    * @name hasABalance
    */
-  const hasABalance = ({ depositBalance }: Market) =>
+  const hasABalance = ({depositBalance}: Market) =>
     balanceHasLoaded &&
     depositBalance &&
     Object(depositBalance).hasOwnProperty('amount') &&
@@ -244,7 +244,7 @@ const AccountBalance: React.FC<AccountBalanceProps> = ({ marketsData }) => {
     balanceHasLoaded &&
     marketsData
       .filter(hasABalance)
-      .map(({ depositBalance, price }) => {
+      .map(({depositBalance, price}) => {
         if (depositBalance !== undefined) return Number(Number(depositBalance.format()) * price);
 
         return undefined;

@@ -1,9 +1,9 @@
 import BN from 'bn.js';
 import React from 'react';
-import { Box, Button, Flex, Text } from 'rebass';
-import { BigNumberInput } from '../common/BigNumberInput';
+import {Box, Button, Flex, Text} from 'rebass';
+import {BigNumberInput} from '../common/BigNumberInput';
 
-const ValueInput: any = ({ ...rest }: any) => <BigNumberInput {...rest} />;
+const ValueInput: any = ({...rest}: any) => <BigNumberInput {...rest} />;
 
 interface AmountTextfieldProps {
   id?: string;

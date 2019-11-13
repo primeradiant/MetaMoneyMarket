@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, Text } from 'rebass';
+import {Heading, Text} from 'rebass';
 import Container from '../ui/Container';
 import Section from '../ui/Section';
 import Wrapper from '../ui/Wrapper';

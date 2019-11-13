@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { Button, ButtonProps } from 'rebass';
-import { KYBER_COMMISSION_ADDRESS } from '../../util/constants';
+import React, {useEffect} from 'react';
+import {Button, ButtonProps} from 'rebass';
+import {KYBER_COMMISSION_ADDRESS} from '../../util/constants';
 
 interface Props extends ButtonProps {
   tokenSymbol: string;
 }
 
-const KyberLink: React.FC<Props> = ({ tokenSymbol, children, ...restProps }: Props) => {
+const KyberLink: React.FC<Props> = ({tokenSymbol, children, ...restProps}: Props) => {
   useEffect(() => {
     if (typeof window !== undefined) {
       // @ts-ignore

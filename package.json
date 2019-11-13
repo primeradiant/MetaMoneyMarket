@@ -63,7 +63,7 @@
     "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}'",
     "prettier:app": "prettier --write 'src/**/*.{ts,tsx,json,md}'",
     "prettier:contracts": "prettier --write 'blockchain/**/*.{js,json,md,sol}'",
-    "prettier-check": "prettier --check 'src/**/*.{ts,tsx,json,md}' --check 'blockchain/**/*.{js,json,md,sol}'",
+    "prettier-check": "prettier --check 'src/**/*.{ts,tsx,json,md}'",
     "deploy:local": "cd blockchain && truffle migrate",
     "deploy:rinkeby": "cd blockchain && truffle migrate --network rinkeby",
     "deploy:kovan": "cd blockchain && truffle migrate --network kovan",
