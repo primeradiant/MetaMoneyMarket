@@ -86,7 +86,6 @@ export default {
     body: {
       fontSize: ['13px', '15px', '17px'],
       lineHeight: ['20px', '22px'],
-      fontWeight: 'medium',
     },
     'headline-small': {
       fontSize: ['13px', '15px'],
@@ -121,7 +120,7 @@ export default {
       fontWeight: 'semibold',
       lineHeight: 1,
     },
-    'modal-note': {fontSize: 0, fontWeight: 'medium'},
+    'modal-note': { fontSize: 0, fontWeight: 'medium' },
     'modal-error': {
       fontSize: 0,
       color: 'negative',
@@ -151,7 +150,7 @@ export default {
     },
     container: {
       px: ['16px', '24px'],
-      maxWidth: [1136 + 16 * 2, 1136 + 24 * 2],
+      maxWidth: [944 + 16 * 2, 944 + 24 * 2],
       mx: 'auto',
     },
     hero: {
@@ -197,8 +196,8 @@ export default {
       variant: 'styles.root-styles',
       p: [16 - 2, 24 - 2],
     },
-    'asset-grid-row': {alignItems: 'center', mx: -1},
-    'asset-grid-col': {flex: 1, px: 1},
+    'asset-grid-row': { alignItems: 'center', mx: -1 },
+    'asset-grid-col': { flex: 1, px: 1 },
     'asset-row': {
       width: '100%',
       display: 'block',
@@ -400,7 +399,7 @@ export default {
     },
     select: {},
     textarea: {},
-    label: {fontWeight: 'bold', mb: 2},
+    label: { fontWeight: 'bold', mb: 2 },
     radio: {},
     checkbox: {},
   },
