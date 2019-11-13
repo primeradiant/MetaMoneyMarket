@@ -1,18 +1,18 @@
 import BN from 'bn.js';
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import { useWeb3Context } from 'web3-react';
+import {useWeb3Context} from 'web3-react';
 
 import AmountTextfield from '../amount-textfield';
 import Button from '../common/Button';
-import FormRow, { FormRowsContainer } from '../common/FormRow';
+import FormRow, {FormRowsContainer} from '../common/FormRow';
 import Loading from '../common/Loading';
 import ModalTitle from '../modal-title';
 
-import { ContractsContext } from '../../context/contracts';
-import { modalStyle, themeColors } from '../../util/constants';
-import { shortenAccount } from '../../util/utils';
+import {ContractsContext} from '../../context/contracts';
+import {modalStyle, themeColors} from '../../util/constants';
+import {shortenAccount} from '../../util/utils';
 
 interface Props {
   market: null | Market;
@@ -65,7 +65,7 @@ const LoadingStyled = styled(Loading)`
 `;
 
 const DepositModal: React.FC<Props> = props => {
-  const { onRequestClose, market, ...restProps } = props;
+  const {onRequestClose, market, ...restProps} = props;
 
   const [amount, setAmount] = useState<Maybe<BN>>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -80,13 +80,13 @@ const DepositModal: React.FC<Props> = props => {
   };
 
   const context = useWeb3Context();
-  const { contracts, fetchMetaMoneyMarketData } = useContext(ContractsContext);
+  const {contracts, fetchMetaMoneyMarketData} = useContext(ContractsContext);
 
   if (!market || !contracts || !market.depositBalance || !market.walletBalance) {
     return <div />;
   }
 
-  const { IERC20, metaMoneyMarket } = contracts;
+  const {IERC20, metaMoneyMarket} = contracts;
 
   const sendDeposit = async () => {
     if (context.account && metaMoneyMarket) {
@@ -99,7 +99,7 @@ const DepositModal: React.FC<Props> = props => {
         const amountToDeposit: BN = maxEnabled ? market.walletBalance!.amount : amount || new BN(0);
 
         if (allowance.lt(amountToDeposit)) {
-          await token.approve(metaMoneyMarket.address, '-1', { from: context.account });
+          await token.approve(metaMoneyMarket.address, '-1', {from: context.account});
         }
 
         await metaMoneyMarket.deposit(market.address, amountToDeposit.toString(), {
