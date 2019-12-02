@@ -24,8 +24,8 @@ export const tokensList: {[symbol: string]: TokenData} = {
   },
   DAI: {
     image: DAI,
-    text: 'SAI',
-    title: 'SAI',
+    text: 'DAI',
+    title: 'DAI',
   },
   ETH: {
     image: ETH,
