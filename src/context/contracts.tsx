@@ -107,7 +107,14 @@ export const ContractsProvider: React.FC<Props> = ({children}) => {
         const token = await IERC20.at(address);
         const balance = account ? await token.balanceOf(account) : undefined;
         const deposited = account ? await metaMoneyMarket.getDepositedAmount(address, account) : undefined;
-        const interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
+
+        let interestRatePerBlock = new BN(0)
+        try {
+          interestRatePerBlock = await metaMoneyMarket.getBestInterestRate(address);
+        } catch (e) {
+          console.error(`Could not get the interest rate for token at address ${address}`);
+        }
+
         const interestRate =
           interestRatePerBlock
             .mul(blocksPerYear)
